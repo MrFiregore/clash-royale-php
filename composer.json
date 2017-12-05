@@ -1,0 +1,36 @@
+{
+  "name": "firegore2/clash-royale-php",
+  "description": "THE UNOFFICIAL PHP Clash Royale API",
+  "keywords": ["clash royale", "clash royale php"],
+  "type": "library",
+  "homepage": "https://github.com/firegore2/clash-royale-php",
+  "license": "BSD-3-Clause",
+  "authors": [
+    {
+      "name": "Pedro López E.",
+      "email": "firegore2@gmail.com",
+      "homepage": "https://github.com/firegore2"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.0",
+    "guzzlehttp/guzzle": "~6.0",
+    "illuminate/support": "~5.0",
+    "league/event": "^2.1",
+    "vlucas/phpdotenv": "^2.4",
+    "kint-php/kint": "^2.0",
+    "thadafinser/user-agent-parser" : "^2.0",
+    "raulr/google-play-scraper": "^0.2.0",
+    "zendframework/zendframework": "^3.0"
+  },
+  "autoload":{
+    "psr-4":{
+      "CR\\": "src/"
+    }
+  },
+  "config": {
+    "preferred-install": "dist"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
