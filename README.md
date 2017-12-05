@@ -1,4 +1,4 @@
-# clash-royale-php
+# clash-royale-php [![Packagist](https://img.shields.io/packagist/v/firegore2/clash-royale-php.svg)](https://packagist.org/packages/firegore2/clash-royale-php)
 THE UNOFFICIAL PHP  Clash Royale API
 
 # REQUIREMENTS
