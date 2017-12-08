@@ -1,6 +1,6 @@
 # clash-royale-php [![Packagist](https://img.shields.io/packagist/v/firegore2/clash-royale-php.svg)](https://packagist.org/packages/firegore2/clash-royale-php) [![GitHub release](https://img.shields.io/github/release/firegore2/clash-royale-php.svg)](https://github.com/firegore2/clash-royale-php/releases/latest)
 
-THE UNOFFICIAL PHP  Clash Royale API
+THE UNOFFICIAL PHP  Clash Royale Wrapper
 # INFO
 
 This work with the back-end of this page [Clash Royale API](https://cr-api.com/)
