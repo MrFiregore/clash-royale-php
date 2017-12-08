@@ -2,6 +2,7 @@
 namespace CR;
 use CR\CRClient;
 use CR\CRRequest;
+use CR\Objects\Clan;
 use CR\Objects\Profile;
 use CR\Objects\Aliance;
 use CR\Objects\Arena;
@@ -30,29 +31,51 @@ class Api
     return $this->lastResponse = $this->client->sendRequest($request);
   }
   /**
-   * [getPRofile description]
+   * Return all the information about the given users id
    * @method getPRofile
-   * @param  array     $profile [description]
-   * @return array              [description]
+   * @param  array     $profile Array with the id of the profiles
+   * @return array|Profile              Array of Profile Objects if given more than one profile, else return one Profile Object
    */
+   public function getPRofile(array $profile)
+   {
+     $profiles = [];
 
-    public function getPRofile($profile)
+     foreach ($profile as $p) {
+       $request = new CRRequest(
+         "profile",
+         [$p]
+       );
+       $response = $this->client->sendRequest($request);
+       if (!$response->isError()) {
+         $this->lastResponse = $profiles[] = new Profile($response->getDecodedBody());
+       }
+     }
+     return count($profiles)>1 ? $profiles : $profiles[0];
+   }
+   /**
+    * [getClan description]
+    * @method getClan
+    * @param  array  $clan [description]
+    * @return array|Clan        [description]
+    */
+    public function getClan($clan)
     {
-      $profiles = [];
+      $clans = [];
 
-      foreach ($profile as $p) {
+      foreach ($clan as $p) {
         $request = new CRRequest(
-          "profile",
+          "clan",
           [$p]
         );
         $response = $this->client->sendRequest($request);
-        // d($p,$request;
         if (!$response->isError()) {
-          $this->lastResponse = $profiles[] = new Profile($response->getDecodedBody());
+          $this->lastResponse = $clans[] = new Clan($response->getDecodedBody());
         }
       }
-      return count($profiles)>1 ? $profiles : $profiles[0];
+      return count($clans)>1 ? $clans : $clans[0];
     }
+
+
   public function __call($method, $arguments)
   {
     $action = substr($method, 0, 3);
