@@ -54,7 +54,6 @@ class Api
     $file_cache = $endpoint."-".implode(",",$params);
 
     if (CRCache::exists($file_cache,["maxage"=>$this->max_cache_age])) {
-      d("cache exists");
       $response = unserialize(CRCache::get($file_cache));
     } else {
       $request = new CRRequest(
