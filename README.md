@@ -39,7 +39,7 @@ require 'vendor/autoload.php';
 $api = new Api();
 try{
  $profiles = $api->getProfiles(["JSDFS45","ASDAD123"]);
- d($profile); //This display the array with Profile objects
+ d($profiles); //This display the array with Profile objects
 }
 catch(Exception $e){
  d($e);
@@ -69,4 +69,27 @@ catch(Exception $e){
 }
 
 ```
+## getTop()
+```
+<?php
+use CR\Api;
+require 'vendor/autoload.php';
 
+/**
+ * Return all information about the top players or clans
+ * @method getTop
+ * @param  array  $top  Array with values "players" or/and "clans"
+ * @return array        Array with key of respectives top type ("players" or "clans") and with their values an array with "lastUpdate" 
+ * of the top list and the respective array with the respective objects type ("players" = array CR\Objects\Profile)
+ */
+
+$api = new Api();
+try{
+ $tops = $api->getTop(["players","clans"]);
+ d($tops); //This display the array with Profile objects
+}
+catch(Exception $e){
+ d($e);
+}
+
+```
