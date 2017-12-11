@@ -1,5 +1,4 @@
-# clash-royale-php [![Packagist](https://img.shields.io/packagist/v/firegore2/clash-royale-php.svg)](https://packagist.org/packages/firegore2/clash-royale-php) [![GitHub release](https://img.shields.io/github/release/firegore2/clash-royale-php.svg)](https://github.com/firegore2/clash-royale-php/releases/latest)
-
+# clash-royale-php [![Packagist](https://img.shields.io/packagist/v/firegore2/clash-royale-php.svg)](https://packagist.org/packages/firegore2/clash-royale-php) [![GitHub release](https://img.shields.io/github/release/firegore2/clash-royale-php.svg)](https://github.com/firegore2/clash-royale-php/releases/latest) [![Total Downloads](https://poser.pugx.org/firegore2/clash-royale-php/downloads)](https://packagist.org/packages/firegore2/clash-royale-php)
 THE UNOFFICIAL PHP  Clash Royale Wrapper
 # INFO
 
