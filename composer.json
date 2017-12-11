@@ -20,7 +20,6 @@
     "vlucas/phpdotenv": "^2.4",
     "kint-php/kint": "^2.0",
     "thadafinser/user-agent-parser" : "^2.0",
-    "raulr/google-play-scraper": "^0.2.0",
     "zendframework/zendframework": "^3.0"
   },
   "autoload":{

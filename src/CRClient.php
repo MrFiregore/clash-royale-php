@@ -72,7 +72,6 @@ class CRClient
      */
     public function prepareRequest(CRRequest $request)
     {
-      // d(empty($request->getParams()),$request->getParams());
         $url = $this->getBaseUrl().$request->getEndpoint()."/".implode(",",$request->getParams());
 
         return [
@@ -98,11 +97,9 @@ class CRClient
         $timeOut = $request->getTimeOut();
         $connectTimeOut = $request->getConnectTimeOut();
         $options = [];
-
         $rawResponse = $this->httpClientHandler->send($url, $method, $headers, $options, $timeOut, $isAsyncRequest, $connectTimeOut);
 
         $returnResponse = $this->getResponse($request, $rawResponse);
-        d($url, $method, $headers, $isAsyncRequest,$options,$rawResponse,$returnResponse);
 
         if ($returnResponse->isError()) {
             throw $returnResponse->getThrownException();

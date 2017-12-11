@@ -119,12 +119,11 @@ abstract class BaseObject extends Collection
         $action = substr($name, 0, 3);
 
         if ($action === 'get') {
-            $property = snake_case(substr($name, 3));
+            $property = camel_case(substr($name, 3));
             $response = $this->get($property);
 
             // Map relative property to an object
             $relations = $this->relations();
-            // d($property,$response,$relations);
             if (null != $response && isset($relations[$property])) {
                 return new $relations[$property]($response);
             }

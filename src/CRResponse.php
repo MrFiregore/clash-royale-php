@@ -61,7 +61,7 @@ class CRResponse
             $this->httpStatusCode = $response->getStatusCode();
             $this->body = $response->getBody();
             $this->headers = $response->getHeaders();
-            
+
             $this->decodeBody();
         } elseif ($response instanceof PromiseInterface) {
             $this->httpStatusCode = null;
@@ -163,7 +163,7 @@ class CRResponse
      */
     public function isError()
     {
-        return isset($this->decodedBody['error']) && ($this->decodedBody['error'] === true);
+        return isset($this->decodedBody['error']) && ($this->decodedBody['error'] === true) || ($this->getHttpStatusCode() !== 200);
     }
 
     /**

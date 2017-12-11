@@ -61,7 +61,9 @@ class Api
         $params
       );
       $response = $this->client->sendRequest($request);
-      CRCache::write($file_cache,serialize($response));
+      if (!$response->isError()) {
+        CRCache::write($file_cache,serialize($response));
+      }
 
     }
 
