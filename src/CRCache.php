@@ -11,7 +11,7 @@ class CRCache
    * @var string
    */
 
-  static protected $path="cache".DIRECTORY_SEPARATOR."CR";
+  static protected $path;
   /**
   * Prefix directories size
   *
@@ -38,6 +38,10 @@ class CRCache
    */
   static public function getPath(): string
   {
+    if (is_null(self::$path)) {
+      $pos = strpos(__DIR__,"vendor") ?: strpos(__DIR__,"src");
+      self::$path = substr(__DIR__,0,$pos)."cache".DIRECTORY_SEPARATOR."CR";
+    }
     return self::$path;
   }
 
