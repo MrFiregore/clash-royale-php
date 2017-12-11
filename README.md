@@ -23,7 +23,7 @@ composer require firegore2/clash-royale-php
 to instal in your own project
 
 # METHODS
-
+> See [examples](https://github.com/firegore2/clash-royale-php/tree/master/examples) folder for more information
 ## getProfiles()
 
 ```
