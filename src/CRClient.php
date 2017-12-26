@@ -73,7 +73,6 @@ class CRClient
     public function prepareRequest(CRRequest $request)
     {
         $url = $this->getBaseUrl().$request->getEndpoint()."/".implode(",",$request->getParams());
-
         return [
             $url,
             $request->getMethod(),

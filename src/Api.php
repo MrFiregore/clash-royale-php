@@ -3,8 +3,9 @@ namespace CR;
 
 use CR\CRClient;
 use CR\CRRequest;
+use CR\Exceptions\CRSDKException;
 use CR\Objects\Clan;
-use CR\Objects\Profile;
+use CR\Objects\Player;
 use CR\Objects\Aliance;
 use CR\Objects\Arena;
 use CR\Objects\UnknownObject;
@@ -18,17 +19,39 @@ use CR\CRCache;
 class Api
 {
   protected $client;
+  protected $auth_token;
   protected $last_response;
 
   /**
   * The max lifetime cache
   * @var int
   */
-  protected $max_cache_age=60;
+  protected $max_cache_age=120;
 
-  function __construct($httpClientHandler = null)
+  function __construct($auth_token=null,$httpClientHandler = null)
   {
+    if (is_null($auth_token)) throw new CRSDKException("Auth token is required, additional information and support: http://discord.me/cr_api", 1);
+    $this->setAuthToken($auth_token);
     $this->client = new CRClient($httpClientHandler);
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getAuthToken()
+  {
+    return $this->auth_token;
+  }
+
+  /**
+   * @param mixed $auth_token
+   *
+   * @return static
+   */
+  public function setAuthToken($auth_token)
+  {
+    $this->auth_token = $auth_token;
+    return $this;
   }
   /**
    * @return int
@@ -57,6 +80,7 @@ class Api
       $response = unserialize(CRCache::get($file_cache));
     } else {
       $request = new CRRequest(
+        $this->getAuthToken(),
         $endpoint,
         $params
       );
@@ -83,20 +107,20 @@ class Api
 
   /**
    * Return all the information about the given users tag
-   * @method getPRofile
-   * @param  array     $profile         Array with the id of the profiles
-   * @return array|Profile              Array of Profile Objects if given more than one profile, else return one Profile Object
+   * @method getPlayer
+   * @param  array     $player         Array with the id of the profiles
+   * @return array|Player              Array of Player Objects if given more than one profile, else return one Player Object
    */
-   public function getPRofile(array $profile)
+   public function getPlayer(array $player)
    {
-     $profiles = [];
-     foreach ($profile as $p) {
-       $response = $this->post("profile",[$p]);
+     $players = [];
+     foreach ($player as $p) {
+       $response = $this->post("player",[$p]);
        if (!$response->isError()) {
-         $profiles[] = new Profile($response->getDecodedBody());
+         $players[] = new Player($response->getDecodedBody());
        }
      }
-     return count($profiles)>1 ? $profiles : $profiles[0];
+     return count($players)>1 ? $players : $players[0];
    }
    /**
     * Return all the information about the given clan tag
@@ -120,7 +144,7 @@ class Api
      * Return all information about the top players or clans
      * @method getTop
      * @param  array  $top  Array with values "players" or/and "clans"
-     * @return array        Array with key of respectives top type ("players" or "clans") and with their values an array with "lastUpdate" of the top list and the respective array with the respective objects type ("players" = array CR\Objects\Profile)
+     * @return array        Array with key of respectives top type ("players" or "clans") and with their values an array with "lastUpdate" of the top list and the respective array with the respective objects type ("players" = array CR\Objects\Player)
      */
 
     public function getTop(array $top)
@@ -130,7 +154,7 @@ class Api
         $response = $this->post("top",[$t]);
         if (!$response->isError()) {
           $object = studly_case(substr($t,0,-1));
-          $class = 'CR\Objects\\'.(($object == "Player") ? "Profile" : $object);
+          $class = 'CR\Objects\\'.$object;
           $response = $response->getDecodedBody();
           array_walk($response, function (&$value,$key) use ($class)
           {

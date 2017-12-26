@@ -107,13 +107,13 @@ class CRResponse
     }
 
     /**
-     * Return the bot access token that was used for this request.
+     * Return the API auth token that was used for this request.
      *
      * @return string|null
      */
-    public function getAccessToken()
+    public function getAuthToken()
     {
-        return $this->request->getAccessToken();
+        return $this->request->getAuthToken();
     }
 
     /**

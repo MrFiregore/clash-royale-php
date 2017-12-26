@@ -11,6 +11,10 @@ use CR\Exceptions\CRSDKException;
  */
 class CRRequest
 {
+  /**
+  * @var string|null The API auth token to use for this request.
+  */
+  protected $auth_token;
 
     /**
      * @var string The HTTP method for this request.
@@ -61,6 +65,7 @@ class CRRequest
     /**
      * Creates a new Request entity.
      *
+     * @param string|null $auth_token
      * @param string|null $method
      * @param string|null $endpoint
      * @param array|null  $params
@@ -69,19 +74,46 @@ class CRRequest
      * @param int         $connectTimeOut
      */
     public function __construct(
-        $endpoint = null,
-        array $params = [],
-        $isAsyncRequest = false,
-        $timeOut = 60,
-        $connectTimeOut = 10
+      $auth_token,
+      $endpoint = null,
+      array $params = [],
+      $isAsyncRequest = false,
+      $timeOut = 60,
+      $connectTimeOut = 10
     ) {
-        $this->setMethod("GET");
-        $this->setEndpoint($endpoint);
-        $this->setParams($params);
-        $this->setAsyncRequest($isAsyncRequest);
-        $this->setTimeOut($timeOut);
-        $this->setConnectTimeOut($connectTimeOut);
+      $this->setAuthToken($auth_token);
+      $this->setMethod("GET");
+      $this->setEndpoint($endpoint);
+      $this->setParams($params);
+      $this->setAsyncRequest($isAsyncRequest);
+      $this->setTimeOut($timeOut);
+      $this->setConnectTimeOut($connectTimeOut);
+      $this->setHeaders(["auth"=>$this->getAuthToken()]);
+
     }
+    /**
+    * Set the API auth token for this request.
+    *
+    * @param string $auth_token
+    *
+    * @return CRRequest
+    */
+    public function setAuthToken($auth_token)
+    {
+      $this->auth_token = $auth_token;
+
+      return $this;
+    }
+
+
+    /**
+     * @return string|null
+     */
+    public function getAuthToken()
+    {
+      return $this->auth_token;
+    }
+
 
     /**
      * Set the HTTP method for this request.

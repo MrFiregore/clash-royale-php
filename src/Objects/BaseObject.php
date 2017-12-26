@@ -28,22 +28,7 @@ abstract class BaseObject extends Collection
      */
     abstract public function relations();
 
-    /**
-     * Get an item from the collection by key.
-     *
-     * @param mixed $key
-     * @param mixed $default
-     *
-     * @return mixed|static
-     */
-    public function get($key, $default = null)
-    {
-        if ($this->offsetExists($key)) {
-            return is_array($this->items[$key]) ? new static($this->items[$key]) : $this->items[$key];
-        }
 
-        return value($default);
-    }
 
     /**
      * Map property relatives to appropriate objects.
@@ -53,7 +38,7 @@ abstract class BaseObject extends Collection
     public function mapRelatives()
     {
         $relations = collect($this->relations());
-        // d($this->relations(),$relations,get_class($this));
+
         if ($relations->isEmpty()) {
             return false;
         }
@@ -61,12 +46,10 @@ abstract class BaseObject extends Collection
 
         return $this->items = collect($this->all())
             ->map(function ($value, $key) use ($relations) {
-              // d($value, $key,$relations->has($key));
 
                 if ($relations->has($key)) {
                     $className = $relations->get($key);
-
-                    return new $className($value);
+                    return (is_array($value) && array_keys($value) === range(0, count($value) - 1)) ? $value : new $className($value);
                 }
 
                 return $value;
@@ -74,6 +57,18 @@ abstract class BaseObject extends Collection
             ->all();
     }
 
+    protected function recursiveMapRelatives($class, $data)
+    {
+      if (is_array($data) && array_keys($data) === range(0, count($data) - 1)) {
+        $array = [];
+        foreach ($data as $item) {
+          $array[] = $this->recursiveMapRelatives($class, $item);
+        }
+        return $array;
+      } else {
+        return new $class($data);
+      }
+    }
     /**
      * Returns raw response.
      *
@@ -95,17 +90,6 @@ abstract class BaseObject extends Collection
         return array_get($data, 'result', $data);
     }
 
-    /**
-     * Get Status of request.
-     *
-     * @return mixed
-     */
-    public function getStatus()
-    {
-        return array_get($this->items, 'ok', false);
-    }
-
-
 
      /**
      * Magic method to get properties dynamically.
@@ -121,13 +105,15 @@ abstract class BaseObject extends Collection
         if ($action === 'get') {
             $property = camel_case(substr($name, 3));
             $response = $this->get($property);
+            $relations = $this->relations();
+
+            if (null != $response && isset($relations[$property])) {
+              return $this->recursiveMapRelatives($relations[$property],$response);
+            }
+
 
             // Map relative property to an object
-            $relations = $this->relations();
-            if (null != $response && isset($relations[$property])) {
-                return new $relations[$property]($response);
-            }
-            if (null == $response)return false;
+            if (null == $response) return false;
             return $response;
         }
 

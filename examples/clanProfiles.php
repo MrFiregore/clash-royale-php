@@ -2,27 +2,31 @@
 ini_set('max_execution_time', 3000);
 use CR\Api;
 require '../vendor/autoload.php';
-$api = new Api();
+
+$token = "YOUR_TOKEN";
+$api = new Api($token);
+
 try {
   $clan = $api->getClan(["YQ02QJ"]);
-  foreach ($clan->getMembers() as $profile) {
-    $name = $profile->getName();
-    $tag = $profile->getTag();
-    $arena = $profile->getArena();//Arena Object
-    $role = $profile->getRole();
-    $exp_level = $profile->getexpLevel();
-    $trophies = $profile->getTrophies();
-    $rank = $profile->has("rank") ?  $profile->getRank() : false ;
-    $previous_rank = $profile->has("previousRank") ? $profile->getPreviousRank() : false;
-    $clan_chest_crowns= $profile->getClanChestCrowns();
-    $score = $profile->getScore();
-    $donations = $profile->getDonations();
-    $donations_received = $profile->getDonationsReceived();
-    $donations_delta = $profile->getDonationsDelta();
-    $donations_percent = $profile->getDonationsPercent();
+  d($clan);
+
+  foreach ($clan->getPlayers() as $player) {
+    $name = $player->getName();
+    $tag = $player->getTag();
+    $arena = $player->getArena();//Arena Object
+    $role = $player->getRole();
+    $exp_level = $player->getexpLevel();
+    $trophies = $player->getTrophies();
+    $rank = $player->has("rank") ?  $player->getRank() : false ;
+    $previous_rank = $player->has("previousRank") ? $player->getPreviousRank() : false;
+    $clan_chest_crowns= $player->getClanChestCrowns();
+    $donations = $player->getDonations();
+    $donations_received = $player->getDonationsReceived();
+    $donations_delta = $player->getDonationsDelta();
+    $donations_percent = $player->getDonationsPercent();
 
     d(
-      $profile,
+      $player,
       $tag,
       $name,
       $arena,
@@ -32,7 +36,6 @@ try {
       $rank,
       $previous_rank,
       $clan_chest_crowns,
-      $score,
       $donations,
       $donations_received,
       $donations_delta,
