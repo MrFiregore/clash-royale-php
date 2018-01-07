@@ -59,7 +59,7 @@ class Clan extends BaseObject
       $required=70;
       $total_crowns = $this->getTotalClanChestCrowns();
 
-      while (($total_crowns-$required)>0) {
+      while (($total_crowns-$required)>=0) {
         $total_crowns -= $required;
         $required+=20;
         $level++;
