@@ -7,6 +7,7 @@ $token = "YOUR_TOKEN";
 $api = new Api($token);
 
 try {
+  
   $clan = $api->getClan(["YQ02QJ"]);
   d($clan);
 

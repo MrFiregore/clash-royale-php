@@ -10,8 +10,8 @@ class CRCache
    * [protected description]
    * @var string
    */
+   static protected $path;
 
-  static protected $path;
   /**
   * Prefix directories size
   *

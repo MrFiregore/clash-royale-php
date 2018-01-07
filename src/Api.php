@@ -4,10 +4,12 @@ namespace CR;
 use CR\CRClient;
 use CR\CRRequest;
 use CR\Exceptions\CRSDKException;
+use CR\HttpClients\HttpClientInterface;
 use CR\Objects\Clan;
 use CR\Objects\Player;
 use CR\Objects\Aliance;
 use CR\Objects\Arena;
+use CR\Objects\ClanSearch;
 use CR\Objects\UnknownObject;
 use CR\CRCache;
 
@@ -28,10 +30,11 @@ class Api
   */
   protected $max_cache_age=120;
 
-  function __construct($auth_token=null,$httpClientHandler = null)
+  function __construct(string $auth_token=null,int $max_cache_age = 120,HttpClientInterface $httpClientHandler = null)
   {
     if (is_null($auth_token)) throw new CRSDKException("Auth token is required, additional information and support: http://discord.me/cr_api", 1);
     $this->setAuthToken($auth_token);
+    $this->setMaxCacheAge($max_cache_age);
     $this->client = new CRClient($httpClientHandler);
   }
 
@@ -74,7 +77,7 @@ class Api
 
   protected function post($endpoint, array $params = [])
   {
-    $file_cache = $endpoint."-".implode(",",$params);
+    $file_cache = $endpoint."-".str_replace("?","+",implode(",",$params));
 
     if (CRCache::exists($file_cache,["maxage"=>$this->max_cache_age])) {
       $response = unserialize(CRCache::get($file_cache));
@@ -108,19 +111,22 @@ class Api
   /**
    * Return all the information about the given users tag
    * @method getPlayer
-   * @param  array     $player         Array with the id of the profiles
-   * @return array|Player              Array of Player Objects if given more than one profile, else return one Player Object
+   * @param  array     $player          Array with the id of the profiles
+   * @param  array     $keys            Array with the exact parameters to request
+   * @param  array     $exclude         Array with the exact parameters to exclude in the request
+   * @return Player[]                   Array of Player Objects if given more than one profile, else return one Player Object
    */
-   public function getPlayer(array $player)
+   public function getPlayer(array $player,array $keys = [],array $exclude = [])
    {
      $players = [];
-     foreach ($player as $p) {
-       $response = $this->post("player",[$p]);
-       if (!$response->isError()) {
-         $players[] = new Player($response->getDecodedBody());
+     $query = implode(",",$player).( (empty($keys)) ? "" : "?keys=".implode(",",$keys)).( (empty($exclude)) ? "" : "?exclude=".implode(",",$exclude));
+     $response = $this->post("player",[$query]);
+     if (!$response->isError()) {
+       foreach ($response->getDecodedBody() as $p) {
+         $players[] = new Player($p);
        }
      }
-     return count($players)>1 ? $players : $players[0];
+     return $players;
    }
    /**
     * Return all the information about the given clan tag
@@ -131,15 +137,58 @@ class Api
     public function getClan(array $clan)
     {
       $clans = [];
-      foreach ($clan as $c) {
-        $response = $this->post("clan",[$c]);
-        if (!$response->isError()) {
-          $clans[] = new Clan($response->getDecodedBody());
+      $query = implode(",",$clan);
+      $response = $this->post("clan",[$query]);
+      if (!$response->isError()) {
+        if (count($clan)>1) {
+          foreach ($response->getDecodedBody() as $c) {
+            $clans[] = new Clan($c);
+          }
+        }
+        else $clans = new Clan($response->getDecodedBody());
+      }
+      return $clans;
+    }
+    /**
+     * Search clans by their attributes
+     * @method clanSearch
+     * @param  string           $name                 (Optional)Clan name text search.
+     * @param  int              $score                (Optional) Minimum clan score.
+     * @param  int              $minMembers           (Optional) Minimum number of members. 0-50
+     * @param  int              $maxMembers           (Optional) Maximum number of members. 0-50
+     * @return ClanSearch[]     $clanSearch           Returns an array of Clan objects that match the search parameters
+     */
+    public function clanSearch(string $name = "", int $score = 0, int $minMembers = 0, int $maxMembers = 50)
+    {
+      $clanSearch = [];
+      if (empty(func_get_args())) {
+        throw new CRSDKException("This method (".__METHOD__.") must at least one parameter", 1);
+        return false;
+      }
+      $reflection = new \ReflectionMethod(__CLASS__,last(explode("::",__METHOD__)));
+      $query = "";
+      foreach ($reflection->getParameters() as $key => $parameter) {
+        if (isset(func_get_args()[$key])) {
+          switch ($parameter->getType()->getName()) {
+            case 'string':
+              if (func_get_args()[$key] === "" || is_null(func_get_args()[$key])) {
+                throw new CRSDKException("The parameter '".$parameter->getName()."' of the method (".__METHOD__.") can't be empty or null", 1);
+                return false;
+              }
+              break;
+          }
+          $query .= ($query === "") ? $parameter->getName()."=".func_get_args()[$key] : "&".$parameter->getName()."=".func_get_args()[$key];
         }
       }
-      return count($clans)>1 ? $clans : $clans[0];
+      $query = "search?".$query;
+      $response = $this->post("clan",[$query]);
+      if (!$response->isError()) {
+        foreach ($response->getDecodedBody() as $cs) {
+          $clanSearch[] = new ClanSearch($cs);
+        }
+      }
+      return $clanSearch;
     }
-
     /**
      * Return all information about the top players or clans
      * @method getTop
