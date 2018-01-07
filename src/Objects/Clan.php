@@ -44,7 +44,12 @@ class Clan extends BaseObject
 
     public function getTotalClanChestCrowns()
     {
-      return collect($this->getMembers())->keyBy('clanChestCrowns')->keys()->sum() ?: 0;
+      $c = 0;
+      collect($this->getPlayers())->map(function ($item,$key) use (&$c)
+      {
+        $c += $item->getClanChestCrowns();
+      });
+      return $c;
     }
 
 
