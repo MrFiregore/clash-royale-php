@@ -112,7 +112,7 @@ catch(Exception $e){
 <?php
 ini_set('max_execution_time', 3000);
 use CR\Api;
-require '../vendor/autoload.php';
+require 'vendor/autoload.php';
 
 $token = "YOUR_TOKEN";
 $api = new Api($token);
