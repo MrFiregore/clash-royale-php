@@ -1,6 +1,21 @@
 <?php
+/**************************************************************************************************************************************************************************************************************************************************************
+ *                                                                                                                                                                                                                                                            *
+ * Copyright (c) 2018 by Firegore (https://firegore.es) (git:firegore2).                                                                                                                                                                                      *
+ * This file is part of clash-royale-php.                                                                                                                                                                                                                     *
+ *                                                                                                                                                                                                                                                            *
+ * clash-royale-php is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. *
+ * clash-royale-php is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                                                                    *
+ * See the GNU Affero General Public License for more details.                                                                                                                                                                                                *
+ * You should have received a copy of the GNU General Public License along with clash-royale-php.                                                                                                                                                             *
+ * If not, see <http://www.gnu.org/licenses/>.                                                                                                                                                                                                                *
+ *                                                                                                                                                                                                                                                            *
+ **************************************************************************************************************************************************************************************************************************************************************/
+
 
 namespace CR;
+
+use Kint;
 
 use CR\Exceptions\CRSDKException;
 
@@ -35,6 +50,10 @@ class CRRequest
      * @var array The parameters to send with this request.
      */
     protected $params = [];
+    /**
+     * @var array The query to send with this request.
+     */
+    protected $querys = [];
 
     /**
      * @var array The files to send with this request.
@@ -53,7 +72,7 @@ class CRRequest
      *
      * @var int
      */
-    protected $timeOut = 30;
+    protected $timeOut = 120;
 
     /**
      * Connection timeout of the request in seconds.
@@ -64,31 +83,34 @@ class CRRequest
 
     /**
      * Creates a new Request entity.
-     *
-     * @param string|null $auth_token
-     * @param string|null $method
-     * @param string|null $endpoint
-     * @param array|null  $params
-     * @param bool        $isAsyncRequest
-     * @param int         $timeOut
-     * @param int         $connectTimeOut
+     * @method __construct
+     * @param  string|null      $auth_token     [description]
+     * @param  string|null      $endpoint       [description]
+     * @param  array            $params         [description]
+     * @param  array            $querys          [description]
+     * @param  bool             $isAsyncRequest [description]
+     * @param  int              $timeOut        [description]
+     * @param  int              $connectTimeOut [description]
      */
+
     public function __construct(
       $auth_token,
       $endpoint = null,
       array $params = [],
+      array $querys = [],
       $isAsyncRequest = false,
-      $timeOut = 60,
+      $timeOut = 120,
       $connectTimeOut = 10
     ) {
       $this->setAuthToken($auth_token);
       $this->setMethod("GET");
       $this->setEndpoint($endpoint);
       $this->setParams($params);
+      $this->setQuerys($querys);
       $this->setAsyncRequest($isAsyncRequest);
       $this->setTimeOut($timeOut);
       $this->setConnectTimeOut($connectTimeOut);
-      $this->setHeaders(["auth"=>$this->getAuthToken()]);
+      $this->setHeaders(["Authorization"=>"Bearer ".$this->getAuthToken(),"auth"=>$this->getAuthToken()]);
 
     }
     /**
@@ -118,7 +140,7 @@ class CRRequest
     /**
      * Set the HTTP method for this request.
      *
-     * @param string
+     * @param string $method
      *
      * @return CRRequest
      */
@@ -188,9 +210,9 @@ class CRRequest
      */
     public function setParams(array $params = [])
     {
-        $this->params = array_merge($this->params, $params);
+      $this->params = array_merge($this->params, $params);
 
-        return $this;
+      return $this;
     }
 
     /**
@@ -201,6 +223,29 @@ class CRRequest
     public function getParams()
     {
         return $this->params;
+    }
+    /**
+     * Set the querys for this request.
+     *
+     * @param array $query
+     *
+     * @return CRRequest
+     */
+    public function setQuerys(array $query = [])
+    {
+      $this->query = array_merge($this->querys, $query);
+
+      return $this;
+    }
+
+    /**
+     * Return the querys for this request.
+     *
+     * @return array
+     */
+    public function getQuerys()
+    {
+        return $this->query;
     }
 
     /**

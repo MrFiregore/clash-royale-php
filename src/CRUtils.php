@@ -12,84 +12,77 @@
  *                                                                                                                                                                                                                                                            *
  **************************************************************************************************************************************************************************************************************************************************************/
 
-namespace CR\Objects;
-use CR\CRConstant;
-
+namespace CR;
+use ReflectionMethod;
+use ReflectionFunction;
 
 /**
-*  Arena object
-* @method    string              getName()                         Returns the name of the Arena.
-* @method    string              getArena()                        Returns the title of the Arena.
-* @method    int                 getArenaID()                      Returns the id of the Arena.
-* @method    int                 getTrophyLimit()                  Returns the trophyes limit to reach to the arena.
-*
-*
-* @method    array               getMaxDonationCount()             Returns the max donation per card type
-* @method    array               getConstant()                     Returns the Arena object constants
-*/
-class Arena extends BaseObject
+ *
+ */
+class CRUtils
 {
-  protected $constant= null;
-  
+  public static function delTree($dir) {
+    if (is_dir($dir)) {
+       $objects = scandir($dir);
+       foreach ($objects as $object) {
+         if ($object != "." && $object != "..") {
+           if (is_dir($dir."/".$object))
+             self::delTree($dir."/".$object);
+           else
+             unlink($dir."/".$object);
+         }
+       }
+       rmdir($dir);
+     }
+   }
   /**
-  * {@inheritdoc}
-  */
-  public function primaryKey()
-  {
-      return "";
-  }
-
-  /**
-  * {@inheritdoc}
-  */
-  public function relations()
-  {
-    return [
-      // 'arenas'             => Arena::class,
-
-    ];
-  }
-
-  /**
-   * [getConstant description]
-   * @method getConstant
-   * @return array      Returns an array of Arena object constants
+   * Check if the given string is a HTML page
+   * @method isHTMLPage
+   * @param  string     $string The string to check
+   * @return bool               Returns true if is a HTML page, otherwise returns false
    */
-  public function getConstant()
+
+  public static function isHTMLPage($string)
   {
-    if (is_null($this->constant)) {
-      collect(CRConstant::getConstant("arenas"))->map(function ($item,$key)
-      {
-        if ($item["title"]==$this->getArena()) {
-          $this->constant = $item;
-        }
-      })->all();
+    return preg_match('/<html.*>/', $string) != 0;
+  }
+  public static function getFunctionDefaultValues()
+  {
+    $values = [];
+    $debug_backtrace = debug_backtrace();
+
+    if (!isset($debug_backtrace[1])) {
+      return $values;
     }
-    return $this->constant;
-  }
 
-  /**
-   * [getMaxDonationCount description]
-   * @method getMaxDonationCount
-   * @return array             Returns an associative array with the max donation per card type
-   */
-  public function getMaxDonationCount()
+    $caller = $debug_backtrace[1];
+    $type   = (isset($caller['class']) ? "Method" : "Function");
+    $func_name = ($type === "Method") ? $caller['class']."::".$caller['function'] : $caller['function'];
+
+
+    $reflection_type = "Reflection".$type;
+    $reflection = new $reflection_type($func_name);
+
+
+    foreach ($reflection->getParameters() as $param) {
+
+      $arg_sent = isset($caller["args"][$param->getPosition()]) && !is_null($caller["args"][$param->getPosition()])  ?
+                    $caller["args"][$param->getPosition()] :
+                    (
+                      ($param->isOptional() && $param->isDefaultValueAvailable()) ?
+                          $param->getDefaultValue() : null
+                    );
+
+      $values[$param->getName()] = $arg_sent;
+
+    }
+
+    return $values;
+
+  }
+  public static function isAssoc(array $arr)
   {
-    $group = collect($this->getConstant())
-    ->reject(function ($value,$key)
-    {
-      return (strpos($key,"max_donation_count_")===false);
-    })
-    ->map(function ($item,$key)
-    {
-      return [str_replace("max_donation_count_","",$key)=>$item];
-    })
-    ->mapWithKeys(function ($item)
-    {
-      return [key($item)=>$item[key($item)]];
-    })->all();
-
-    return $group;
+    if([] === $arr) return false;
+    return array_keys($arr) !== range(0, count($arr) - 1 );
   }
-
 }
