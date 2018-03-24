@@ -60,7 +60,7 @@ class Api
     if (is_null($auth_token)) throw new CRSDKException("Auth token is required, additional information and support: http://discord.me/cr_api", 1);
     $this->setAuthToken($auth_token);
     $this->setMaxCacheAge($max_cache_age);
-    
+
     if (!CRCache::exists("APIVERSION".self::API_VERSION) || version_compare(self::API_VERSION,CRCache::get("APIVERSION".self::API_VERSION),">")) {
       CRUtils::delTree(CRCache::getPath());
       CRCache::write("APIVERSION".self::API_VERSION,self::API_VERSION);
@@ -134,8 +134,7 @@ class Api
 
 
 
-
-    if ($should_save_separate && !empty($params)) {
+    if (($should_save_separate && !empty($params)) || !$should_save_separate) {
       $request = new CRRequest(
         $this->getAuthToken(),
         $endpoint,
@@ -155,7 +154,7 @@ class Api
         $this->remaining = $res->getHeaders()['x-ratelimit-remaining'][0];
       }
       if(CRUtils::isAssoc($res->getDecodedBody())){
-        $file_cache = $base_file.$params[0].".".$extension;
+        $file_cache = $base_file.( $should_save_separate ? $params[0] : "").".".$extension;
         $response[] = $res->getDecodedBody();
         CRCache::write($file_cache,json_encode($res->getDecodedBody()));
       }

