@@ -2,7 +2,7 @@
 THE UNOFFICIAL PHP  Clash Royale Wrapper
 # INFO
 
-This work with the back-end of this page [Clash Royale API](https://cr-api.com/)
+This work with the back-end of this page [Clash Royale API](https://royaleapi.com/)
 
 # REQUIREMENTS
 
@@ -25,7 +25,7 @@ to instal in your own project.
 You need a developer token to use the API.
 
 This are the steps to obtain it:
-1. Go to the [discord server](http://discord.me/cr_api) of the API
+1. Go to the [discord server](http://discord.me/RoyaleApi) of the API
 2. Go to the #developer-key channel.
 3. Type !crapikey get
 4. The bot will send you a DM (direct message) with your key.
