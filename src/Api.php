@@ -133,7 +133,7 @@ class Api
     $params = array_values($params);
 
 
-
+    d($endpoint,$params,$should_save_separate);
     if (($should_save_separate && !empty($params)) || !$should_save_separate) {
       $request = new CRRequest(
         $this->getAuthToken(),
@@ -160,6 +160,7 @@ class Api
       }
       else {
         foreach ($res->getDecodedBody() as $key => $resp) {
+          d($key,$resp,$params);
           $file_cache = $base_file.$params[$key].".".$extension;
           $response[] = $resp;
           CRCache::write($file_cache,json_encode($resp));

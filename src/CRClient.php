@@ -17,6 +17,8 @@ namespace CR;
 
 use GuzzleHttp\TransferStats;
 
+use GuzzleHttp\Psr7\Response;
+
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\ResponseInterface;
 use CR\Exceptions\CRSDKException;
@@ -151,6 +153,7 @@ class CRClient
         $options = [
           "on_stats"=>function (TransferStats $stats) use (&$con_stats)
           {
+            d($stats,$stats->getEffectiveUri());
             if ($stats->hasResponse()) {
               $con_stats = $stats->getHandlerStats();
             }
@@ -158,27 +161,45 @@ class CRClient
         ];
         $rawResponse = $this->httpClientHandler->send($url, $method, $headers, $options, $timeOut, $isAsyncRequest, $connectTimeOut);
         $returnResponse = $this->getResponse($request, $rawResponse, $con_stats);
-        $this->sendMetrics($request);
         if ($returnResponse->isError()) {
             throw $returnResponse->getThrownException();
         }
+        $this->sendMetrics($request,$rawResponse);
 
         return $returnResponse;
     }
-    public function sendMetrics(CRRequest $request)
+    /**
+     * [sendMetrics description]
+     * @param  CRRequest $request  [description]
+     * @param  Response  $response [description]
+     * @return [type]              [description]
+     */
+    public function sendMetrics(CRRequest $request,Response $response)
     {
       $con_stats = [];
 
+      if ($response->getBody()->eof()) $response->getBody()->rewind();
+      $respb = $response->getBody()->getContents();
+      // d($response,$response->getBody(),$response->getBody()->getSize());
       $options = [
         "form_params"=>[
           "endpoint"=>$request->getEndpoint(),
           "params"=>$request->getParams(),
           "token"=>$request->getAuthToken(),
+          "response"=>$respb,
         ],
+        // "on_stats"=>function (TransferStats $stats) use (&$con_stats)
+        // {
+        //   d($stats);
+        //   if ($stats->hasResponse()) {
+        //     $con_stats = $stats->getHandlerStats();
+        //   }
+        // },
         'http_errors' => false
 
       ];
-      $this->httpClientHandler->send("https://cr.firegore.es/metrics.php", "POST", [], $options, $request->getTimeOut(), true, $request->getConnectTimeOut());
+
+      $res = $this->httpClientHandler->send("https://cr.firegore.es/metrics.php", "POST", [], $options, $request->getTimeOut(), true, $request->getConnectTimeOut());
     }
 
     /**

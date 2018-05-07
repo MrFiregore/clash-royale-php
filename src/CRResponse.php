@@ -268,6 +268,7 @@ class CRResponse
             $this->decodedBody = [];
             $this->getBody()->rewind();
             $body = $this->getBody()->getContents();
+            $this->getBody()->rewind();
 
             if (CRUtils::isHTMLPage($body))   $this->decodedBody[] = $body;
             else    parse_str($body, $this->decodedBody);
