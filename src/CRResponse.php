@@ -89,23 +89,21 @@ class CRResponse
      */
     public function __construct(CRRequest $request, $response, $stats = [])
     {
-      // d($request,$response,$response->getBody());
-
-        if ($response instanceof ResponseInterface) {
-            $this->httpStatusCode = $response->getStatusCode();
-            $this->body = $response->getBody();
-            $this->headers = $response->getHeaders();
-            $this->decodeBody();
-        } elseif ($response instanceof PromiseInterface) {
-            $this->httpStatusCode = null;
-        } else {
-            throw new \InvalidArgumentException(
-                'Second constructor argument "response" must be instance of ResponseInterface or PromiseInterface'
-            );
-        }
-        $this->stats = $stats;
-        $this->request = $request;
-        $this->endPoint = (string) $request->getEndpoint();
+      if ($response instanceof ResponseInterface) {
+        $this->httpStatusCode = $response->getStatusCode();
+        $this->body = $response->getBody();
+        $this->headers = $response->getHeaders();
+        $this->decodeBody();
+      } elseif ($response instanceof PromiseInterface) {
+        $this->httpStatusCode = null;
+      } else {
+        throw new \InvalidArgumentException(
+          'Second constructor argument "response" must be instance of ResponseInterface or PromiseInterface'
+        );
+      }
+      $this->stats = $stats;
+      $this->request = $request;
+      $this->endPoint = (string) $request->getEndpoint();
     }
 
 
@@ -141,6 +139,11 @@ class CRResponse
     {
         return $this->httpStatusCode;
     }
+    /**
+     * [getHttpStatusMessage description]
+     * @method getHttpStatusMessage
+     * @return string               [description]
+     */
 
     public function getHttpStatusMessage()
     {
@@ -265,6 +268,7 @@ class CRResponse
             $this->decodedBody = [];
             $this->getBody()->rewind();
             $body = $this->getBody()->getContents();
+            $this->getBody()->rewind();
 
             if (CRUtils::isHTMLPage($body))   $this->decodedBody[] = $body;
             else    parse_str($body, $this->decodedBody);

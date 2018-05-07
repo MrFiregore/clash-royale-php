@@ -13,14 +13,55 @@
  **************************************************************************************************************************************************************************************************************************************************************/
 
 namespace CR;
-use ReflectionMethod;
-use ReflectionFunction;
+
+use CR\Console\ConsoleMarkdown;
+use cebe\markdown\GithubMarkdown;
 
 /**
  *
  */
 class CRUtils
 {
+  /** @var GithubMarkdown $parsedown */
+  protected static $parsedown;
+
+  /**
+   * [getParsedown description]
+   * @return GithubMarkdown
+   */
+  protected static function getParsedown()
+  {
+    if (is_null(self::$parsedown)) {
+
+      self::$parsedown = self::isCli() ? new ConsoleMarkdown() : new GithubMarkdown();
+    }
+    return self::$parsedown;
+  }
+
+  /**
+   * [isCli description]
+   * @return bool [description]
+   */
+  public static function isCli()
+  {
+    return php_sapi_name() == 'cli';
+  }
+
+  /**
+   * [markdownToHTML description]
+   * @param  string $markdown [description]
+   * @return string           [description]
+   */
+  public static function markdownToHTML(string $markdown)
+  {
+
+    return self::getParsedown()->parse($markdown);
+  }
+  /**
+   * [delTree description]
+   * @param  string $dir [description]
+   * @return [type]      [description]
+   */
   public static function delTree($dir) {
     if (is_dir($dir)) {
        $objects = scandir($dir);
@@ -35,6 +76,7 @@ class CRUtils
        rmdir($dir);
      }
    }
+
   /**
    * Check if the given string is a HTML page
    * @method isHTMLPage

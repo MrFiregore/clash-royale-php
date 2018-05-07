@@ -21,19 +21,18 @@ use CR\Exceptions\CRSDKException;
  */
 class CRConstant
 {
-  const BASE_URL = "https://cr-api.github.io/cr-api-data/json/{endpoint}.json";
-  static protected $file_cache = "";
+  const BASE_URL = "https://royaleapi.github.io/cr-api-data/json/{endpoint}.json";
   static protected $max_cache_age = 3600;
 
   public static function getConstant($endpoint)
   {
     $url = str_replace('{endpoint}',$endpoint,self::BASE_URL);
-    self::$file_cache= "constant-".$endpoint;
-    if (CRCache::exists(self::$file_cache,["maxage"=>self::$max_cache_age])) {
-      $response = CRCache::get(self::$file_cache);
+    $file_cache= "constant-".$endpoint;
+    if (CRCache::exists($file_cache,["maxage"=>self::$max_cache_age])) {
+      $response = CRCache::get($file_cache);
     } else {
       if ($response = file_get_contents($url)) {
-        CRCache::write(self::$file_cache,$response);
+        CRCache::write($file_cache,$response);
       } else {
         throw new CRSDKException("Error when try request ".$url." constants", 1);
       }

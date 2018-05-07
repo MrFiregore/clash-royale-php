@@ -11,13 +11,8 @@
  * If not, see <http://www.gnu.org/licenses/>.                                                                                                                                                                                                                *
  *                                                                                                                                                                                                                                                            *
  **************************************************************************************************************************************************************************************************************************************************************/
-
-
-namespace CR;
-
-use Kint;
-
-use CR\Exceptions\CRSDKException;
+ namespace CR;
+ use CR\Exceptions\CRSDKException;
 
 /**
  * Class CRRequest.
@@ -111,7 +106,6 @@ class CRRequest
       $this->setTimeOut($timeOut);
       $this->setConnectTimeOut($connectTimeOut);
       $this->setHeaders(["Authorization"=>"Bearer ".$this->getAuthToken(),"auth"=>$this->getAuthToken()]);
-
     }
     /**
     * Set the API auth token for this request.
@@ -277,7 +271,7 @@ class CRRequest
     /**
      * Make this request asynchronous (non-blocking).
      *
-     * @param $isAsyncRequest
+     * @param bool $isAsyncRequest
      *
      * @return CRRequest
      */

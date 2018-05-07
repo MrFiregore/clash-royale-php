@@ -72,14 +72,21 @@ class Card extends BaseObject
   public function getConstant()
   {
     if (is_null(self::$constants_stats)) {
-      self::$constants_stats = collect(CRConstant::getConstant("cards_stats"));
+      self::$constants_stats = collect(CRConstant::getConstant("cards_stats"))
+                ->transform(function ($item,$key)
+                {
+                  foreach ($item as $c_key => $card) {
+                    $item[$c_key]['name'] = strtolower($card['name']);
+                  }
+                  return $item;
+                });
     }
     if (is_null(self::$constants_rarities)) {
       self::$constants_rarities = collect(CRConstant::getConstant("rarities"));
     }
 
     if (is_null($this->constant)) {
-      $stats = collect(self::$constants_stats->get(strtolower($this->getType())))->where("name",$this->getName())->values()->all();
+      $stats = collect(self::$constants_stats->get(strtolower($this->getType())))->where("name",$this->getKey())->values()->all();
       $this->constant['stats'] = (empty($stats)) ? $stats : $stats[0];
       $constants = self::$constants_rarities->where("name",$this->getRarity())->values()->all();
       $this->constant['constants'] = (empty($constants)) ? $constants : $constants[0];

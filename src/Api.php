@@ -13,8 +13,6 @@
  **************************************************************************************************************************************************************************************************************************************************************/
 
 namespace CR;
-use CR\CRClient;
-use CR\CRRequest;
 use CR\Objects\Endpoint;
 use CR\Objects\AuthStats;
 use CR\Objects\ChestCycle;
@@ -25,7 +23,7 @@ use CR\Objects\Clan;
 use CR\Objects\Player;
 use CR\Objects\ClanSearch;
 use CR\Objects\UnknownObject;
-use CR\CRCache;
+
 
 
 /**
@@ -35,7 +33,6 @@ use CR\CRCache;
 class Api
 {
 
-  const API_VERSION = "1.2";
   /**
   * [protected description]
   * @var CRClient
@@ -60,13 +57,10 @@ class Api
     if (is_null($auth_token)) throw new CRSDKException("Auth token is required, additional information and support: http://discord.me/cr_api", 1);
     $this->setAuthToken($auth_token);
     $this->setMaxCacheAge($max_cache_age);
-    
-    if (!CRCache::exists("APIVERSION".self::API_VERSION) || version_compare(self::API_VERSION,CRCache::get("APIVERSION".self::API_VERSION),">")) {
-      CRUtils::delTree(CRCache::getPath());
-      CRCache::write("APIVERSION".self::API_VERSION,self::API_VERSION);
-    }
+    CRVersion::checkVersion();
     $this->client = new CRClient($httpClientHandler);
   }
+
 
   /**
    * @return mixed
@@ -89,7 +83,7 @@ class Api
   /**
    * @return int
    */
-  public function getMaxCacheAge(): int
+  public function getMaxCacheAge()
   {
     return $this->max_cache_age;
   }
@@ -102,40 +96,47 @@ class Api
   public function setMaxCacheAge(int $max_cache_age)
   {
     $this->max_cache_age = $max_cache_age;
-    return true;
+    return $this;
   }
+
   /**
    * [post description]
    * @method post
    * @param  string       $endpoint [description]
    * @param  array        $params   [description]
    * @param  array        $querys   [description]
-   * @return CRResponse             [description]
+   * @return array             [description]
    */
-
   protected function post($endpoint, array $params = [], array $querys = [])
   {
-    $base_file = str_replace(["/:tag/","/:tag","/",":tag"],"-",substr($endpoint,1));
-    $base_file = (substr($base_file,-1) !== "-") ? $base_file."-" : $base_file;
-
+    $params = array_filter($params, function($var){return !is_null($var);} );
+    $base_file = preg_replace('/\/?:(tag|cc)\/?|(?<!^)\//m',"-",substr($endpoint,1));
     $response = [];
     $extension = md5(json_encode($querys));
-    $should_save_separate = !empty($params);
-    foreach ($params as $key => $value) {
-      $file_cache = $base_file.$value.".".$extension;
-      $condition = ($this->ping()) ? ["maxage"=>$this->max_cache_age] : [];
+    $should_save_separate = $this->needParams($endpoint) ? true : false;
 
+    if ($this->needParams($endpoint) || ($this->optParams($endpoint) && !empty($params))) {
+      $base_file = (substr($base_file,-1) !== "-") ? $base_file."-" : $base_file;
+      foreach ($params as $key => $value) {
+        $file_cache = $base_file.$value.".".$extension;
+        $condition = ($this->ping()) ? ["maxage"=>$this->max_cache_age] : [];
+        if (CRCache::exists($file_cache,$condition)) {
+          $response[] = json_decode(CRCache::get($file_cache),true);
+          unset($params[$key]);
+        }
+      }
+      $params = array_values($params);
+    }
+    else {
+      $file_cache = $base_file.".".$extension;
+      $condition = ($this->ping()) ? ["maxage"=>$this->max_cache_age] : [];
       if (CRCache::exists($file_cache,$condition)) {
         $response[] = json_decode(CRCache::get($file_cache),true);
-        unset($params[$key]);
       }
     }
-    $params = array_values($params);
 
 
-
-
-    if ($should_save_separate && !empty($params)) {
+    if ((empty($response) && empty($params)) || !empty($params)) {
       $request = new CRRequest(
         $this->getAuthToken(),
         $endpoint,
@@ -144,6 +145,7 @@ class Api
       );
 
       $this->lastResponse = $res = $this->client->sendRequest($request);
+
       if ($res->isError()) {
         throw new CRResponseException($res);
       }
@@ -154,22 +156,37 @@ class Api
       if (isset($res->getHeaders()['x-ratelimit-remaining'])) {
         $this->remaining = $res->getHeaders()['x-ratelimit-remaining'][0];
       }
+
       if(CRUtils::isAssoc($res->getDecodedBody())){
-        $file_cache = $base_file.$params[0].".".$extension;
+        $file_cache = $base_file.( $should_save_separate ? $params[0] : "").".".$extension;
+        $response[] = $res->getDecodedBody();
+        CRCache::write($file_cache,json_encode($res->getDecodedBody()));
+      }
+      elseif (!$should_save_separate) {
+        $file_cache = $base_file.($this->optParams($endpoint) && !empty($params) ? $params[0] : "").".".$extension;
         $response[] = $res->getDecodedBody();
         CRCache::write($file_cache,json_encode($res->getDecodedBody()));
       }
       else {
         foreach ($res->getDecodedBody() as $key => $resp) {
-          $file_cache = $base_file.$params[$key].".".$extension;
           $response[] = $resp;
+          $file_cache = $base_file.$params[$key].".".$extension;
           CRCache::write($file_cache,json_encode($resp));
 
         }
       }
     }
-
     return  (count($response) === 1) ? $response[0] : $response;
+  }
+
+  public function needParams(string $endpoint)
+  {
+    return strpos($endpoint,":tag") !== false;
+  }
+
+  public function optParams(string $endpoint)
+  {
+    return strpos($endpoint,":cc") !== false;
   }
 
 
@@ -234,7 +251,7 @@ class Api
    * @param  array             $player          Array with the id of the profiles
    * @param  array             $keys            Array with the exact parameters to request
    * @param  array             $exclude         Array with the exact parameters to exclude in the request
-   * @return Player[]||Player                   Array of Player Objects if given more than one profile, else return one Player Object
+   * @return Player]||Player[]                   Array of Player Objects if given more than one profile, else return one Player Object
    */
    public function getPlayer(array $player,array $keys = [],array $exclude = [])
    {
@@ -270,6 +287,7 @@ class Api
       $response = $this->post("/player/:tag/chest",$player,$querys);
 
       if(CRUtils::isAssoc($response)) return new ChestCycle($response);
+
       foreach ($response as $p) {
         $players[] = new ChestCycle($p);
       }
@@ -299,6 +317,8 @@ class Api
       }
       return $clans;
     }
+
+
     /**
      * Search clans by their attributes
      * @method clanSearch
@@ -346,11 +366,10 @@ class Api
      * @param  string  $location  Two-letter code of the location
      * @return array              Array with key of respectives top type ("players" or "clans") and with their values an array with "lastUpdate" of the top list and the respective array with the respective objects type ("players" = array CR\Objects\Player)
      */
-
-    public function getTopPlayers(string $location = "")
+    public function getTopPlayers(string $location = null)
     {
       $tops = [];
-      $response = $this->post("/top/player",[$location]);
+      $response = $this->post("/top/player/:cc",[$location]);
       foreach ($response as $p) {
         $tops[] = new Player($p);
       }
@@ -363,7 +382,6 @@ class Api
   {
     $action = substr($method, 0, 3);
     if ($action === 'get') {
-      /* @noinspection PhpUndefinedFunctionInspection */
       $class_name = studly_case(substr($method, 3));
       $class = 'CR\Objects\\'.$class_name;
       $response = $this->post($class_name, $arguments[0] ?: []);
@@ -375,4 +393,5 @@ class Api
       return new UnknownObject($response);
     }
   }
+
 }

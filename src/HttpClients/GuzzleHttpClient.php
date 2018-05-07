@@ -14,6 +14,7 @@
 namespace CR\HttpClients;
 use GuzzleHttp\Client;
 use GuzzleHttp\Promise;
+use GuzzleHttp\Handler\StreamHandler;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\RequestOptions;
@@ -56,7 +57,7 @@ class GuzzleHttpClient implements HttpClientInterface
      */
     public function __construct(Client $client = null)
     {
-        $this->client = $client ?: new Client();
+      $this->client = $client ?: new Client();
     }
 
     /**
@@ -64,7 +65,7 @@ class GuzzleHttpClient implements HttpClientInterface
      */
     public function __destruct()
     {
-        Promise\unwrap(self::$promises);
+      \GuzzleHttp\Promise\unwrap(self::$promises);
     }
 
     /**
