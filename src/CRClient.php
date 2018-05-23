@@ -11,29 +11,31 @@
  * If not, see <http://www.gnu.org/licenses/>.                                                                                                                                                                                                                *
  *                                                                                                                                                                                                                                                            *
  **************************************************************************************************************************************************************************************************************************************************************/
+ namespace CR;
+
+use GuzzleHttp\Client;
+ use GuzzleHttp\TransferStats;
+use GuzzleHttp\RequestOptions;
+ use GuzzleHttp\Psr7\Response;
+ use GuzzleHttp\Promise\PromiseInterface;
+ use Psr\Http\Message\ResponseInterface;
+ use CR\Exceptions\CRSDKException;
+ use CR\HttpClients\GuzzleHttpClient;
+ use CR\HttpClients\HttpClientInterface;
+ use CR\Traits\RulesTrait;
 
 
-namespace CR;
-
-use GuzzleHttp\TransferStats;
-
-use GuzzleHttp\Psr7\Response;
-
-use GuzzleHttp\Promise\PromiseInterface;
-use Psr\Http\Message\ResponseInterface;
-use CR\Exceptions\CRSDKException;
-use CR\HttpClients\GuzzleHttpClient;
-use CR\HttpClients\HttpClientInterface;
-
-/**
+ /**
  * Class CRClient.
  */
 class CRClient
 {
+  use RulesTrait;
+
     /**
-     * @const string CR Bot API URL.
+     * @var string BASE_URL CR Bot API URL.
      */
-    const BASE_URL = 'http://api.royaleapi.com';
+    const BASE_URL = 'https://api.royaleapi.com';
 
     /**
      * @var HttpClientInterface|GuzzleHttpClient HTTP Client
@@ -47,7 +49,13 @@ class CRClient
      */
     public function __construct(HttpClientInterface $httpClientHandler = null)
     {
-        $this->httpClientHandler = $httpClientHandler ?: new GuzzleHttpClient();
+      if (!$httpClientHandler) {
+        $client = new Client([
+          'base_uri' => $this->getBaseUrl()
+        ]);
+        $httpClientHandler = new GuzzleHttpClient($client);
+      }
+      $this->httpClientHandler = $httpClientHandler ;
     }
 
     /**
@@ -89,22 +97,13 @@ class CRClient
 
     public function getUrl(CRRequest $request)
     {
-      $url = $this->getBaseUrl().$request->getEndpoint();
+        $url = $request->getEndpoint();
 
-      if (strpos($url,":tag") !== false) {
-        $params = ( (empty($request->getParams())) ? "" : implode(",",$request->getParams()));
-        $url = str_replace(":tag",$params,$url);
-      }
-
-      if (!empty($request->getQuerys())) {
-        $url .= "?";
-        foreach ($request->getQuerys() as $key => $query) {
-          $url .= $key."=".( is_array($query) ? implode(",",$query) : $query)."&";
+        if (preg_match("/:(tag|cc)/i", $url) !== false) {
+            $params = ((empty($request->getParams())) ? "" : implode(",", $request->getParams()));
+            $url = preg_replace('/:(tag|cc)/m', $params, $url);
         }
-        $url = substr($url,0,-1);
-      }
-
-      return $url;
+        return $url;
     }
 
     /**
@@ -132,7 +131,7 @@ class CRClient
     */
     public function ping()
     {
-      return $this->httpClientHandler->ping(self::BASE_URL);
+        return $this->httpClientHandler->ping(self::BASE_URL);
     }
 
     /**
@@ -146,60 +145,56 @@ class CRClient
      */
     public function sendRequest(CRRequest $request)
     {
-        list($url,$method, $headers, $isAsyncRequest) = $this->prepareRequest($request);
+        list($url, $method, $headers, $isAsyncRequest) = $this->prepareRequest($request);
         $timeOut = $request->getTimeOut();
         $connectTimeOut = $request->getConnectTimeOut();
         $con_stats = [];
         $options = [
-          "on_stats"=>function (TransferStats $stats) use (&$con_stats)
-          {
-            d($stats,$stats->getEffectiveUri());
-            if ($stats->hasResponse()) {
-              $con_stats = $stats->getHandlerStats();
-            }
-          }
+          RequestOptions::ON_STATS  =>
+              function (TransferStats $stats) use (&$con_stats) {
+                if ($stats->hasResponse()) {
+                  $this->setLastRequest();
+                  $con_stats = $stats->getHandlerStats();
+                }
+              },
+          RequestOptions::HEADERS=>$request->getHeaders()
         ];
-        $rawResponse = $this->httpClientHandler->send($url, $method, $headers, $options, $timeOut, $isAsyncRequest, $connectTimeOut);
+        $options[ $method === "GET" ? RequestOptions::QUERY : RequestOptions::FORM_PARAMS] = $request->getQuerys();
+        $this->waitRequest();
+        $rawResponse = $this->httpClientHandler->send($url, $method, $options, $timeOut, $isAsyncRequest, $connectTimeOut);
         $returnResponse = $this->getResponse($request, $rawResponse, $con_stats);
+
         if ($returnResponse->isError()) {
             throw $returnResponse->getThrownException();
         }
-        $this->sendMetrics($request,$rawResponse);
+        $this->sendMetrics($request, $rawResponse);
 
         return $returnResponse;
     }
+
     /**
      * [sendMetrics description]
      * @param  CRRequest $request  [description]
      * @param  Response  $response [description]
      * @return [type]              [description]
      */
-    public function sendMetrics(CRRequest $request,Response $response)
+    public function sendMetrics(CRRequest $request, Response $response)
     {
-      $con_stats = [];
+        if ($response->getBody()->eof()) {
+            $response->getBody()->rewind();
+        }
 
-      if ($response->getBody()->eof()) $response->getBody()->rewind();
-      $respb = $response->getBody()->getContents();
-      // d($response,$response->getBody(),$response->getBody()->getSize());
-      $options = [
-        "form_params"=>[
+        $respb = $response->getBody()->getContents();
+        $options = [
+        RequestOptions::FORM_PARAMS =>  [
           "endpoint"=>$request->getEndpoint(),
           "params"=>$request->getParams(),
           "token"=>$request->getAuthToken(),
           "response"=>$respb,
         ],
-        // "on_stats"=>function (TransferStats $stats) use (&$con_stats)
-        // {
-        //   d($stats);
-        //   if ($stats->hasResponse()) {
-        //     $con_stats = $stats->getHandlerStats();
-        //   }
-        // },
-        'http_errors' => false
-
+        RequestOptions::HTTP_ERRORS => false
       ];
-
-      $res = $this->httpClientHandler->send("https://cr.firegore.es/metrics.php", "POST", [], $options, $request->getTimeOut(), true, $request->getConnectTimeOut());
+        $this->httpClientHandler->send("https://cr.firegore.es/metrics.php", "POST", $options, 5, true, 5);
     }
 
     /**
@@ -213,6 +208,6 @@ class CRClient
      */
     protected function getResponse(CRRequest $request, $response, $stats)
     {
-        return new CRResponse($request, $response,$stats);
+        return new CRResponse($request, $response, $stats);
     }
 }

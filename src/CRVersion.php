@@ -14,6 +14,9 @@
 
 namespace CR;
 use CR\CRCache;
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+
 use CR\HttpClients\GuzzleHttpClient;
 
 
@@ -22,7 +25,7 @@ use CR\HttpClients\GuzzleHttpClient;
  */
 class CRVersion
 {
-  const API_VERSION = "1.3";
+  const API_VERSION = "1.3.1";
   /**
    * @var GuzzleHttpClient HTTP Client
    */
@@ -38,7 +41,9 @@ class CRVersion
   protected static function getHttpClientHandler()
   {
     if (is_null(self::$httpClientHandler)) {
-      self::$httpClientHandler = new GuzzleHttpClient();
+      $client = new Client();
+
+      self::$httpClientHandler = new GuzzleHttpClient($client);
     }
       return self::$httpClientHandler;
   }
@@ -53,10 +58,7 @@ class CRVersion
     $rawResponse = self::getHttpClientHandler()->send(
       "https://api.github.com/repos/firegore2/clash-royale-php/releases/tags/".$version,
       "GET",
-      [
-        "Accept: application/vnd.github.v3+json"
-      ],
-      [],
+      [RequestOptions::HEADERS=>["Accept: application/vnd.github.v3+json"]],
       30,
       false,
       60
@@ -73,7 +75,6 @@ class CRVersion
     $rawResponse = self::getHttpClientHandler()->send(
       "https://packagist.org/p/firegore2/clash-royale-php.json",
       "GET",
-      [],
       [],
       30,
       false,
@@ -105,14 +106,12 @@ class CRVersion
         if (version_compare($max_version,self::API_VERSION,">")) {
           $new_version = $packagist->get($max_version);
           unset($packagist);
-          // d($max_version,$new_version);
           $alert = "New version ** $max_version ** available of ** ".$new_version['name']." **  - ".$new_version['description']."\n";
 
           if ($github = self::checkGithub($max_version)) {
             $github = json_decode($github,true);
             $alert .= "###".$github['name']."\n ---\n".$github['body']." \n ---\n";
           }
-          // echo $alert;
           $alert .= "Run `composer update firegore2/clash-royale-php` to update the package.\n";
           echo CRUtils::markdownToHTML($alert);
         }

@@ -12,8 +12,11 @@
  *                                                                                                                                                                                                                                                            *
  **************************************************************************************************************************************************************************************************************************************************************/
 namespace CR\HttpClients;
+
 use GuzzleHttp\Client;
 use GuzzleHttp\Promise;
+use GuzzleHttp\Handler\StreamHandler;
+use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\RequestOptions;
@@ -64,7 +67,18 @@ class GuzzleHttpClient implements HttpClientInterface
      */
     public function __destruct()
     {
-        Promise\unwrap(self::$promises);
+      $results = [];
+      foreach (self::$promises as $key => $promise) {
+        try {
+          $results[$key] = $promise->wait();
+        }
+        catch (ConnectException $e) {
+          if ($e->getRequest()->getUri()->getHost() !== "cr.firegore.es") {
+            throw $e;
+          }
+        }
+      }
+
     }
 
     /**
@@ -99,8 +113,8 @@ class GuzzleHttpClient implements HttpClientInterface
 
     public function ping($url)
     {
-      $res = $this->getClient()->request("GET", $url, ['http_errors' => false]);
-      return ($res->getStatusCode()<500);
+        $res = $this->getClient()->request("GET", $url, ['http_errors' => false]);
+        return ($res->getStatusCode()<500);
     }
 
     /**
@@ -109,7 +123,6 @@ class GuzzleHttpClient implements HttpClientInterface
     public function send(
         $url,
         $method,
-        array $headers = [],
         array $options = [],
         $timeOut = 30,
         $isAsyncRequest = false,
@@ -119,9 +132,8 @@ class GuzzleHttpClient implements HttpClientInterface
         $this->connectTimeOut = $connectTimeOut;
 
         $body = isset($options['body']) ? $options['body'] : null;
-        $options = $this->getOptions($headers, $body, $options, $timeOut, $isAsyncRequest, $connectTimeOut);
+        $options = $this->getOptions($body, $options, $timeOut, $isAsyncRequest, $connectTimeOut);
         try {
-
             $response = $this->getClient()->requestAsync($method, $url, $options);
             if ($isAsyncRequest) {
                 self::$promises[] = $response;
@@ -142,19 +154,17 @@ class GuzzleHttpClient implements HttpClientInterface
     /**
      * Prepares and returns request options.
      *
-     * @param array $headers
-     * @param       $body
-     * @param       $options
-     * @param       $timeOut
-     * @param       $isAsyncRequest
-     * @param int   $connectTimeOut
+     * @param  string $body
+     * @param  array  $options
+     * @param  int    $timeOut
+     * @param  bool   $isAsyncRequest
+     * @param  int    $connectTimeOut
      *
      * @return array
      */
-    private function getOptions(array $headers, $body, $options, $timeOut, $isAsyncRequest = false, $connectTimeOut = 10)
+    private function getOptions($body, $options, $timeOut, $isAsyncRequest = false, $connectTimeOut = 10)
     {
         $default_options = [
-            RequestOptions::HEADERS         => $headers,
             RequestOptions::BODY            => $body,
             RequestOptions::TIMEOUT         => $timeOut,
             RequestOptions::CONNECT_TIMEOUT => $connectTimeOut,

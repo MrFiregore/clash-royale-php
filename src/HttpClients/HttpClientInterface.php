@@ -11,9 +11,10 @@
  * If not, see <http://www.gnu.org/licenses/>.                                                                                                                                                                                                                *
  *                                                                                                                                                                                                                                                            *
  **************************************************************************************************************************************************************************************************************************************************************/
-
-
 namespace CR\HttpClients;
+
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Promise\Promise;
 
 /**
  * Interface HttpClientInterface.
@@ -21,20 +22,18 @@ namespace CR\HttpClients;
 interface HttpClientInterface
 {
     /**
-     * @param            $url
-     * @param            $method
-     * @param array      $headers
+     * @param string     $url
+     * @param string     $method
      * @param array      $options
      * @param int        $timeOut
      * @param bool|false $isAsyncRequest
      * @param int        $connectTimeOut
      *
-     * @return mixed
+     * @return Promise||Response||mixed
      */
     public function send(
         $url,
         $method,
-        array $headers = [],
         array $options = [],
         $timeOut = 30,
         $isAsyncRequest = false,
