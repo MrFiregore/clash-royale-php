@@ -27,7 +27,7 @@ You need a developer token to use the API.
 This are the steps to obtain it:
 1. Go to the [discord server](http://discord.me/RoyaleApi) of the API
 2. Go to the #developer-key channel.
-3. Type !crapikey get
+3. Type ```~~crapikey get```
 4. The bot will send you a DM (direct message) with your key.
 
 # METHODS
