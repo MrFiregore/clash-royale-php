@@ -37,7 +37,36 @@ use CR\Objects\Player;
 use CR\Objects\UnknownObject;
 
 /**
- * [Api description]
+ * Api
+ * @method getPlayer([ ],[ ],[ ])
+ * @method getPlayerBattle([ ],[ ],[ ])
+ * @method getPlayerChest([ ],[ ],[ ])
+ * @method getClanSearch(string,int,int,int)
+ * @method getClanTracking([],[],[])
+ * @method getClan([ ],[ ],[ ])
+ * @method getClanBattle([ ],[ ],[ ],string)
+ * @method getClanWar([ ],[ ],[ ])
+ * @method getClanWarlog([ ],[ ],[ ])
+ * @method getClanHistory([],[],[])
+ * @method getClanHistoryWeekly([],[],[])
+ * @method getClanTracking([],[],[])
+ * @method getClanTrack([],[],[])
+ * @method getTournamentOpen([],[],[])
+ * @method getTournamentKnown([],[],[])
+ * @method getTournamentSearch([],[],[])
+ * @method getTournament([],[],[])
+ * @method getTopClan([],[],[])
+ * @method getTopPlayer(string)
+ * @method getPopularClan([],[],[])
+ * @method getPopularPlayer([],[],[])
+ * @method getPopularTournament([],[],[])
+ * @method getPopularDeck([],[],[])
+ * @method getConstant()
+ * @method getAuthStats()
+ * @method getVersion([],[],[])
+ * @method getHealth()
+ * @method getStatus([],[],[])
+ * @method getEndpoints()  *
  */
 
 class Api
@@ -98,6 +127,10 @@ class Api
         $this->setMaxCacheAge($max_cache_age?:120);
         CRVersion::checkVersion();
         $this->client = new CRClient($httpClientHandler);
+    }
+    public static function getEndpointsStatic()
+    {
+     return self::$endpoints;
     }
 
 
@@ -288,7 +321,7 @@ class Api
 
     /**
      * Return all the information about the given users tag
-     * @method getPlayerChests
+     * @method getPlayerChest
      *
      * @param  array     $player          Array with the id of the profiles
      * @param  array             $keys            Array with the exact parameters to request
@@ -296,7 +329,7 @@ class Api
      *
      * @return PlayerChest[]                   Array of PlayerChest Objects if given more than one profile, else return one PlayerChest Object
      */
-    public function getPlayerChests(array $player, array $keys = [], array $exclude = [])
+    public function getPlayerChest(array $player, array $keys = [], array $exclude = [])
     {
         $players = [];
         $querys = [];
@@ -320,13 +353,13 @@ class Api
     }
     /**
      * Return all the battles the given users tag
-     * @method getPlayerBattles
+     * @method getPlayerBattle
      * @param  array     $player          Array with the id of the profiles
      * @param  array     $keys            Array with the exact parameters to request
      * @param  array     $exclude         Array with the exact parameters to exclude in the request
      * @return Battle[]                   Array of Battle Objects if given more than one profile, else return one Battle Object
      */
-    public function getPlayerBattles(array $player, array $keys = [], array $exclude = [])
+    public function getPlayerBattle(array $player, array $keys = [], array $exclude = [])
     {
         $players = [];
         $querys = [];
@@ -388,7 +421,7 @@ class Api
     * @param  string         $type            Type of clan battles to filter ('all', 'war' or 'clanMate')
     * @return Clan[]||Clan                    Array of Clan Objects if given more than one profile, else return one Clan Object
     */
-    public function getClanBattles(array $clan, array $keys = [], array $exclude = [],string $type = "")
+    public function getClanBattle(array $clan, array $keys = [], array $exclude = [],string $type = "")
     {
         $clans = [];
         $querys = [];
@@ -478,14 +511,14 @@ class Api
 
     /**
      * Search clans by their attributes
-     * @method clanSearch
+     * @method getClanSearch
      * @param  string           $name                 (Optional)Clan name text search.
      * @param  int              $score                (Optional) Minimum clan score.
      * @param  int              $minMembers           (Optional) Minimum number of members. 0-50
      * @param  int              $maxMembers           (Optional) Maximum number of members. 0-50
      * @return Clan[]                                 Returns an array of Clan objects that match the search parameters
      */
-    public function clanSearch(string $name = "", int $score = 0, int $minMembers = 0, int $maxMembers = 50)
+    public function getClanSearch(string $name = "", int $score = 0, int $minMembers = 0, int $maxMembers = 50)
     {
         $clanSearch = [];
         if (empty(func_get_args())) {
@@ -517,11 +550,11 @@ class Api
 
     /**
      * Return all information about the top players
-     * @method getTopPlayers
+     * @method getTopPlayer
      * @param  string||null  $location  Two-letter code of the location
      * @return array              Array with key of respectives top type ("players" or "clans") and with their values an array with "lastUpdate" of the top list and the respective array with the respective objects type ("players" = array CR\Objects\Player)
      */
-    public function getTopPlayers(string $location = null)
+    public function getTopPlayer(string $location = null)
     {
         $tops = [];
         $response = $this->post("/top/player/:cc", [$location]);
