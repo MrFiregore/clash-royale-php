@@ -1,5 +1,5 @@
 <?php
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  ~                                                                                                                                                                                                                                                          ~
  ~ Copyright (c) 2018 by firegore (https://firegore.es) (git:firegore2)                                                                                                                                                                                     ~
  ~ This file is part of clash-royale-php.                                                                                                                                                                                                                   ~
@@ -12,29 +12,46 @@
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-namespace CR\Objects;
+    namespace CR\Objects;
 
-/**
- * Endpoint Object
- *
- * @method    string               getUrl()      Returns the endpoint url
- */
+    /**
+     * Tournament Object
+     * @method string           getTag()
+     * @method string           getType() "passwordProtected", "open"
+     * @method string           getStatus() "inPreparation", "inProgress", "ended"
+     * @method string|null      getCreatorTag() (Optional)
+     * @method Player|null      getCreator() (Optional)
+     * @method string           getName()
+     * @method string|null      getDescription() (Optional)
+     * @method int|null         getCapacity() (Optional)
+     * @method int              getPlayerCount()
+     * @method int              getMaxCapacity()
+     * @method int              getPreparationDuration()
+     * @method int              getDuration()
+     * @method int              getCreateTime()
+     * @method int|null         getStartTime()
+     * @method int|null         getEndTime()
+     * @method Player[]|null    getMembers() (Optional)
+     */
+    class Tournament extends BaseObject
+    {
+        /**
+         * {@inheritdoc}
+         */
+        public function primaryKey ()
+        {
+            return "";
+        }
 
-class Endpoint extends BaseObject
-{
-  /**
-  * {@inheritdoc}
-  */
-  public function primaryKey()
-  {
-    return "";
-  }
+        /**
+         * {@inheritdoc}
+         */
+        public function relations ()
+        {
+            return [
+                "creator" => Player::class,
+                "members" => Player::class,
+            ];
+        }
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function relations()
-  {
-      return [];
-  }
-}

@@ -13,28 +13,27 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 namespace CR\Objects;
-
 /**
- * Endpoint Object
- *
- * @method    string               getUrl()      Returns the endpoint url
+ *  Health object
+ * @method    string              getVersion()                   .
+ * @method    string              getHost()                      .
+ * @method    string              getServerTime()                .
  */
-
-class Endpoint extends BaseObject
+class Health extends BaseObject
 {
-  /**
-  * {@inheritdoc}
-  */
-  public function primaryKey()
-  {
-    return "";
-  }
+    /**
+    * {@inheritdoc}
+    */
+    public function primaryKey()
+    {
+        return "";
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function relations()
-  {
-      return [];
-  }
+    /**
+    * {@inheritdoc}
+    */
+    public function relations()
+    {
+        return [];
+    }
 }

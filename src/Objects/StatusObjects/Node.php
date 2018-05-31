@@ -1,5 +1,5 @@
 <?php
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  ~                                                                                                                                                                                                                                                          ~
  ~ Copyright (c) 2018 by firegore (https://firegore.es) (git:firegore2)                                                                                                                                                                                     ~
  ~ This file is part of clash-royale-php.                                                                                                                                                                                                                   ~
@@ -12,29 +12,32 @@
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-namespace CR\Objects;
+    namespace CR\Objects\StatusObjects;
+    use CR\Objects\BaseObject;
 
-/**
- * Endpoint Object
- *
- * @method    string               getUrl()      Returns the endpoint url
- */
+    /**
+     * Node Object
+     *
+     * @method string           getVersion()
+     * @method string           getMemoryUsage()
+     * @method int              getUptime()
+     */
+    class Node extends BaseObject
+    {
+        /**
+         * {@inheritdoc}
+         */
+        public function primaryKey ()
+        {
+            return "";
+        }
 
-class Endpoint extends BaseObject
-{
-  /**
-  * {@inheritdoc}
-  */
-  public function primaryKey()
-  {
-    return "";
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function relations()
-  {
-      return [];
-  }
-}
+        /**
+         * {@inheritdoc}
+         */
+        public function relations ()
+        {
+            return [
+            ];
+        }
+    }

@@ -1,5 +1,5 @@
 <?php
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  ~                                                                                                                                                                                                                                                          ~
  ~ Copyright (c) 2018 by firegore (https://firegore.es) (git:firegore2)                                                                                                                                                                                     ~
  ~ This file is part of clash-royale-php.                                                                                                                                                                                                                   ~
@@ -12,29 +12,35 @@
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-namespace CR\Objects;
+    namespace CR\Objects\ConstantsObjects;
+    use CR\Objects\BaseObject;
 
-/**
- * Endpoint Object
- *
- * @method    string               getUrl()      Returns the endpoint url
- */
+    /**
+     * AlianceBadge object
+     *
+     *
+     * @method    string              getName()               Returns the name of the badge
+     * @method    string              getCategory()           Returns the category name of the badge
+     * @method    int                 getId()                 Returns the id of the badge
+     * @method    string              getImage()              Returns the image url of the badge
+     */
 
-class Endpoint extends BaseObject
-{
-  /**
-  * {@inheritdoc}
-  */
-  public function primaryKey()
-  {
-    return "";
-  }
+    class AllianceBadge extends BaseObject
+    {
 
-  /**
-   * {@inheritdoc}
-   */
-  public function relations()
-  {
-      return [];
-  }
-}
+        /**
+         * {@inheritdoc}
+         */
+        public function primaryKey()
+        {
+            return "id";
+        }
+
+        /**
+         * {@inheritdoc}
+         */
+        public function relations()
+        {
+            return [];
+        }
+    }

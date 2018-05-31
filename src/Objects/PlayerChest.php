@@ -14,13 +14,8 @@
 
 namespace CR\Objects;
 
-/**
- * Endpoint Object
- *
- * @method    string               getUrl()      Returns the endpoint url
- */
 
-class Endpoint extends BaseObject
+class PlayerChest extends BaseObject
 {
   /**
   * {@inheritdoc}

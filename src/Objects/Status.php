@@ -1,5 +1,5 @@
 <?php
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  ~                                                                                                                                                                                                                                                          ~
  ~ Copyright (c) 2018 by firegore (https://firegore.es) (git:firegore2)                                                                                                                                                                                     ~
  ~ This file is part of clash-royale-php.                                                                                                                                                                                                                   ~
@@ -12,29 +12,45 @@
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-namespace CR\Objects;
+    namespace CR\Objects;
+    use CR\Objects\StatusObjects\Git;
+    use CR\Objects\StatusObjects\Node;
+    use CR\Objects\StatusObjects\Server;
+    use CR\Objects\StatusObjects\System;
 
-/**
- * Endpoint Object
- *
- * @method    string               getUrl()      Returns the endpoint url
- */
+//    use CR\Objects\StatusObjects\Node;
+//    use CR\Objects\StatusObjects\Server;
+//    use CR\Objects\StatusObjects\System;
 
-class Endpoint extends BaseObject
-{
-  /**
-  * {@inheritdoc}
-  */
-  public function primaryKey()
-  {
-    return "";
-  }
+    /**
+     * Status Object
+     *
+     * @method Server           getServer()
+     * @method Git              getGit()
+     * @method Node             getNode()
+     * @method System           getSystem()
+     */
+    class Status extends BaseObject
+    {
+        /**
+         * {@inheritdoc}
+         */
+        public function primaryKey ()
+        {
+            return "";
+        }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function relations()
-  {
-      return [];
-  }
-}
+        /**
+         * {@inheritdoc}
+         */
+        public function relations ()
+        {
+            return [
+                "server" => Server::class,
+                "git" => Git::class,
+                "node" => Node::class,
+                "system" => System::class,
+            ];
+        }
+    }
+

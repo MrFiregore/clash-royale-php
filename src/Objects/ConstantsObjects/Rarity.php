@@ -1,5 +1,5 @@
 <?php
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  ~                                                                                                                                                                                                                                                          ~
  ~ Copyright (c) 2018 by firegore (https://firegore.es) (git:firegore2)                                                                                                                                                                                     ~
  ~ This file is part of clash-royale-php.                                                                                                                                                                                                                   ~
@@ -12,29 +12,47 @@
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-namespace CR\Objects;
+    namespace CR\Objects\ConstantsObjects;
+    use CR\Objects\BaseObject;
 
-/**
- * Endpoint Object
- *
- * @method    string               getUrl()      Returns the endpoint url
- */
+    /**
+     * Class Rarity
+     *
+     * @method     getName()
+     * @method     getLevelCount()
+     * @method     getRelativeLevel()
+     * @method     getMirrorRelativeLevel()
+     * @method     getCloneRelativeLevel()
+     * @method     getDonateCapacity()
+     * @method     getSortCapacity()
+     * @method     getDonateReward()
+     * @method     getDonateXp()
+     * @method     getGoldConversionValue()
+     * @method     getChanceWeight()
+     * @method     getBalanceMultiplier()
+     * @method     getUpgradeExp()
+     * @method     getUpgradeMaterialCount()
+     * @method     getUpgradeCost()
+     * @method     getPowerLevelMultiplier()
+     * @method     getRefundGems()
+     *
+     * @package CR\Objects\ConstantsObjects
+     */
+    class Rarity extends BaseObject
+    {
+        /**
+         * {@inheritdoc}
+         */
+        public function primaryKey()
+        {
+            return "";
+        }
 
-class Endpoint extends BaseObject
-{
-  /**
-  * {@inheritdoc}
-  */
-  public function primaryKey()
-  {
-    return "";
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function relations()
-  {
-      return [];
-  }
-}
+        /**
+         * {@inheritdoc}
+         */
+        public function relations()
+        {
+            return [];
+        }
+    }

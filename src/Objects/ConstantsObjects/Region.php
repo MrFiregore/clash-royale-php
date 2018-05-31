@@ -12,42 +12,37 @@
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    namespace CR\Objects;
-    use CR\Objects\ConstantsObjects\AllianceBadge;
-    use CR\Objects\ConstantsObjects\Region;
+    namespace CR\Objects\ConstantsObjects;
+    use CR\Objects\BaseObject;
+    use Illuminate\Support\Collection;
 
     /**
-     * Clan object
-     * @method    string              getTag()                    Returns the tag of the clan
-     * @method    string              getName()                   Returns the name of the clan
-     * @method    AllianceBadge       getBadge()                  Returns the AllianceBadge Object of the clan
-     * @method    string              getDescription()            (Optional) Returns the description of the clan
-     * @method    string              getType()                   (Optional)Returns the admission type of the clan
-     * @method    int                 getScore()                  (Optional)Returns the score of the clan
-     * @method    int                 getParticipants()           (Optional)Returns the score of the clan
-     * @method    int                 getBattlesPlayed()          (Optional)Returns the score of the clan
-     * @method    int                 getWins()                   (Optional)Returns the score of the clan
-     * @method    int                 getCrowns()                 (Optional)Returns the score of the clan
-     * @method    int                 getWarTrophies()            (Optional)Returns the score of the clan
-     * @method    int                 getMemberCount()            (Optional)Returns the members number of the clan
-     * @method    int                 getRequiredScore()          (Optional)Returns the required score to enter the clan
-     * @method    string              getRole()                   (Optional).If the Clan object is obtained by a Player object returns the role name of the user
-     * @method    int                 getDonations()              (Optional)Returns the total donations per week of the clan. If the Clan object is obtained by a Player object returns the total donations by the user
-     * @method    Location            getLocation()               (Optional)Returns the Location Object of the clan
-     * @method    Player[]            getMembers()                (Optional)Returns an array with Player Objects of the clan
-     * @method    Tracking            getTracking()               (Optional)Returns a Tracking object of the clan
+     *  Region object
+     * @method    string              getName()               Returns the name of the location.
+     * @method    bool                getIsCountry()          Returns true if the location is a country. otherwise returns false.
+     * @method    string              getCode()               Returns the country/continent code
      *
-     * @method    Player[]            getPlayers()                (Optional)Alias of getMembers
+     *
+     * @method    string              getContinent()          Returns the continent name
+     * @method    string              getContinentCod()       Returns the continent code
+     * @method    string              getCountry()            Returns the country name
+     * @method    string              getCountryCode()        Returns the country code
      */
 
-    class Clan extends BaseObject
+    class Region extends BaseObject
     {
+        /**
+         * List of countrys, continents and her codes
+         * @var [type]
+         */
+        static protected $list= null;
+
         /**
          * {@inheritdoc}
          */
         public function primaryKey()
         {
-            return "tag";
+            return "";
         }
 
 
@@ -56,12 +51,75 @@
          */
         public function relations()
         {
-            return [
-                'badge'             => AllianceBadge::class,
-                'members'           => Player::class,
-                'players'           => Player::class,
-                'location'          => Region::class,
-                'tracking'          => Tracking::class,
-            ];
+            return [];
         }
+
+
+        /**
+         * [getList description]
+         * @method getList
+         * @return Collection
+         */
+
+        public function getList()
+        {
+            if (is_null(self::$list)) {
+                d((realpath(__DIR__).DIRECTORY_SEPARATOR."CountryCodes.json"));
+                self::$list = collect(json_decode(file_get_contents(realpath(__DIR__).DIRECTORY_SEPARATOR."CountryCodes.json"),true));
+            }
+            return self::$list;
+        }
+
+
+
+        public function getContinent()
+        {
+            $list = $this->getList();
+            if (!$this->getIsCountry()) return $this->getName();
+            $continent = $list->search(function ($item,$key)
+            {
+                return $item["country_code"]==$this->getCode();
+            });
+            return ($continent) ? $list->get($continent)["continent"] : "unknow";
+        }
+
+
+
+        public function getCountry()
+        {
+            $list = $this->getList();
+            if ($this->getIsCountry()) return $this->getName();
+            $country = $list->search(function ($item,$key)
+            {
+                return $item["country_code"]==$this->getCode();
+            });
+            return ($country) ? $list->get($country)["country"] : "unknow";
+        }
+
+
+
+        public function getContinentCode()
+        {
+            $list = $this->getList();
+            if (!$this->getIsCountry()) return $this->getCode();
+            $continent = $list->search(function ($item,$key)
+            {
+                return $item["country_code"]==$this->getCode();
+            });
+            return ($continent) ? $list->get($continent)["continent_code"] : "unknow";
+        }
+
+
+
+        public function getCountryCode()
+        {
+            $list = $this->getList();
+            if ($this->getIsCountry()) return $this->getCode();
+            $country = $list->search(function ($item,$key)
+            {
+                return $item["country_code"]==$this->getCode();
+            });
+            return ($country) ? $list->get($country)["country_code"] : "unknow";
+        }
+
     }
