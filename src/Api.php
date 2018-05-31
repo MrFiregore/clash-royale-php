@@ -1,37 +1,40 @@
 <?php
-/**************************************************************************************************************************************************************************************************************************************************************
- *                                                                                                                                                                                                                                                            *
- * Copyright (c) 2018 by Firegore (https://firegore.es) (git:firegore2).                                                                                                                                                                                      *
- * This file is part of clash-royale-php.                                                                                                                                                                                                                     *
- *                                                                                                                                                                                                                                                            *
- * clash-royale-php is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. *
- * clash-royale-php is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                                                                    *
- * See the GNU Affero General Public License for more details.                                                                                                                                                                                                *
- * You should have received a copy of the GNU General Public License along with clash-royale-php.                                                                                                                                                             *
- * If not, see <http://www.gnu.org/licenses/>.                                                                                                                                                                                                                *
- *                                                                                                                                                                                                                                                            *
- **************************************************************************************************************************************************************************************************************************************************************/
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ ~                                                                                                                                                                                                                                                          ~
+ ~ Copyright (c) 2018 by firegore (https://firegore.es) (git:firegore2)                                                                                                                                                                                     ~
+ ~ This file is part of clash-royale-php.                                                                                                                                                                                                                   ~
+ ~                                                                                                                                                                                                                                                          ~
+ ~ clash-royale-php is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ ~ clash-royale-php is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                                                                  ~
+ ~ See the GNU Affero General Public License for more details.                                                                                                                                                                                              ~
+ ~ You should have received a copy of the GNU General Public License along with clash-royale-php.                                                                                                                                                           ~
+ ~ If not, see <http://www.gnu.org/licenses/> 2018.05.31                                                                                                                                                                                                    ~
+ ~                                                                                                                                                                                                                                                          ~
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 namespace CR;
 
 use CR\CRClient;
 use CR\CRRequest;
+use CR\Objects\Constants;
+use CR\Objects\Deck;
+use CR\Objects\History;
+use CR\Objects\Status;
+use CR\Objects\Tournament;
+use CR\Objects\Tracking;
 use CR\Traits\CacheTrait;
-
 use CR\Objects\Battle;
-use CR\Objects\Helath;
+use CR\Objects\Health;
 use CR\Objects\ClanWar;
 use CR\Objects\Endpoint;
 use CR\Objects\AuthStats;
-use CR\Objects\ChestCycle;
+use CR\Objects\PlayerChest;
 use CR\Exceptions\CRSDKException;
 use CR\Exceptions\CRResponseException;
 use CR\HttpClients\HttpClientInterface;
 use CR\Objects\Clan;
 use CR\Objects\Player;
-use CR\Objects\ClanSearch;
 use CR\Objects\UnknownObject;
-use CR\CRCache;
 
 /**
  * [Api description]
@@ -45,11 +48,40 @@ class Api
     protected $client;
     protected $auth_token;
     protected $last_response;
-    protected static $endpoints = [];
     protected static $ping;
     protected static $last_ping;
-    protected $limit = 260;
-    protected $remaining = 260;
+    protected static $endpoints =
+        [
+            "/players?/:tag"=>Player::class,
+            "/players?/:tag/battles?"=>Battle::class,
+            "/players?/:tag/chests?"=>PlayerChest::class,
+            "/clans?/search"=>Clan::class,
+            "/clans?/tracking"=>Tracking::class,
+            "/clans?/:tag"=>Clan::class,
+            "/clans?/:tag/battles?"=>Battle::class,
+            "/clans?/:tag/war"=>ClanWar::class,
+            "/clans?/:tag/warlog"=>ClanWar::class,
+            "/clans?/:tag/history"=>History::class,
+            "/clans?/:tag/history/weekly"=>History::class,
+            "/clans?/:tag/tracking"=>Tracking::class,
+            "/clans?/:tag/track"=>UnknownObject::class,
+            "/tournaments?/open"=>Tournament::class,
+            "/tournaments?/known"=>Tournament::class,
+            "/tournaments?/search"=>Tournament::class,
+            "/tournaments?/:tag"=>Tournament::class,
+            "/top/clans?/:cc?"=>Clan::class,
+            "/top/players?/:cc?"=>Player::class,
+            "/popular/clans?"=>Clan::class,
+            "/popular/players?"=>Player::class,
+            "/popular/tournaments?"=>Tournament::class,
+            "/popular/decks?"=>Deck::class,
+            "/constants?"=>Constants::class,
+            "/auth/stats"=>AuthStats::class,
+            "/version"=>UnknownObject::class,
+            "/health"=>Health::class,
+            "/status"=>Status::class,
+            "/endpoints"=>Endpoint::class,
+        ];
 
     /**
     * The max lifetime cache
@@ -57,13 +89,13 @@ class Api
     */
     protected $max_cache_age=120;
 
-    public function __construct(string $auth_token=null, int $max_cache_age = 120, HttpClientInterface $httpClientHandler = null)
+    public function __construct(string $auth_token=null, int $max_cache_age = null, HttpClientInterface $httpClientHandler = null)
     {
         if (is_null($auth_token)) {
             throw new CRSDKException("Auth token is required, additional information and support: http://discord.me/cr_api", 1);
         }
         $this->setAuthToken($auth_token);
-        $this->setMaxCacheAge($max_cache_age);
+        $this->setMaxCacheAge($max_cache_age?:120);
         CRVersion::checkVersion();
         $this->client = new CRClient($httpClientHandler);
     }
@@ -203,7 +235,7 @@ class Api
     public function getConstant()
     {
         $response = $this->post("/constant");
-        return new UnknownObject($response);
+        return new Constants($response);
     }
 
     /**
@@ -257,10 +289,12 @@ class Api
     /**
      * Return all the information about the given users tag
      * @method getPlayerChests
+     *
      * @param  array     $player          Array with the id of the profiles
      * @param  array             $keys            Array with the exact parameters to request
      * @param  array             $exclude         Array with the exact parameters to exclude in the request
-     * @return ChestCycle[]                   Array of ChestCycle Objects if given more than one profile, else return one ChestCycle Object
+     *
+     * @return PlayerChest[]                   Array of PlayerChest Objects if given more than one profile, else return one PlayerChest Object
      */
     public function getPlayerChests(array $player, array $keys = [], array $exclude = [])
     {
@@ -276,11 +310,11 @@ class Api
         $response = $this->post("/player/:tag/chest", $player, $querys);
 
         if (CRUtils::isAssoc($response)) {
-            return new ChestCycle($response);
+            return new PlayerChest($response);
         }
 
         foreach ($response as $p) {
-            $players[] = new ChestCycle($p);
+            $players[] = new PlayerChest($p);
         }
         return $players;
     }
@@ -449,7 +483,7 @@ class Api
      * @param  int              $score                (Optional) Minimum clan score.
      * @param  int              $minMembers           (Optional) Minimum number of members. 0-50
      * @param  int              $maxMembers           (Optional) Maximum number of members. 0-50
-     * @return ClanSearch[]     $clanSearch           Returns an array of Clan objects that match the search parameters
+     * @return Clan[]                                 Returns an array of Clan objects that match the search parameters
      */
     public function clanSearch(string $name = "", int $score = 0, int $minMembers = 0, int $maxMembers = 50)
     {
@@ -476,7 +510,7 @@ class Api
         }
         $response = $this->post("/clan/search", [], $query);
         foreach ($response as $cs) {
-            $clanSearch[] = new ClanSearch($cs);
+            $clanSearch[] = new Clan($cs);
         }
         return $clanSearch;
     }
@@ -497,20 +531,30 @@ class Api
         return $tops;
     }
 
+    public function searchEndpoint(array $endpoint_array){
+        $endpoints = collect(self::$endpoints);
+        $endpoints = $endpoints->filter( function ($item,$value) use ($endpoint_array){
+            $req = count($endpoint_array);
+            $found = 0;
+            $value_a = explode("/", $value);
+            foreach ($endpoint_array as $end) {
+                $found += in_array($end."s?", $value_a) || in_array($end, $value_a) ? 1 : 0;
+            }
+            return $req == $found;
+        });
+        if (!$endpoints->count()) return false;
+        $endpoints = $endpoints->all();
+        return [current($endpoints), str_replace("s?", "", key($endpoints))];
+    }
+
+
 
     public function __call($method, $arguments)
     {
         $action = substr($method, 0, 3);
-        if ($action === 'get') {
-            $class_name = studly_case(substr($method, 3));
-            $class = 'CR\Objects\\'.$class_name;
-            $response = $this->post($class_name, $arguments[0] ?: []);
-
-            if (class_exists($class)) {
-                return new $class($response);
-            }
-
-            return new UnknownObject($response);
-        }
+        $endpoint_array = explode("_", snake_case(substr($method, 3)));
+        list($class,$endpoint) = $this->searchEndpoint($endpoint_array) ?: [UnknownObject::class,implode("/", $endpoint_array)];
+        $response = $this->post($endpoint,...$arguments);
+        return new $class($response);
     }
 }
