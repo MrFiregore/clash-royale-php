@@ -14,28 +14,27 @@
 
 namespace CR\Objects;
 
-class Battle extends BaseObject
+/**
+ *  Helath object
+ * @method    string              getVersion()                   .
+ * @method    string              getHost()                      .
+ * @method    string              getServerTime()                .
+ */
+class Helath extends BaseObject
 {
-    protected static $stats = null;
-    protected static $list  = null;
-
     /**
     * {@inheritdoc}
     */
     public function primaryKey()
     {
-        return "utcTime";
+        return "";
     }
 
     /**
-     * {@inheritdoc}
-     */
+    * {@inheritdoc}
+    */
     public function relations()
     {
-        return [
-          'team'             => Player::class,
-          'opponent'         => Player::class,
-          'arena'            => Arena::class,
-        ];
+        return [];
     }
 }

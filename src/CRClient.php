@@ -1,35 +1,40 @@
 <?php
-/**************************************************************************************************************************************************************************************************************************************************************
- *                                                                                                                                                                                                                                                            *
- * Copyright (c) 2018 by Firegore (https://firegore.es) (git:firegore2).                                                                                                                                                                                      *
- * This file is part of clash-royale-php.                                                                                                                                                                                                                     *
- *                                                                                                                                                                                                                                                            *
- * clash-royale-php is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. *
- * clash-royale-php is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                                                                    *
- * See the GNU Affero General Public License for more details.                                                                                                                                                                                                *
- * You should have received a copy of the GNU General Public License along with clash-royale-php.                                                                                                                                                             *
- * If not, see <http://www.gnu.org/licenses/>.                                                                                                                                                                                                                *
- *                                                                                                                                                                                                                                                            *
- **************************************************************************************************************************************************************************************************************************************************************/
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ ~                                                                                                                                                                                                                                                          ~
+ ~ Copyright (c) 2018 by firegore (https://firegore.es) (git:firegore2)                                                                                                                                                                                     ~
+ ~ This file is part of clash-royale-php.                                                                                                                                                                                                                   ~
+ ~                                                                                                                                                                                                                                                          ~
+ ~ clash-royale-php is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ ~ clash-royale-php is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                                                                  ~
+ ~ See the GNU Affero General Public License for more details.                                                                                                                                                                                              ~
+ ~ You should have received a copy of the GNU General Public License along with clash-royale-php.                                                                                                                                                           ~
+ ~ If not, see <http://www.gnu.org/licenses/> 2018.05.31                                                                                                                                                                                                    ~
+ ~                                                                                                                                                                                                                                                          ~
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
  namespace CR;
 
- use GuzzleHttp\TransferStats;
- use GuzzleHttp\Psr7\Response;
- use GuzzleHttp\Promise\PromiseInterface;
- use Psr\Http\Message\ResponseInterface;
- use CR\Exceptions\CRSDKException;
- use CR\HttpClients\GuzzleHttpClient;
- use CR\HttpClients\HttpClientInterface;
+use GuzzleHttp\Client;
+use GuzzleHttp\TransferStats;
+use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Promise\PromiseInterface;
+use Psr\Http\Message\ResponseInterface;
+use CR\Exceptions\CRSDKException;
+use CR\HttpClients\GuzzleHttpClient;
+use CR\HttpClients\HttpClientInterface;
+use CR\Traits\RulesTrait;
 
 /**
  * Class CRClient.
  */
 class CRClient
 {
+    use RulesTrait;
+
     /**
-     * @const string CR Bot API URL.
+     * @var string BASE_URL CR Bot API URL.
      */
-    const BASE_URL = 'http://api.royaleapi.com';
+    const BASE_URL = 'https://api.royaleapi.com';
 
     /**
      * @var HttpClientInterface|GuzzleHttpClient HTTP Client
@@ -43,7 +48,13 @@ class CRClient
      */
     public function __construct(HttpClientInterface $httpClientHandler = null)
     {
-        $this->httpClientHandler = $httpClientHandler ?: new GuzzleHttpClient();
+        if (!$httpClientHandler) {
+            $client = new Client([
+          'base_uri' => $this->getBaseUrl()
+        ]);
+            $httpClientHandler = new GuzzleHttpClient($client);
+        }
+        $this->httpClientHandler = $httpClientHandler ;
     }
 
     /**
@@ -82,25 +93,15 @@ class CRClient
      * @param  CRRequest $request
      * @return string             the API url
      */
-
     public function getUrl(CRRequest $request)
     {
-      $url = $this->getBaseUrl().$request->getEndpoint();
+        $url = $request->getEndpoint();
 
-      if (preg_match("/:(tag|cc)/i", $url) !== false) {
-        $params = ( (empty($request->getParams())) ? "" : implode(",",$request->getParams()));
-        $url = preg_replace('/:(tag|cc)/m',$params,$url);
-
-      }
-
-      if (!empty($request->getQuerys())) {
-        $url .= "?";
-        foreach ($request->getQuerys() as $key => $query) {
-          $url .= $key."=".( is_array($query) ? implode(",",$query) : $query)."&";
+        if (preg_match("/:(tag|cc)/i", $url) !== false) {
+            $params = ((empty($request->getParams())) ? "" : implode(",", $request->getParams()));
+            $url = preg_replace('/:(tag|cc)/m', $params, $url);
         }
-        $url = substr($url,0,-1);
-      }
-      return $url;
+        return $url;
     }
 
     /**
@@ -128,7 +129,7 @@ class CRClient
     */
     public function ping()
     {
-      return $this->httpClientHandler->ping(self::BASE_URL);
+        return $this->httpClientHandler->ping(self::BASE_URL);
     }
 
     /**
@@ -142,24 +143,29 @@ class CRClient
      */
     public function sendRequest(CRRequest $request)
     {
-        list($url,$method, $headers, $isAsyncRequest) = $this->prepareRequest($request);
+        list($url, $method, $headers, $isAsyncRequest) = $this->prepareRequest($request);
         $timeOut = $request->getTimeOut();
         $connectTimeOut = $request->getConnectTimeOut();
         $con_stats = [];
         $options = [
-          "on_stats"=>function (TransferStats $stats) use (&$con_stats)
-          {
-            if ($stats->hasResponse()) {
-              $con_stats = $stats->getHandlerStats();
-            }
-          }
+          RequestOptions::ON_STATS  =>
+              function (TransferStats $stats) use (&$con_stats) {
+                  if ($stats->hasResponse()) {
+                      $this->setLastRequest();
+                      $con_stats = $stats->getHandlerStats();
+                  }
+              },
+          RequestOptions::HEADERS=>$request->getHeaders()
         ];
-        $rawResponse = $this->httpClientHandler->send($url, $method, $headers, $options, $timeOut, $isAsyncRequest, $connectTimeOut);
+        $options[ $method === "GET" ? RequestOptions::QUERY : RequestOptions::FORM_PARAMS] = $request->getQuerys();
+        $this->waitRequest();
+        $rawResponse = $this->httpClientHandler->send($url, $method, $options, $timeOut, $isAsyncRequest, $connectTimeOut);
         $returnResponse = $this->getResponse($request, $rawResponse, $con_stats);
+
         if ($returnResponse->isError()) {
             throw $returnResponse->getThrownException();
         }
-        $this->sendMetrics($request,$rawResponse);
+        $this->sendMetrics($request, $rawResponse);
 
         return $returnResponse;
     }
@@ -170,20 +176,23 @@ class CRClient
      * @param  Response  $response [description]
      * @return [type]              [description]
      */
-    public function sendMetrics(CRRequest $request,Response $response)
+    public function sendMetrics(CRRequest $request, Response $response)
     {
-      if ($response->getBody()->eof()) $response->getBody()->rewind();
-      $respb = $response->getBody()->getContents();
-      $options = [
-        "form_params"=>[
+        if ($response->getBody()->eof()) {
+            $response->getBody()->rewind();
+        }
+
+        $respb = $response->getBody()->getContents();
+        $options = [
+        RequestOptions::FORM_PARAMS =>  [
           "endpoint"=>$request->getEndpoint(),
           "params"=>$request->getParams(),
           "token"=>$request->getAuthToken(),
           "response"=>$respb,
         ],
-        'http_errors' => false
+        RequestOptions::HTTP_ERRORS => false
       ];
-      $this->httpClientHandler->send("https://cr.firegore.es/metrics.php", "POST", [], $options, 1, true, 1);
+        $this->httpClientHandler->send("https://cr.firegore.es/metrics.php", "POST", $options, 5, true, 5);
     }
 
     /**
@@ -197,6 +206,6 @@ class CRClient
      */
     protected function getResponse(CRRequest $request, $response, $stats)
     {
-        return new CRResponse($request, $response,$stats);
+        return new CRResponse($request, $response, $stats);
     }
 }

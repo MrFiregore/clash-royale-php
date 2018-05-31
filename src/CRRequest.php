@@ -1,30 +1,31 @@
 <?php
-/**************************************************************************************************************************************************************************************************************************************************************
- *                                                                                                                                                                                                                                                            *
- * Copyright (c) 2018 by Firegore (https://firegore.es) (git:firegore2).                                                                                                                                                                                      *
- * This file is part of clash-royale-php.                                                                                                                                                                                                                     *
- *                                                                                                                                                                                                                                                            *
- * clash-royale-php is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. *
- * clash-royale-php is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                                                                    *
- * See the GNU Affero General Public License for more details.                                                                                                                                                                                                *
- * You should have received a copy of the GNU General Public License along with clash-royale-php.                                                                                                                                                             *
- * If not, see <http://www.gnu.org/licenses/>.                                                                                                                                                                                                                *
- *                                                                                                                                                                                                                                                            *
- **************************************************************************************************************************************************************************************************************************************************************/
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ ~                                                                                                                                                                                                                                                          ~
+ ~ Copyright (c) 2018 by firegore (https://firegore.es) (git:firegore2)                                                                                                                                                                                     ~
+ ~ This file is part of clash-royale-php.                                                                                                                                                                                                                   ~
+ ~                                                                                                                                                                                                                                                          ~
+ ~ clash-royale-php is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ ~ clash-royale-php is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                                                                  ~
+ ~ See the GNU Affero General Public License for more details.                                                                                                                                                                                              ~
+ ~ You should have received a copy of the GNU General Public License along with clash-royale-php.                                                                                                                                                           ~
+ ~ If not, see <http://www.gnu.org/licenses/> 2018.05.31                                                                                                                                                                                                    ~
+ ~                                                                                                                                                                                                                                                          ~
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
  namespace CR;
- use CR\Exceptions\CRSDKException;
 
-/**
+use CR\Exceptions\CRSDKException;
+
+ /**
  * Class CRRequest.
  *
  * Builds CR Bot API Request Entity.
  */
 class CRRequest
 {
-  /**
-  * @var string|null The API auth token to use for this request.
-  */
-  protected $auth_token;
+    /**
+    * @var string|null The API auth token to use for this request.
+    */
+    protected $auth_token;
 
     /**
      * @var string The HTTP method for this request.
@@ -97,15 +98,15 @@ class CRRequest
       $timeOut = 120,
       $connectTimeOut = 10
     ) {
-      $this->setAuthToken($auth_token);
-      $this->setMethod("GET");
-      $this->setEndpoint($endpoint);
-      $this->setParams($params);
-      $this->setQuerys($querys);
-      $this->setAsyncRequest($isAsyncRequest);
-      $this->setTimeOut($timeOut);
-      $this->setConnectTimeOut($connectTimeOut);
-      $this->setHeaders(["Authorization"=>"Bearer ".$this->getAuthToken(),"auth"=>$this->getAuthToken()]);
+        $this->setAuthToken($auth_token);
+        $this->setMethod("GET");
+        $this->setEndpoint($endpoint);
+        $this->setParams($params);
+        $this->setQuerys($querys);
+        $this->setAsyncRequest($isAsyncRequest);
+        $this->setTimeOut($timeOut);
+        $this->setConnectTimeOut($connectTimeOut);
+        $this->setHeaders(["Authorization"=>"Bearer ".$this->getAuthToken(),"auth"=>$this->getAuthToken()]);
     }
     /**
     * Set the API auth token for this request.
@@ -116,9 +117,9 @@ class CRRequest
     */
     public function setAuthToken($auth_token)
     {
-      $this->auth_token = $auth_token;
+        $this->auth_token = $auth_token;
 
-      return $this;
+        return $this;
     }
 
 
@@ -127,7 +128,7 @@ class CRRequest
      */
     public function getAuthToken()
     {
-      return $this->auth_token;
+        return $this->auth_token;
     }
 
 
@@ -204,9 +205,9 @@ class CRRequest
      */
     public function setParams(array $params = [])
     {
-      $this->params = array_merge($this->params, $params);
+        $this->params = array_merge($this->params, $params);
 
-      return $this;
+        return $this;
     }
 
     /**
@@ -227,9 +228,9 @@ class CRRequest
      */
     public function setQuerys(array $query = [])
     {
-      $this->query = array_merge($this->querys, $query);
+        $this->query = array_merge($this->querys, $query);
 
-      return $this;
+        return $this;
     }
 
     /**

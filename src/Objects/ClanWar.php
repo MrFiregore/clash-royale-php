@@ -14,28 +14,34 @@
 
 namespace CR\Objects;
 
-class Battle extends BaseObject
-{
-    protected static $stats = null;
-    protected static $list  = null;
+/**
+ * ClanWar object
+ * @method    Player[]            getParticipants()                       Returns the level of the clan chest
+ * @method    Clan[]              getStandings()                          Returns the level of the clan chest
+ * @method    string              getState()                              (Optional) Returns the status of the clan chest ("warDay","collectionDay")
+ * @method    int                 getSeasonNumber()                       (Optional)Returns the level of the clan chest
+ */
 
+class ClanWar extends BaseObject
+{
     /**
     * {@inheritdoc}
     */
     public function primaryKey()
     {
-        return "utcTime";
+        return "";
     }
 
+
     /**
-     * {@inheritdoc}
-     */
+    * {@inheritdoc}
+    */
     public function relations()
     {
         return [
-          'team'             => Player::class,
-          'opponent'         => Player::class,
-          'arena'            => Arena::class,
+          'clan'             => Clan::class,
+          'participants'     => Player::class,
+          'standings'        => Clan::class,
         ];
     }
 }
