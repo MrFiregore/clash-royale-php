@@ -6,7 +6,7 @@ This work with the back-end of this page [Clash Royale API](https://royaleapi.co
 
 # REQUIREMENTS
 
-> PHP 5.5 or greater
+> PHP 5.6 or greater
 
 > Composer
 
