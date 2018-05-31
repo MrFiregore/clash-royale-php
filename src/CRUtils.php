@@ -14,8 +14,9 @@
 
     namespace CR;
 
-    use ReflectionMethod;
-    use ReflectionFunction;
+    use CR\Console\ConsoleMarkdown;
+
+    use cebe\markdown\GithubMarkdown;
 
     /**
      *
