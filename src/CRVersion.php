@@ -25,7 +25,7 @@ use CR\HttpClients\GuzzleHttpClient;
  */
 class CRVersion
 {
-  const API_VERSION = "1.3.1";
+  const API_VERSION = "1.3.2";
   /**
    * @var GuzzleHttpClient HTTP Client
    */
