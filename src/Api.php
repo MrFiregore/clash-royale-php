@@ -8,7 +8,7 @@
  ~ clash-royale-php is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                                                                  ~
  ~ See the GNU Affero General Public License for more details.                                                                                                                                                                                              ~
  ~ You should have received a copy of the GNU General Public License along with clash-royale-php.                                                                                                                                                           ~
- ~ If not, see <http://www.gnu.org/licenses/> 2018.05.31                                                                                                                                                                                                    ~
+ ~ If not, see <http://www.gnu.org/licenses/> 2018.06.01                                                                                                                                                                                                    ~
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
@@ -38,35 +38,34 @@ use CR\Objects\UnknownObject;
 
 /**
  * Api
- * @method getPlayer([ ],[ ],[ ])
- * @method getPlayerBattle([ ],[ ],[ ])
- * @method getPlayerChest([ ],[ ],[ ])
- * @method getClanSearch(string,int,int,int)
- * @method getClanTracking([],[],[])
- * @method getClan([ ],[ ],[ ])
- * @method getClanBattle([ ],[ ],[ ],string)
- * @method getClanWar([ ],[ ],[ ])
- * @method getClanWarlog([ ],[ ],[ ])
- * @method getClanHistory([],[],[])
- * @method getClanHistoryWeekly([],[],[])
- * @method getClanTracking([],[],[])
- * @method getClanTrack([],[],[])
- * @method getTournamentOpen([],[],[])
- * @method getTournamentKnown([],[],[])
- * @method getTournamentSearch([],[],[])
- * @method getTournament([],[],[])
- * @method getTopClan([],[],[])
- * @method getTopPlayer(string)
- * @method getPopularClan([],[],[])
- * @method getPopularPlayer([],[],[])
- * @method getPopularTournament([],[],[])
- * @method getPopularDeck([],[],[])
- * @method getConstant()
- * @method getAuthStats()
- * @method getVersion([],[],[])
- * @method getHealth()
- * @method getStatus([],[],[])
- * @method getEndpoints()  *
+ * @method  Player|Player[]             getPlayer([ ],[ ],[ ])
+ * @method  Battle                      getPlayerBattle([ ],[ ],[ ])
+ * @method  PlayerChest                 getPlayerChest([ ],[ ],[ ])
+ * @method  Clan[]                      getClanSearch(string,int,int,int)
+ * @method  Tracking                    getClanTracking([],[],[])
+ * @method  Clan                        getClan([ ],[ ],[ ])
+ * @method  Battle                      getClanBattle([ ],[ ],[ ],string)
+ * @method  ClanWar                     getClanWar([ ],[ ],[ ])
+ * @method  ClanWar                     getClanWarlog([ ],[ ],[ ])
+ * @method  History                     getClanHistory([],[],[])
+ * @method  History                     getClanHistoryWeekly([],[],[])
+ * @method  UnknownObject               getClanTrack([],[],[])
+ * @method  Tournament                  getTournamentOpen([],[],[])
+ * @method  Tournament                  getTournamentKnown([],[],[])
+ * @method  Tournament                  getTournamentSearch([],[],[])
+ * @method  Tournament                  getTournament([],[],[])
+ * @method  Clan[]                      getTopClan([],[],[])
+ * @method  Clan[]                      getTopPlayer(string)
+ * @method  Clan[]                      getPopularClan([],[],[])
+ * @method  Player[]                    getPopularPlayer([],[],[])
+ * @method  Tournament[]                getPopularTournament([],[],[])
+ * @method  Deck[]                      getPopularDeck([],[],[])
+ * @method  Constants                   getConstant()
+ * @method  AuthStats                   getAuthStats()
+ * @method  UnknownObject               getVersion([],[],[])
+ * @method  Health                      getHealth()
+ * @method  Status                      getStatus([],[],[])
+ * @method  Endpoint[]                  getEndpoints()  *
  */
 
 class Api
