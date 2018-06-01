@@ -25,7 +25,7 @@
      */
     class CRVersion
     {
-        const API_VERSION = "1.3.2";
+        const API_VERSION = "1.3.1";
         /**
          * @var GuzzleHttpClient HTTP Client
          */
@@ -108,7 +108,6 @@
                             );
 
                     $max_version = $packagist->max("version");
-                    d($max_version);
                     if (version_compare($max_version, self::API_VERSION, ">")) {
                         $new_version = $packagist->get($max_version);
                         unset($packagist);
