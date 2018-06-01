@@ -32,6 +32,41 @@ This are the steps to obtain it:
 
 # METHODS
 > See [examples](https://github.com/firegore2/clash-royale-php/tree/master/examples) folder for more information
+
+## ALL METHODS
+
+```php
+@method getPlayer([ player0,player1,player2,player3,...],[ Optional keys0,keys1,keys2,keys3,...],[ Optional exclude0,exclude1,exclude2,exclude3,...]) 
+@method getPlayerBattle([ player0,player1,player2,player3,...],[ Optional keys0,keys1,keys2,keys3,...],[ Optional exclude0,exclude1,exclude2,exclude3,...]) 
+@method getPlayerChest([ player0,player1,player2,player3,...],[ Optional keys0,keys1,keys2,keys3,...],[ Optional exclude0,exclude1,exclude2,exclude3,...]) 
+@method getClanSearch( Optional name default = '' , Optional score default = 0 , Optional minMembers default = 0 , Optional maxMembers default = 50 ) 
+@method getClanTracking([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...]) 
+@method getClan([ clan0,clan1,clan2,clan3,...],[ Optional keys0,keys1,keys2,keys3,...],[ Optional exclude0,exclude1,exclude2,exclude3,...]) 
+@method getClanBattle([ clan0,clan1,clan2,clan3,...],[ Optional keys0,keys1,keys2,keys3,...],[ Optional exclude0,exclude1,exclude2,exclude3,...], Optional type default = '' ) 
+@method getClanWar([ clan0,clan1,clan2,clan3,...],[ Optional keys0,keys1,keys2,keys3,...],[ Optional exclude0,exclude1,exclude2,exclude3,...]) 
+@method getClanWarlog([ clan0,clan1,clan2,clan3,...],[ Optional keys0,keys1,keys2,keys3,...],[ Optional exclude0,exclude1,exclude2,exclude3,...]) 
+@method getClanHistory([','','',...],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...]) 
+@method getClanHistoryWeekly([','','',...],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...]) 
+@method getClanTracking([','','',...],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...]) 
+@method getClanTrack([','','',...],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...]) 
+@method getTournamentOpen([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...]) 
+@method getTournamentKnown([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...]) 
+@method getTournamentSearch([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...]) 
+@method getTournament([','','',...],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...]) 
+@method getTopClan(['CountryCode'],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...]) 
+@method getTopPlayer( Optional location default = '' ) 
+@method getPopularClan([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...]) 
+@method getPopularPlayer([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...]) 
+@method getPopularTournament([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...]) 
+@method getPopularDeck([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...]) 
+@method getConstant() 
+@method getAuthStats() 
+@method getVersion([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...]) 
+@method getHealth() 
+@method getStatus([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...]) 
+@method getEndpoints() 
+```
+
 ## getPlayer()
 
 ```
