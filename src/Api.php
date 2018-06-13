@@ -262,7 +262,7 @@ class Api
     /**
     * [getConstant description]
     * @method getConstant
-    * @return Helath       [description]
+    * @return Constants       [description]
     */
     public function getConstant()
     {
@@ -294,7 +294,7 @@ class Api
      * @param  array             $player          Array with the id of the profiles
      * @param  array             $keys            Array with the exact parameters to request
      * @param  array             $exclude         Array with the exact parameters to exclude in the request
-     * @return Player[]||Player                   Array of Player Objects if given more than one profile, else return one Player Object
+     * @return Player[]|Player                   Array of Player Objects if given more than one profile, else return one Player Object
      */
     public function getPlayer(array $player, array $keys = [], array $exclude = [])
     {
@@ -387,7 +387,7 @@ class Api
     * @param  array          $clan       Array with the tag of the clans
     * @param  array          $keys            Array with the exact parameters to request
     * @param  array          $exclude         Array with the exact parameters to exclude in the request
-    * @return Clan[]||Clan               Array of Clan Objects if given more than one profile, else return one Clan Object
+    * @return Clan[]|Clan               Array of Clan Objects if given more than one profile, else return one Clan Object
     */
     public function getClan(array $clan, array $keys = [], array $exclude = [])
     {
@@ -418,7 +418,7 @@ class Api
     * @param  array          $keys            Array with the exact parameters to request
     * @param  array          $exclude         Array with the exact parameters to exclude in the request
     * @param  string         $type            Type of clan battles to filter ('all', 'war' or 'clanMate')
-    * @return Clan[]||Clan                    Array of Clan Objects if given more than one profile, else return one Clan Object
+    * @return Clan[]|Clan                    Array of Clan Objects if given more than one profile, else return one Clan Object
     */
     public function getClanBattle(array $clan, array $keys = [], array $exclude = [],string $type = "")
     {
@@ -452,7 +452,7 @@ class Api
     * @param  array               $clan           Array with the tag of the clans
     * @param  array               $keys           Array with the exact parameters to request
     * @param  array               $exclude        Array with the exact parameters to exclude in the request
-    * @return ClanWar[]||ClanWar                  Array of ClanWar Objects if given more than one profile, else return one ClanWar Object
+    * @return ClanWar[]|ClanWar                  Array of ClanWar Objects if given more than one profile, else return one ClanWar Object
     */
     public function getClanWar(array $clan, array $keys = [], array $exclude = [])
     {

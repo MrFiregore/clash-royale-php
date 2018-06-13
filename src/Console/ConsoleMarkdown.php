@@ -8,7 +8,7 @@
  ~ clash-royale-php is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                                                                  ~
  ~ See the GNU Affero General Public License for more details.                                                                                                                                                                                              ~
  ~ You should have received a copy of the GNU General Public License along with clash-royale-php.                                                                                                                                                           ~
- ~ If not, see <http://www.gnu.org/licenses/> 2018.05.31                                                                                                                                                                                                    ~
+ ~ If not, see <http://www.gnu.org/licenses/> 2018.06.13                                                                                                                                                                                                    ~
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
@@ -26,16 +26,16 @@ use cebe\markdown\inline\StrikeoutTrait;
  */
 class ConsoleMarkdown extends \cebe\markdown\Parser
 {
-    use FencedCodeTrait;
-    use ListTrait {
+  use FencedCodeTrait;
+  use ListTrait {
     // Check Ul List before headline
     identifyUl as protected identifyBUl;
     consumeUl as protected consumeBUl;
   }
-    use CodeTrait;
-    use EmphStrongTrait;
-    use StrikeoutTrait;
-    use QuoteTrait;
+  use CodeTrait;
+  use EmphStrongTrait;
+  use StrikeoutTrait;
+  use QuoteTrait;
 
 
     /**
@@ -52,13 +52,13 @@ class ConsoleMarkdown extends \cebe\markdown\Parser
         '~', // tilde
     ];
     /**
-     * Renders a blockquote
+  	 * Renders a blockquote
      * @param array $block
-     */
-    protected function renderQuote($block)
-    {
-        return Console::ansiFormat($this->renderAbsy($block['content']), [Console::BLINK]) . "\n\n";
-    }
+  	 */
+  	protected function renderQuote($block)
+  	{
+      return Console::ansiFormat( $this->renderAbsy($block['content']), [Console::BLINK]) . "\n\n";
+  	}
     /**
      * Renders a code block
      *
@@ -117,14 +117,14 @@ class ConsoleMarkdown extends \cebe\markdown\Parser
     */
     protected function renderList($block)
     {
-        $type = $block['list'];
+      $type = $block['list'];
 
-        $output = "";
+      $output = "";
 
-        foreach ($block['items'] as $item => $itemLines) {
-            $output .= "\t ".Console::ansiFormat("•", [Console::FG_RED]) . $this->renderAbsy($itemLines). "\n";
-        }
-        return $output . "\n";
+      foreach ($block['items'] as $item => $itemLines) {
+        $output .= "\t ".Console::ansiFormat("•",[Console::FG_RED]) . $this->renderAbsy($itemLines). "\n";
+      }
+      return $output . "\n";
     }
     /**
      * Consume lines for a paragraph
@@ -137,33 +137,34 @@ class ConsoleMarkdown extends \cebe\markdown\Parser
      */
     protected function consumeParagraph($lines, $current)
     {
-        // consume until newline
-        $content = [];
-        for ($i = $current, $count = count($lines); $i < $count; $i++) {
-            $line = $lines[$i];
-            if ($line === ''
+      // consume until newline
+      $content = [];
+      for ($i = $current, $count = count($lines); $i < $count; $i++) {
+        $line = $lines[$i];
+        if ($line === ''
           || ltrim($line) === ''
           || !ctype_alpha($line[0]) && (
             $this->identifyQuote($line, $lines, $i) ||
             $this->identifyUl($line, $lines, $i) ||
             $this->identifyOl($line, $lines, $i)
-          )) {
-                break;
-            } elseif ($this->identifyCode($line, $lines, $i)) {
-                if (preg_match('~<\w+([^>]+)$~s', implode("\n", $content))) {
-                    $content[] = $line;
-                } else {
-                    break;
-                }
-            } else {
-                $content[] = $line;
-            }
+          ))
+        {
+          break;
+        } elseif ($this->identifyCode($line, $lines, $i)) {
+          if (preg_match('~<\w+([^>]+)$~s', implode("\n", $content))) {
+            $content[] = $line;
+          } else {
+            break;
+          }
+        } else {
+          $content[] = $line;
         }
-        $block = [
+      }
+      $block = [
         'paragraph',
         'content' => $this->parseInline(implode("\n", $content)),
       ];
-        return [$block, --$i];
+      return [$block, --$i];
     }
     /**
      * Consume lines for a blockquote element
@@ -172,28 +173,28 @@ class ConsoleMarkdown extends \cebe\markdown\Parser
      */
     protected function consumeQuote($lines, $current)
     {
-        // consume until newline
-        $content = [];
-        for ($i = $current, $count = count($lines); $i < $count; $i++) {
-            $line = $lines[$i];
-            if (ltrim($line) !== '') {
-                if ($line[0] == '>' && !isset($line[1])) {
-                    $line = '';
-                } elseif (strncmp($line, '> ', 2) === 0) {
-                    $line = "  ".substr($line, 2);
-                }
-                $content[] = $line;
-            } else {
-                break;
-            }
+      // consume until newline
+      $content = [];
+      for ($i = $current, $count = count($lines); $i < $count; $i++) {
+        $line = $lines[$i];
+        if (ltrim($line) !== '') {
+          if ($line[0] == '>' && !isset($line[1])) {
+            $line = '';
+          } elseif (strncmp($line, '> ', 2) === 0) {
+            $line = "  ".substr($line, 2);
+          }
+          $content[] = $line;
+        } else {
+          break;
         }
+      }
 
-        $block = [
+      $block = [
         'quote',
         'content' => $this->parseBlocks($content),
         'simple' => true,
       ];
-        return [$block, $i];
+      return [$block, $i];
     }
 
 

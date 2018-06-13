@@ -8,12 +8,11 @@
  ~ clash-royale-php is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                                                                  ~
  ~ See the GNU Affero General Public License for more details.                                                                                                                                                                                              ~
  ~ You should have received a copy of the GNU General Public License along with clash-royale-php.                                                                                                                                                           ~
- ~ If not, see <http://www.gnu.org/licenses/> 2018.05.31                                                                                                                                                                                                    ~
+ ~ If not, see <http://www.gnu.org/licenses/> 2018.06.13                                                                                                                                                                                                    ~
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 namespace CR\Exceptions;
-
 use CR\Exceptions\CROtherException;
 use CR\CRResponse;
 
@@ -38,7 +37,7 @@ class CRResponseException extends CRSDKException
     * @param  CRResponse              $response             The response that threw the exception.
     * @param  CRSDKException|null     $previousException    The more detailed exception.
     */
-    public function __construct(CRResponse $response, CRSDKException $previousException = null)
+    public function __construct(CRResponse $response,CRSDKException $previousException = null)
     {
         $this->response = $response;
         $this->responseData = $response->getDecodedBody();
@@ -64,9 +63,10 @@ class CRResponseException extends CRSDKException
         if (isset($data['error']) && $data['error'] !== false) {
             $code = $response->getHttpStatusCode();
             $message = isset($data['message']) ? $data['message'] : $response->getHttpStatusMessage();
-        } else {
-            $code = $response->getHttpStatusCode();
-            $message = isset($data['message']) ? $data['message'] : $response->getHttpStatusMessage();
+        }
+        else {
+          $code = $response->getHttpStatusCode();
+          $message = isset($data['message']) ? $data['message'] : $response->getHttpStatusMessage();
         }
 
         // Others

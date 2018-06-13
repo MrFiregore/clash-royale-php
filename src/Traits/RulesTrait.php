@@ -8,53 +8,52 @@
  ~ clash-royale-php is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                                                                  ~
  ~ See the GNU Affero General Public License for more details.                                                                                                                                                                                              ~
  ~ You should have received a copy of the GNU General Public License along with clash-royale-php.                                                                                                                                                           ~
- ~ If not, see <http://www.gnu.org/licenses/> 2018.05.31                                                                                                                                                                                                    ~
+ ~ If not, see <http://www.gnu.org/licenses/> 2018.06.13                                                                                                                                                                                                    ~
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
  namespace CR\Traits;
 
-/**
+ /**
   *
   */
  trait RulesTrait
  {
-     /** @var int $last_request  Time of the last request in microseconds */
-     protected $last_request = 0;
+   /** @var int $last_request  Time of the last request in microseconds */
+   protected $last_request = 0;
 
-     /** @var int $limit_count  Total requests per microseconds before flood  */
-     protected $limit_count = 2;
+   /** @var int $limit_count  Total requests per microseconds before flood  */
+   protected $limit_count = 2;
 
-     /** @var int $limit_time  Time limit in microseconds before flood  */
-     protected $limit_time = 1000000;
+   /** @var int $limit_time  Time limit in microseconds before flood  */
+   protected $limit_time = 1000000;
 
 
-     public function waitRequest()
-     {
-         $remaining =  $this->getFreqLimit() - $this->getElapsedTime();
-         if ($remaining > 0) {
-             usleep($remaining);
-         }
-         return $this;
-     }
+   public function waitRequest()
+   {
+     $remaining =  $this->getFreqLimit() - $this->getElapsedTime();
+     if ($remaining > 0) usleep($remaining);
+     return $this;
 
-     public function getFreqLimit()
-     {
-         return $this->limit_time / $this->limit_count;
-     }
+   }
 
-     public function getElapsedTime()
-     {
-         return microtime(true)-$this->getLastRequest();
-     }
-     public function setLastRequest()
-     {
-         $this->last_request = microtime(true);
-         return $this;
-     }
+   public function getFreqLimit()
+   {
+     return $this->limit_time / $this->limit_count;
+   }
 
-     public function getLastRequest()
-     {
-         return $this->last_request;
-     }
+   public function getElapsedTime()
+   {
+     return microtime(true)-$this->getLastRequest();
+   }
+   public function setLastRequest()
+   {
+     $this->last_request = microtime(true);
+     return $this;
+   }
+
+   public function getLastRequest()
+   {
+     return $this->last_request;
+   }
  }

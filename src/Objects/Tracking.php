@@ -8,15 +8,16 @@
  ~ clash-royale-php is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                                                                  ~
  ~ See the GNU Affero General Public License for more details.                                                                                                                                                                                              ~
  ~ You should have received a copy of the GNU General Public License along with clash-royale-php.                                                                                                                                                           ~
- ~ If not, see <http://www.gnu.org/licenses/> 2018.05.31                                                                                                                                                                                                    ~
+ ~ If not, see <http://www.gnu.org/licenses/> 2018.06.13                                                                                                                                                                                                    ~
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 namespace CR\Objects;
 
 /**
- * Traking Object
+ * Tracking Object
  *
+ * @method    string            getTag()                Returns clan tag
  * @method    bool              getActive()             Returns the status of the tracking
  * @method    bool              getAvailable()          Returns true if any snapshot is available
  * @method    int               getSnapshotCount()      Returns the total number of snapshots made
@@ -24,19 +25,19 @@ namespace CR\Objects;
 
 class Tracking extends BaseObject
 {
-    /**
-    * {@inheritdoc}
-    */
-    public function primaryKey()
-    {
-        return "";
-    }
+  /**
+  * {@inheritdoc}
+  */
+  public function primaryKey()
+  {
+      return "";
+  }
 
-    /**
-    * {@inheritdoc}
-    */
-    public function relations()
-    {
-        return [];
-    }
+  /**
+  * {@inheritdoc}
+  */
+  public function relations()
+  {
+    return [];
+  }
 }

@@ -8,36 +8,36 @@
  ~ clash-royale-php is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                                                                  ~
  ~ See the GNU Affero General Public License for more details.                                                                                                                                                                                              ~
  ~ You should have received a copy of the GNU General Public License along with clash-royale-php.                                                                                                                                                           ~
- ~ If not, see <http://www.gnu.org/licenses/> 2018.05.31                                                                                                                                                                                                    ~
+ ~ If not, see <http://www.gnu.org/licenses/> 2018.06.13                                                                                                                                                                                                    ~
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 namespace CR;
-
 use CR\Exceptions\CRSDKException;
+
 
 /**
  *
  */
 class CRConstant
 {
-    const BASE_URL = "https://royaleapi.github.io/cr-api-data/json/{endpoint}.json";
-    protected static $max_cache_age = 3600;
+  const BASE_URL = "https://royaleapi.github.io/cr-api-data/json/{endpoint}.json";
+  static protected $max_cache_age = 3600;
 
-    public static function getConstant($endpoint)
-    {
-        $url = str_replace('{endpoint}', $endpoint, self::BASE_URL);
-        $file_cache= "constant-".$endpoint;
-        if (CRCache::exists($file_cache, ["maxage"=>self::$max_cache_age])) {
-            $response = CRCache::get($file_cache);
-        } else {
-            if ($response = file_get_contents($url)) {
-                CRCache::write($file_cache, $response);
-            } else {
-                throw new CRSDKException("Error when try request ".$url." constants", 1);
-            }
-        }
-
-        return json_decode($response, true);
+  public static function getConstant($endpoint)
+  {
+    $url = str_replace('{endpoint}',$endpoint,self::BASE_URL);
+    $file_cache= "constant-".$endpoint;
+    if (CRCache::exists($file_cache,["maxage"=>self::$max_cache_age])) {
+      $response = CRCache::get($file_cache);
+    } else {
+      if ($response = file_get_contents($url)) {
+        CRCache::write($file_cache,$response);
+      } else {
+        throw new CRSDKException("Error when try request ".$url." constants", 1);
+      }
     }
+
+    return json_decode($response,true);
+  }
 }

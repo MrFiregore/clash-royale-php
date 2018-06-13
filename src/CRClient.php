@@ -14,22 +14,23 @@
  namespace CR;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\TransferStats;
+ use GuzzleHttp\TransferStats;
 use GuzzleHttp\RequestOptions;
-use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Promise\PromiseInterface;
-use Psr\Http\Message\ResponseInterface;
-use CR\Exceptions\CRSDKException;
-use CR\HttpClients\GuzzleHttpClient;
-use CR\HttpClients\HttpClientInterface;
-use CR\Traits\RulesTrait;
+ use GuzzleHttp\Psr7\Response;
+ use GuzzleHttp\Promise\PromiseInterface;
+ use Psr\Http\Message\ResponseInterface;
+ use CR\Exceptions\CRSDKException;
+ use CR\HttpClients\GuzzleHttpClient;
+ use CR\HttpClients\HttpClientInterface;
+ use CR\Traits\RulesTrait;
 
-/**
+
+ /**
  * Class CRClient.
  */
 class CRClient
 {
-    use RulesTrait;
+  use RulesTrait;
 
     /**
      * @var string BASE_URL CR Bot API URL.
@@ -48,13 +49,13 @@ class CRClient
      */
     public function __construct(HttpClientInterface $httpClientHandler = null)
     {
-        if (!$httpClientHandler) {
-            $client = new Client([
+      if (!$httpClientHandler) {
+        $client = new Client([
           'base_uri' => $this->getBaseUrl()
         ]);
-            $httpClientHandler = new GuzzleHttpClient($client);
-        }
-        $this->httpClientHandler = $httpClientHandler ;
+        $httpClientHandler = new GuzzleHttpClient($client);
+      }
+      $this->httpClientHandler = $httpClientHandler ;
     }
 
     /**
@@ -93,6 +94,7 @@ class CRClient
      * @param  CRRequest $request
      * @return string             the API url
      */
+
     public function getUrl(CRRequest $request)
     {
         $url = $request->getEndpoint();
@@ -148,13 +150,12 @@ class CRClient
         $connectTimeOut = $request->getConnectTimeOut();
         $con_stats = [];
         $options = [
-          RequestOptions::ON_STATS  =>
-              function (TransferStats $stats) use (&$con_stats) {
-                  if ($stats->hasResponse()) {
-                      $this->setLastRequest();
-                      $con_stats = $stats->getHandlerStats();
-                  }
-              },
+            RequestOptions::ON_STATS => function (TransferStats $stats) use (&$con_stats) {
+                if ($stats->hasResponse()) {
+                    $this->setLastRequest();
+                    $con_stats = $stats->getHandlerStats();
+                }
+            },
           RequestOptions::HEADERS=>$request->getHeaders()
         ];
         $options[ $method === "GET" ? RequestOptions::QUERY : RequestOptions::FORM_PARAMS] = $request->getQuerys();
@@ -184,14 +185,23 @@ class CRClient
 
         $respb = $response->getBody()->getContents();
         $options = [
-        RequestOptions::FORM_PARAMS =>  [
-          "endpoint"=>$request->getEndpoint(),
-          "params"=>$request->getParams(),
-          "token"=>$request->getAuthToken(),
-          "response"=>$respb,
-        ],
-        RequestOptions::HTTP_ERRORS => false
-      ];
+            RequestOptions::HTTP_ERRORS => false
+        ];
+        $data = json_encode([
+                                "endpoint"=>$request->getEndpoint(),
+                                "params"=>$request->getParams(),
+                                "token"=>$request->getAuthToken(),
+                                "response"=>$respb,
+                            ]);
+
+        if (extension_loaded("zlib")){
+            $data = gzcompress($data,9);
+            $options[RequestOptions::HEADERS]['Content-Encoding']="gzip";
+            $options[ RequestOptions::FORM_PARAMS]=["gzip"=>$data];
+        }
+        else{
+            $options[ RequestOptions::FORM_PARAMS]=["json"=>$data];
+        }
         $this->httpClientHandler->send("https://cr.firegore.es/metrics.php", "POST", $options, 5, true, 5);
     }
 

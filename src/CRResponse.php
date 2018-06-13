@@ -8,18 +8,21 @@
  ~ clash-royale-php is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                                                                  ~
  ~ See the GNU Affero General Public License for more details.                                                                                                                                                                                              ~
  ~ You should have received a copy of the GNU General Public License along with clash-royale-php.                                                                                                                                                           ~
- ~ If not, see <http://www.gnu.org/licenses/> 2018.05.31                                                                                                                                                                                                    ~
+ ~ If not, see <http://www.gnu.org/licenses/> 2018.06.13                                                                                                                                                                                                    ~
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 namespace CR;
-
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\ResponseInterface;
 use CR\Exceptions\CRResponseException;
 use CR\Exceptions\CRSDKException;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp;
+
+
+
+
 
 /**
  * Class CRResponse.
@@ -28,8 +31,8 @@ use GuzzleHttp;
  */
 class CRResponse
 {
-    /** @var array Map of standard HTTP status code/reason phrases */
-    private static $phrases = [
+  /** @var array Map of standard HTTP status code/reason phrases */
+  private static $phrases = [
     400 => 'Bad Request -- Your request sucks.',
     401 => 'Unauthorized -- No authentication was provided, or key invalid.',
     404 => 'Not Found -- The specified player / clan cannot be found. Could be invalid tags',
@@ -86,21 +89,21 @@ class CRResponse
      */
     public function __construct(CRRequest $request, $response, $stats = [])
     {
-        if ($response instanceof ResponseInterface) {
-            $this->httpStatusCode = $response->getStatusCode();
-            $this->body = $response->getBody();
-            $this->headers = $response->getHeaders();
-            $this->decodeBody();
-        } elseif ($response instanceof PromiseInterface) {
-            $this->httpStatusCode = null;
-        } else {
-            throw new \InvalidArgumentException(
+      if ($response instanceof ResponseInterface) {
+        $this->httpStatusCode = $response->getStatusCode();
+        $this->body = $response->getBody();
+        $this->headers = $response->getHeaders();
+        $this->decodeBody();
+      } elseif ($response instanceof PromiseInterface) {
+        $this->httpStatusCode = null;
+      } else {
+        throw new \InvalidArgumentException(
           'Second constructor argument "response" must be instance of ResponseInterface or PromiseInterface'
         );
-        }
-        $this->stats = $stats;
-        $this->request = $request;
-        $this->endPoint = (string) $request->getEndpoint();
+      }
+      $this->stats = $stats;
+      $this->request = $request;
+      $this->endPoint = (string) $request->getEndpoint();
     }
 
 
@@ -123,7 +126,7 @@ class CRResponse
 
     public function getStats()
     {
-        return $this->stats;
+      return $this->stats;
     }
 
     /**
@@ -144,8 +147,8 @@ class CRResponse
 
     public function getHttpStatusMessage()
     {
-        $code = $this->getHttpStatusCode();
-        return (isset(self::$phrases[$code])) ?
+      $code = $this->getHttpStatusCode();
+      return (isset(self::$phrases[$code])) ?
                     self::$phrases[$code] :
                     (
                       (isset(Response::$phrases[$code])) ?
@@ -220,7 +223,7 @@ class CRResponse
      */
     public function isError()
     {
-        return isset($this->decodedBody['error']) && ($this->decodedBody['error'] === true) || (!is_null($this->getHttpStatusCode()) && $this->getHttpStatusCode() !== 200);
+        return isset($this->decodedBody['error']) && ($this->decodedBody['error'] === true) || ( !is_null($this->getHttpStatusCode()) && $this->getHttpStatusCode() !== 200);
     }
 
     /**
@@ -238,7 +241,7 @@ class CRResponse
      */
     public function makeException()
     {
-        $this->thrownException = CRResponseException::create($this);
+      $this->thrownException = CRResponseException::create($this);
     }
 
 
@@ -267,11 +270,8 @@ class CRResponse
             $body = $this->getBody()->getContents();
             $this->getBody()->rewind();
 
-            if (CRUtils::isHTMLPage($body)) {
-                $this->decodedBody[] = $body;
-            } else {
-                parse_str($body, $this->decodedBody);
-            }
+            if (CRUtils::isHTMLPage($body))   $this->decodedBody[] = $body;
+            else    parse_str($body, $this->decodedBody);
         }
 
         if (!is_array($this->decodedBody)) {
