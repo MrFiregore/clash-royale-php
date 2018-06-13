@@ -83,9 +83,6 @@
                                     $this->_getReflection()
                                          ->hasMethod(substr($parts[1], 0, -2));
                                 preg_match('#(get|set|has|is)?(\w+)#', $parts[1], $matches);
-                                if (!isset($matches[1])) {
-                                    d($body, $parts);
-                                }
                                 $parts = [
                                     $parts[0],
                                     strtolower($matches[1]),
@@ -99,9 +96,7 @@
                             // The tagged block is only text
                             $this->_addTag($tag, $body);
                         }
-                        return $val;
                     }
-                    return null;
                 }
             );
             d($this, $this->desc, $this->_tags);
