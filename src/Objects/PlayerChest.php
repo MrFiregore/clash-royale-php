@@ -14,7 +14,18 @@
 
     namespace CR\Objects;
 
-
+    /**
+     * Class PlayerChest
+     *
+     * @method  array    getUpcoming()
+     * @method  int      getSuperMagical()
+     * @method  int      getMagical()
+     * @method  int      getLegendary()
+     * @method  int      getEpic()
+     * @method  int      getGiant()
+     *
+     * @package CR\Objects
+     */
     class PlayerChest extends BaseObject
     {
         /**

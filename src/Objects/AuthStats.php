@@ -16,9 +16,14 @@ namespace CR\Objects;
 
 
 /**
-*  AuthStats object
-*/
-
+ * Class AuthStats
+ *
+ * @method  string   getId()
+ * @method  array    getLastRequest()
+ * @method  array    getRequestCount()
+ *
+ * @package CR\Objects
+ */
 class AuthStats extends BaseObject
 {
 

@@ -25,10 +25,8 @@
      * @method    int                 getMaxLevel()                   Returns the max level of the Card.
      * @method    int                 getCount()                      (Optional) Returns the amount of this Card.
      * @method    string              getRarity()                     Returns the rarity type of the Card.
-     * @method    int                 getRequiredForUpgrade()         (Optional) Returns the total required amount of
-     *            cards in this level to upgrade the Card.
-     * @method    int                 getLeftToUpgrade()              (Optional) Returns the remaining number of cards
-     *            in this level to upgrade the Card.
+     * @method    int                 getRequiredForUpgrade()         (Optional) Returns the total required amount of cards in this level to upgrade the Card.
+     * @method    int                 getLeftToUpgrade()              (Optional) Returns the remaining number of cards in this level to upgrade the Card.
      * @method    string              getIcon()                       Returns the url icon of the Card.
      * @method    string              getKey()                        Returns the key of the Card.
      * @method    int                 getElixir()                     Returns the elixir cost of the Card.

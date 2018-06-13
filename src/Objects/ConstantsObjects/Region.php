@@ -20,8 +20,7 @@
     /**
      *  Region object
      * @method    string              getName()               Returns the name of the location.
-     * @method    bool                getIsCountry()          Returns true if the location is a country. otherwise
-     *            returns false.
+     * @method    bool                getIsCountry()          Returns true if the location is a country. otherwise returns false.
      * @method    string              getCode()               Returns the country/continent code
      *
      *

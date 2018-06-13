@@ -40,7 +40,7 @@
      * @method bool getOnlyOwnTroops()
      * @method bool getIgnoreBuildings()
      * @method bool getIgnoreHero()
-     * @method nullgetProjectile()
+     * @method null getProjectile()
      * @method null|string  getSpawnCharacter()
      * @method int getSpawnInterval()
      * @method bool getSpawnRandomizeSequence()

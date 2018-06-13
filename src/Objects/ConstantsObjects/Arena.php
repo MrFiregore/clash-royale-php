@@ -21,10 +21,8 @@
      *  Arena object
      * @method    string              getName()                         Returns the name of the Arena.
      * @method    string              getArena()                        Returns the title of the Arena.
-     * @method    int                 getArenaID()                      Returns the id of the Arena.
-     * @method    int                 getTrophyLimit()                  Returns the trophyes limit to reach to the
-     *            arena.
-     *
+     * @method    int                 getArenaId()                      Returns the id of the Arena.
+     * @method    int                 getTrophyLimit()                  Returns the trophyes limit to reach to the arena.
      *
      * @method    array               getMaxDonationCount()             Returns the max donation per card type
      * @method    array               getConstant()                     Returns the Arena object constants
