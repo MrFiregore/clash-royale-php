@@ -8,7 +8,7 @@
  ~ clash-royale-php is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                                                                  ~
  ~ See the GNU Affero General Public License for more details.                                                                                                                                                                                              ~
  ~ You should have received a copy of the GNU General Public License along with clash-royale-php.                                                                                                                                                           ~
- ~ If not, see <http://www.gnu.org/licenses/> 2018.05.31                                                                                                                                                                                                    ~
+ ~ If not, see <http://www.gnu.org/licenses/> 2018.06.13                                                                                                                                                                                                    ~
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
@@ -88,6 +88,10 @@ abstract class BaseObject extends Collection
             return new $class($data);
         }
     }
+    public static function __getRelations(){
+        $object = new static([]);
+        return $object->relations();
+    }
     /**
      * Returns raw response.
      *
@@ -122,7 +126,10 @@ abstract class BaseObject extends Collection
         $action = substr($name, 0, 3);
 
         if ($action === 'get') {
-            $property = camel_case(substr($name, 3));
+            $prop = substr($name, 3);
+            $property_camel = camel_case($prop);
+            $property_snake = snake_case($prop);
+            $property = $this->has($property_camel) ? $property_camel : ( $this->has($property_snake) ? $property_snake : null);
             $response = $this->get($property);
             $relations = $this->relations();
 

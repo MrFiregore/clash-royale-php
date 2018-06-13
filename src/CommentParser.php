@@ -12,51 +12,79 @@
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    namespace CR\Objects\ConstantsObjects;
-    use CR\Objects\BaseObject;
+    namespace CR;
 
+    use CR\Exceptions\CRSDKException;
 
-    /**
-     *  Challenge object
-     * @method string       getName()
-     * @method string       getGameMode()
-     * @method bool         getEnabled()
-     * @method int          getJoinCost()
-     * @method string       getJoinCostResource()
-     * @method int          getMaxWins()
-     * @method int          getMaxLoss()
-     * @method array        getRewardCards()
-     * @method array        getRewardGold()
-     * @method null         getRewardSpell()
-     * @method int          getRewardSpellMaxCount()
-     * @method string       getNameEn()
-     * @method string       getKey()
-     * @method int          getId()
-     *
-     */
-
-
-    class Challenge extends BaseObject
+    class CommentParser
     {
-
-
-        /**
-         * {@inheritdoc}
-         */
-        public function primaryKey()
+        protected $_object;
+        protected $_reflection;
+        function __construct (string $object)
         {
-            return "id";
+            $this->_object = $object;
+            $this->_parse();
         }
 
-
         /**
-         * {@inheritdoc}
+         * @return \ReflectionClass
+         * @throws \CR\Exceptions\CRSDKException
+         * @throws \ReflectionException
          */
-        public function relations()
-        {
-            return [
-            ];
+        protected function _getReflection(){
+            if (!class_exists($this->_object)){
+                throw new CRSDKException("The given class not exists",0);
+            }
+            if (!$this->_reflection){
+                $this->_reflection = new \ReflectionClass($this->_object);
+            }
+            return $this->_reflection;
         }
 
+        protected function _parse()
+        {
+         $reflection = $this->_getReflection();
+         $relations = [];
+         if (!$reflection->isAbstract()){
+             $relations = call_user_func([$this->_object,"__getRelations"]);
+         }
+         d($reflection,$relations);
+            $comment =
+                collect(preg_split('/\r?\n\r?/', substr($reflection->getDocComment(), 3, -2)))
+                    ->map(
+                        function ($val, $index) use ($reflection) {
+                            $val = ltrim(rtrim($val), "* \t\n\r\0\x0B");
+                            if (isset($val[1]) && $val[0] == '@' && ctype_alpha($val[1])) {
+                                preg_match('/^@[a-z0-9_]+/', $val, $matches);
+                                $tag   = substr($matches[0], 1);
+                                $body  = ltrim(substr($val, strlen($tag) + 2));
+                                $parts = preg_split('/\s+/', $body, 3);
+                                $parts = array_pad($parts, 3, null);
+                                if ($reflection->hasMethod($parts[1]) || $tag !== "method") {
+                                    return null;
+                                }
+                                preg_match('#(get?|set?)(\w+)#', $parts[1], $matches);
+//                                d($parts,$tag,$matches);
+
+                                $val = [
+                                    'return' => $parts[0],
+                                    'type'   => strtolower($matches[1]),
+                                    'name'   => snake_case($matches[2]),
+                                    'desc'   => $parts[2],
+                                ];
+//                                d($val);
+                                return $val;
+                            }
+                        }
+                    )
+                    ->reject(
+                        function ($name) {
+//                            d($name);
+                            return is_null($name);
+                        }
+                    );
+            d($comment);
+
+        }
 
     }

@@ -1,5 +1,5 @@
 <?php
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  ~                                                                                                                                                                                                                                                          ~
  ~ Copyright (c) 2018 by firegore (https://firegore.es) (git:firegore2)                                                                                                                                                                                     ~
  ~ This file is part of clash-royale-php.                                                                                                                                                                                                                   ~
@@ -12,51 +12,73 @@
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-namespace CR\Objects;
-use CR\Objects\ConstantsObjects\Arena;
+    namespace CR\Objects\ConstantsObjects\CardStatsObjects;
 
-/**
- * Class Battle
- *
- * @method string getType()
- * @method string getChallengeType()
- * @method array getMode()
- * @method int getWinCountBefore()
- * @method int getUtcTime()
- * @method string getDeckType()
- * @method int getTeamSize()
- * @method int getWinner()
- * @method int getTeamCrowns()
- * @method int getOpponentCrowns()
- * @method Player[] getTeam()
- * @method Player[] getOpponent()
- * @method Arena getArena()
- *
- * @package CR\Objects
- */
-class Battle extends BaseObject
-{
-    static protected $stats = null;
-    static protected $list  = null;
+    use CR\Objects\BaseObject;
 
     /**
-    * {@inheritdoc}
-    */
-    public function primaryKey()
-    {
-      return "utcTime";
-    }
-
-    /**
-     * {@inheritdoc}
+     * Class Spell
+     * @method string getName()
+     * @method string getRarity()
+     * @method int getLifeDuration()
+     * @method int getLifeDurationIncreasePerLevel()
+     * @method int getLifeDurationIncreaseAfterTournamentCap()
+     * @method bool getAffectsHidden()
+     * @method int getRadius()
+     * @method int getHitSpeed()
+     * @method int getDamage()
+     * @method bool getNoEffectToCrownTowers()
+     * @method int getCrownTowerDamagePercent()
+     * @method bool getHitBiggestTargets()
+     * @method string getBuff()
+     * @method int getBuffTime()
+     * @method int getBuffTimeIncreasePerLevel()
+     * @method int getBuffTimeIncreaseAfterTournamentCap()
+     * @method bool getCapBuffTimeToAreaEffectTime()
+     * @method int getBuffNumber()
+     * @method bool getOnlyEnemies()
+     * @method bool getOnlyOwnTroops()
+     * @method bool getIgnoreBuildings()
+     * @method bool getIgnoreHero()
+     * @method nullgetProjectile()
+     * @method null|string  getSpawnCharacter()
+     * @method int getSpawnInterval()
+     * @method bool getSpawnRandomizeSequence()
+     * @method null|string  getSpawnDeployBaseAnim()
+     * @method int getSpawnTime()
+     * @method int getSpawnCharacterLevelIndex()
+     * @method int getSpawnInitialDelay()
+     * @method int getSpawnMaxCount()
+     * @method int getSpawnMaxRadius()
+     * @method int getSpawnMinRadius()
+     * @method bool getSpawnFromMinToMax()
+     * @method int getSpawnAngleShift()
+     * @method bool getHitsGround()
+     * @method bool getHitsAir()
+     * @method string getKey()
+     * @method int getElixir()
+     * @method string getType()
+     * @method int getArena()
+     * @method string getDescription()
+     * @method int getId()
+     *
+     * @package CR\Objects\ConstantsObjects
      */
-    public function relations()
+    class Spell extends BaseObject
     {
-        return [
-          'team'             => Player::class,
-          'opponent'         => Player::class,
-          'arena'            => Arena::class,
-        ];
-    }
+        /**
+         * {@inheritdoc}
+         */
+        public function primaryKey ()
+        {
+            return "key";
+        }
 
-}
+        /**
+         * {@inheritdoc}
+         */
+        public function relations ()
+        {
+            return [];
+        }
+    }

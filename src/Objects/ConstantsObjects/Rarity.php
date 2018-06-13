@@ -1,5 +1,5 @@
 <?php
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  ~                                                                                                                                                                                                                                                          ~
  ~ Copyright (c) 2018 by firegore (https://firegore.es) (git:firegore2)                                                                                                                                                                                     ~
  ~ This file is part of clash-royale-php.                                                                                                                                                                                                                   ~
@@ -12,51 +12,48 @@
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-namespace CR\Objects;
-use CR\Objects\ConstantsObjects\Arena;
+    namespace CR\Objects\ConstantsObjects;
 
-/**
- * Class Battle
- *
- * @method string getType()
- * @method string getChallengeType()
- * @method array getMode()
- * @method int getWinCountBefore()
- * @method int getUtcTime()
- * @method string getDeckType()
- * @method int getTeamSize()
- * @method int getWinner()
- * @method int getTeamCrowns()
- * @method int getOpponentCrowns()
- * @method Player[] getTeam()
- * @method Player[] getOpponent()
- * @method Arena getArena()
- *
- * @package CR\Objects
- */
-class Battle extends BaseObject
-{
-    static protected $stats = null;
-    static protected $list  = null;
+    use CR\Objects\BaseObject;
 
     /**
-    * {@inheritdoc}
-    */
-    public function primaryKey()
-    {
-      return "utcTime";
-    }
-
-    /**
-     * {@inheritdoc}
+     * Class Rarity
+     *
+     * @method string   getName()
+     * @method int      getLevelCount()
+     * @method int      getRelativeLevel()
+     * @method int      getMirrorRelativeLevel()
+     * @method int      getCloneRelativeLevel()
+     * @method int      getDonateCapacity()
+     * @method int      getSortCapacity()
+     * @method int      getDonateReward()
+     * @method int      getDonateXp()
+     * @method int      getGoldConversionValue()
+     * @method int      getChanceWeight()
+     * @method int      getBalanceMultiplier()
+     * @method array    getUpgradeExp()
+     * @method array    getUpgradeMaterialCount()
+     * @method array    getUpgradeCost()
+     * @method array    getPowerLevelMultiplier()
+     * @method int      getRefundGems()
+     *
+     * @package CR\Objects\ConstantsObjects
      */
-    public function relations()
+    class Rarity extends BaseObject
     {
-        return [
-          'team'             => Player::class,
-          'opponent'         => Player::class,
-          'arena'            => Arena::class,
-        ];
-    }
+        /**
+         * {@inheritdoc}
+         */
+        public function primaryKey ()
+        {
+            return "";
+        }
 
-}
+        /**
+         * {@inheritdoc}
+         */
+        public function relations ()
+        {
+            return [];
+        }
+    }

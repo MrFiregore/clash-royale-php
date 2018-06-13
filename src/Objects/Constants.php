@@ -1,5 +1,5 @@
 <?php
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  ~                                                                                                                                                                                                                                                          ~
  ~ Copyright (c) 2018 by firegore (https://firegore.es) (git:firegore2)                                                                                                                                                                                     ~
  ~ This file is part of clash-royale-php.                                                                                                                                                                                                                   ~
@@ -12,51 +12,61 @@
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-namespace CR\Objects;
-use CR\Objects\ConstantsObjects\Arena;
-
-/**
- * Class Battle
- *
- * @method string getType()
- * @method string getChallengeType()
- * @method array getMode()
- * @method int getWinCountBefore()
- * @method int getUtcTime()
- * @method string getDeckType()
- * @method int getTeamSize()
- * @method int getWinner()
- * @method int getTeamCrowns()
- * @method int getOpponentCrowns()
- * @method Player[] getTeam()
- * @method Player[] getOpponent()
- * @method Arena getArena()
- *
- * @package CR\Objects
- */
-class Battle extends BaseObject
-{
-    static protected $stats = null;
-    static protected $list  = null;
+    namespace CR\Objects;
+    use CR\Objects\ConstantsObjects\AllianceBadge;
+    use CR\Objects\ConstantsObjects\Arena;
+    use CR\Objects\ConstantsObjects\Challenge;
+    use CR\Objects\ConstantsObjects\ChestCycle;
+    use CR\Objects\ConstantsObjects\GameMode;
+    use CR\Objects\ConstantsObjects\Card;
+    use CR\Objects\ConstantsObjects\Rarity;
+    use CR\Objects\ConstantsObjects\Region;
+    use CR\Objects\ConstantsObjects\Tournament;
+    use CR\Objects\ConstantsObjects\TreasureChest;
 
     /**
-    * {@inheritdoc}
-    */
-    public function primaryKey()
-    {
-      return "utcTime";
-    }
-
-    /**
-     * {@inheritdoc}
+     * Constants Object
+     * @method AllianceBadge[] getAllianceBadges()
+     * @method Arena[] getArenas()
+     * @method Card[] getCards()
+     * @method CardStats   getCardsStats()
+     * @method Challenge[] getChallenges()
+     * @method ChestCycle getChestOrder()
+     * @deprecated   getClanChest()
+     * @method GameMode[] getGameModes()
+     * @method Rarity[] getRarities()
+     * @method Region[] getRegions()
+     * @method Tournament[]  getTournaments()
+     * @method TreasureChest getTreasureChests()
      */
-    public function relations()
-    {
-        return [
-          'team'             => Player::class,
-          'opponent'         => Player::class,
-          'arena'            => Arena::class,
-        ];
-    }
 
-}
+    class Constants extends BaseObject
+    {
+        /**
+         * {@inheritdoc}
+         */
+        public function primaryKey()
+        {
+            return "";
+        }
+
+        /**
+         * {@inheritdoc}
+         */
+        public function relations()
+        {
+            return [
+                'alliance_badges'   => AllianceBadge::class,
+                'arenas'            => Arena::class,
+                'cards'             => Card::class,
+//                'cards_stats'       => Deck::class,
+                "challenges"        =>  Challenge::class,
+                'chest_order'       =>  ChestCycle::class,
+                'game_modes'        =>  GameMode::class,
+                'rarities'          =>  Rarity::class,
+                'regions'           =>  Region::class,
+                'tournaments'       =>  Tournament::class,
+                'treasure_chests'   =>  TreasureChest::class,
+            ];
+        }
+    }

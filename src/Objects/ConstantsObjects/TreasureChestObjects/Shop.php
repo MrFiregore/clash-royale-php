@@ -1,5 +1,5 @@
 <?php
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  ~                                                                                                                                                                                                                                                          ~
  ~ Copyright (c) 2018 by firegore (https://firegore.es) (git:firegore2)                                                                                                                                                                                     ~
  ~ This file is part of clash-royale-php.                                                                                                                                                                                                                   ~
@@ -12,51 +12,65 @@
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-namespace CR\Objects;
-use CR\Objects\ConstantsObjects\Arena;
+    namespace CR\Objects\ConstantsObjects\TreasureChestObjects;
 
-/**
- * Class Battle
- *
- * @method string getType()
- * @method string getChallengeType()
- * @method array getMode()
- * @method int getWinCountBefore()
- * @method int getUtcTime()
- * @method string getDeckType()
- * @method int getTeamSize()
- * @method int getWinner()
- * @method int getTeamCrowns()
- * @method int getOpponentCrowns()
- * @method Player[] getTeam()
- * @method Player[] getOpponent()
- * @method Arena getArena()
- *
- * @package CR\Objects
- */
-class Battle extends BaseObject
-{
-    static protected $stats = null;
-    static protected $list  = null;
+    use CR\Objects\BaseObject;
 
     /**
-    * {@inheritdoc}
-    */
-    public function primaryKey()
-    {
-      return "utcTime";
-    }
-
-    /**
-     * {@inheritdoc}
+     * Class Shop
+     *
+     * @method string getName()
+     * @method null getBaseChest()
+     * @method array getArena()
+     * @method boolean getInShop()
+     * @method boolean getInArenaInfo()
+     * @method boolean getTournamentChest()
+     * @method boolean getSurvivalChest()
+     * @method integer getShopPriceWithoutSpeedUp()
+     * @method integer getTimeTakenDays()
+     * @method integer getTimeTakenHours()
+     * @method integer getTimeTakenMinutes()
+     * @method integer getTimeTakenSeconds()
+     * @method integer getRandomSpells()
+     * @method integer getDifferentSpells()
+     * @method integer getChestCountInChestCycle()
+     * @method integer getRareChance()
+     * @method integer getEpicChance()
+     * @method integer getLegendaryChance()
+     * @method integer getSkinChance()
+     * @method null getGuaranteedSpells()
+     * @method integer getMinGoldPerCard()
+     * @method integer getMaxGoldPerCard()
+     * @method null getSpellSet()
+     * @method integer getExp()
+     * @method integer getSortValue()
+     * @method boolean getSpecialOffer()
+     * @method boolean getDraftChest()
+     * @method boolean getBoostedChest()
+     * @method integer getLegendaryOverrideChance()
+     * @method string getDescription()
+     * @method integer getCardCount()
+     * @method integer getMinGold()
+     * @method integer getMaxGold()
+     * @method array getArenas()
+     *
+     * @package CR\Objects\ConstantsObjects
      */
-    public function relations()
+    class Shop extends BaseObject
     {
-        return [
-          'team'             => Player::class,
-          'opponent'         => Player::class,
-          'arena'            => Arena::class,
-        ];
-    }
+        /**
+         * {@inheritdoc}
+         */
+        public function primaryKey ()
+        {
+            return "key";
+        }
 
-}
+        /**
+         * {@inheritdoc}
+         */
+        public function relations ()
+        {
+            return [];
+        }
+    }

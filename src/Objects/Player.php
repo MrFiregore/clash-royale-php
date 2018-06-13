@@ -8,11 +8,15 @@
  ~ clash-royale-php is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                                                                  ~
  ~ See the GNU Affero General Public License for more details.                                                                                                                                                                                              ~
  ~ You should have received a copy of the GNU General Public License along with clash-royale-php.                                                                                                                                                           ~
- ~ If not, see <http://www.gnu.org/licenses/> 2018.05.31                                                                                                                                                                                                    ~
+ ~ If not, see <http://www.gnu.org/licenses/> 2018.06.13                                                                                                                                                                                                    ~
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 namespace CR\Objects;
+use CR\Objects\ConstantsObjects\Arena;
+use CR\Objects\ConstantsObjects\GameMode;
+use CR\Objects\ConstantsObjects\Card;
+use CR\Objects\ConstantsObjects\ChestCycle;
 
 /**
  * Player Object
@@ -26,8 +30,8 @@ namespace CR\Objects;
  * @method    Arena               getArena()             Returns the Arena Object of the player
  * @method    Clan                getClan()              (Optional) Returns the Clan Object of the player
  * @method    PlayerStats         getStats()             Returns the PlayerStats Object of the player
- * @method    PlayerGame          getGames()             Returns the PlayerGame Object of the player
- * @method    ChestCycle          getChestCycle()        Returns the ChestCycle Object of the player
+ * @method    GameMode            getGames()             Returns the PlayerGame Object of the player
+ * @method    ChestCycle          getChestCycle()        Returns the PlayerChest Object of the player
  * @method    Card[]              getCurrentDeck()       (Optional) Returns an array of Card objects that contains the current deck
  * @method    Card[]              getCards()             (Optional) Returns an array of Card objects that contains all information about the player cards
  * @method    Battle[]            getBattles()           (Optional) Returns an array of Battle objects that contains all information about the last 24 battles of the player
@@ -49,15 +53,15 @@ class Player extends BaseObject
     public function relations()
     {
         return [
-          'arena'             => Arena::class,
-          'clan'              => Clan::class,
-          'cards'             => Card::class,
-          'currentDeck'       => Card::class,
-          'deck'              => Card::class,
-          'stats'             => PlayerStats::class,
-          'games'             => PlayerGame::class,
-          'battles'           => Battle::class,
-          'chestCycle'        => ChestCycle::class,
+            'arena'             => Arena::class,
+            'clan'              => Clan::class,
+            'cards'             => Card::class,
+            'currentDeck'       => Deck::class,
+            'deck'              => Deck::class,
+            'stats'             => PlayerStats::class,
+            'games'             => GameMode::class,
+            'battles'           => Battle::class,
+            'chestCycle'        => ChestCycle::class,
         ];
     }
 }
