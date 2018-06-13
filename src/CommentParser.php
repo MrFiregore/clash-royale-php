@@ -99,8 +99,6 @@
                     }
                 }
             );
-            d($this, $this->desc, $this->_tags);
-
         }
 
         /**
@@ -163,6 +161,29 @@
         {
             return $this->_getReflection()
                         ->isAbstract();
+        }
+
+        public function has ($var)
+        {
+            return isset($this->_tags[$var]);
+        }
+
+        public function __call ($name, $args)
+        {
+            $action = substr($name, 0, 3);
+
+            if ($action === 'get') {
+                $prop           = substr($name, 3);
+                $property_camel = camel_case($prop);
+                $property_snake = snake_case($prop);
+                $tag            =
+                    $this->has($property_camel) ? $property_camel :
+                        ($this->has($property_snake) ? $property_snake : null);
+                if (!$tag) return []; else return $this->_tags[$tag];
+            }
+
+            return [];
+
         }
 
     }
