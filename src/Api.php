@@ -14,8 +14,6 @@
 
 namespace CR;
 
-<<<<
-<<< HEAD
 use CR\CRClient;
 use CR\CRRequest;
 use CR\Objects\Constants;
@@ -24,8 +22,6 @@ use CR\Objects\History;
 use CR\Objects\Status;
 use CR\Objects\Tournament;
 use CR\Objects\Tracking;
-=======
->>>>>>> ddcefd231e2392d19282720512226ae2238d8ab1
 use CR\Traits\CacheTrait;
 use CR\Objects\Battle;
 use CR\Objects\Health;
@@ -71,6 +67,7 @@ use CR\Objects\UnknownObject;
  * @method  Status                      getStatus([],[],[])
  * @method  Endpoint[]                  getEndpoints()  *
  */
+
 class Api
 {
   use CacheTrait;
@@ -120,28 +117,17 @@ class Api
      */
     protected $max_cache_age = 120;
 
-<<<<<<< HEAD
-    public function __construct(string $auth_token=null, int $max_cache_age = null, HttpClientInterface $httpClientHandler = null)
-=======
-    /**
-     * Api constructor.
-     * @param string|null $auth_token
-     * @param int $max_cache_age
-     * @param HttpClientInterface|null $httpClientHandler
-     * @throws CRSDKException
-     */
-    public function __construct(string $auth_token = null, int $max_cache_age = null, HttpClientInterface $httpClientHandler = null)
->>>>>>> ddcefd231e2392d19282720512226ae2238d8ab1
+    public function __construct (
+        string $auth_token = null,
+        int $max_cache_age = null,
+        HttpClientInterface $httpClientHandler = null
+    )
     {
         if (is_null($auth_token)) {
             throw new CRSDKException("Auth token is required, additional information and support: http://discord.me/cr_api", 1);
         }
         $this->setAuthToken($auth_token);
-<<<<<<< HEAD
         $this->setMaxCacheAge($max_cache_age?:120);
-=======
-        $this->setMaxCacheAge($max_cache_age ?: 120);
->>>>>>> ddcefd231e2392d19282720512226ae2238d8ab1
         CRVersion::checkVersion();
         $this->client = new CRClient($httpClientHandler);
     }
@@ -167,10 +153,8 @@ class Api
     public function setAuthToken($auth_token)
     {
         $this->auth_token = $auth_token;
-
         return $this;
     }
-
     /**
      * @return int
      */
@@ -182,37 +166,35 @@ class Api
     /**
      * @param int $max_cache_age
      *
-     * @return bool
+     * @return static
      */
     public function setMaxCacheAge(int $max_cache_age)
     {
         $this->max_cache_age = $max_cache_age;
-
         return true;
     }
 
     /**
      * [post description]
      * @method post
+     *
      * @param  string $endpoint [description]
-     * @param  array $params [description]
-     * @param  array $querys [description]
-     * @return array|CRResponse
-     * @throws CRResponseException
+     * @param  array  $params   [description]
+     * @param  array  $querys   [description]
+     *
+     * @return CRResponse             [description]
      */
     protected function post($endpoint, array $params = [], array $querys = [])
     {
-        $params   = array_filter($params, function ($var) {
+        $params   = array_filter(
+            $params, function ($var) {
             return !is_null($var);
         });
         $response = $this->checkCache($endpoint,$params,$querys);
         if ((empty($response) && empty($params)) || !empty($params)) {
 
             $request = new CRRequest(
-                $this->getAuthToken(),
-                $endpoint,
-                $params,
-                $querys
+                $this->getAuthToken(), $endpoint, $params, $querys
             );
 
             $this->last_response = $res = $this->client->sendRequest($request);
@@ -230,7 +212,6 @@ class Api
             }
             $this->saveCache($res->getDecodedBody(),$response);
         }
-
         return (count($response) === 1) ? $response[0] : $response;
     }
 
@@ -245,7 +226,6 @@ class Api
             self::$last_ping = time();
             self::$ping      = $this->client->ping();
         }
-
         return self::$ping;
     }
 
@@ -253,6 +233,7 @@ class Api
     /**
      * Return the las response of the endpoint
      * @method getLastResponse
+     *
      * @return CRResponse
      */
     public function getLastResponse()
@@ -270,24 +251,21 @@ class Api
     public function getAuthStats()
     {
         $response = $this->post("/auth/stats");
-
         return new AuthStats($response);
     }
 
     /**
      * [getHealth description]
      * @method getHealth
+     *
      * @return Helath       [description]
      */
     public function getHealth()
     {
         $response = $this->post("/health");
-
         return new Helath($response);
     }
-
     /**
-<<<<<<< HEAD
     * [getConstant description]
     * @method getConstant
     * @return Constants       [description]
@@ -296,17 +274,6 @@ class Api
     {
         $response = $this->post("/constant");
         return new Constants($response);
-=======
-     * [getConstant description]
-     * @method getConstant
-     * @return Helath|UnknownObject
-     */
-    public function getConstant()
-    {
-        $response = $this->post("/constant");
-
-        return new UnknownObject($response);
->>>>>>> ddcefd231e2392d19282720512226ae2238d8ab1
     }
 
     /**
@@ -323,7 +290,6 @@ class Api
                 self::$endpoints[] = new Endpoint(["url" => $endpoint]);
             }
         }
-
         return self::$endpoints;
     }
 
@@ -331,21 +297,10 @@ class Api
     /**
      * Return all the information about the given users tag
      * @method getPlayer
-<<<<<<< HEAD
      * @param  array             $player          Array with the id of the profiles
      * @param  array             $keys            Array with the exact parameters to request
      * @param  array             $exclude         Array with the exact parameters to exclude in the request
      * @return Player[]|Player                   Array of Player Objects if given more than one profile, else return one Player Object
-=======
-     *
-     * @param  array $player Array with the id of the profiles
-     * @param  array $keys Array with the exact parameters to request
-     * @param  array $exclude Array with the exact parameters to exclude in the request
-     *
-     * @return Player[]|Player                   Array of Player Objects if given more than one profile, else return
-     *                                           one Player Object
-     * @throws \CR\Exceptions\CRResponseException
->>>>>>> ddcefd231e2392d19282720512226ae2238d8ab1
      */
     public function getPlayer(array $player, array $keys = [], array $exclude = [])
     {
@@ -366,13 +321,11 @@ class Api
         foreach ($response as $p) {
             $players[] = new Player($p);
         }
-
         return $players;
     }
 
     /**
      * Return all the information about the given users tag
-<<<<<<< HEAD
      * @method getPlayerChest
      *
      * @param  array     $player          Array with the id of the profiles
@@ -380,13 +333,6 @@ class Api
      * @param  array             $exclude         Array with the exact parameters to exclude in the request
      *
      * @return PlayerChest[]                   Array of PlayerChest Objects if given more than one profile, else return one PlayerChest Object
-=======
-     * @method getPlayerChests
-     * @param  array $player Array with the id of the profiles
-     * @param  array $keys Array with the exact parameters to request
-     * @param  array $exclude Array with the exact parameters to exclude in the request
-     * @return ChestCycle[]|ChestCycle                   Array of ChestCycle Objects if given more than one profile, else return one ChestCycle Object
->>>>>>> ddcefd231e2392d19282720512226ae2238d8ab1
      */
     public function getPlayerChest(array $player, array $keys = [], array $exclude = [])
     {
@@ -408,25 +354,15 @@ class Api
         foreach ($response as $p) {
             $players[] = new PlayerChest($p);
         }
-
         return $players;
     }
-
     /**
      * Return all the battles the given users tag
-<<<<<<< HEAD
      * @method getPlayerBattle
      * @param  array     $player          Array with the id of the profiles
      * @param  array     $keys            Array with the exact parameters to request
      * @param  array     $exclude         Array with the exact parameters to exclude in the request
      * @return Battle[]                   Array of Battle Objects if given more than one profile, else return one Battle Object
-=======
-     * @method getPlayerBattles
-     * @param  array $player Array with the id of the profiles
-     * @param  array $keys Array with the exact parameters to request
-     * @param  array $exclude Array with the exact parameters to exclude in the request
-     * @return Battle[]|Battle            Array of Battle Objects if given more than one profile, else return one Battle Object
->>>>>>> ddcefd231e2392d19282720512226ae2238d8ab1
      */
     public function getPlayerBattle(array $player, array $keys = [], array $exclude = [])
     {
@@ -448,16 +384,17 @@ class Api
         foreach ($response as $p) {
             $players[] = new Battle($p);
         }
-
         return $players;
     }
 
     /**
      * Return all the information about the given clan tag
      * @method getClan
-     * @param  array $clan Array with the tag of the clans
-     * @param  array $keys Array with the exact parameters to request
+     *
+     * @param  array $clan    Array with the tag of the clans
+     * @param  array $keys    Array with the exact parameters to request
      * @param  array $exclude Array with the exact parameters to exclude in the request
+     *
      * @return Clan[]|Clan               Array of Clan Objects if given more than one profile, else return one Clan Object
      */
     public function getClan(array $clan, array $keys = [], array $exclude = [])
@@ -479,12 +416,10 @@ class Api
         foreach ($response as $c) {
             $clans[] = new Clan($c);
         }
-
         return $clans;
     }
 
     /**
-<<<<<<< HEAD
     * Return all the information about the given clan tag
     * @method getClanBattles
     * @param  array          $clan            Array with the tag of the clans
@@ -493,21 +428,10 @@ class Api
     * @param  string         $type            Type of clan battles to filter ('all', 'war' or 'clanMate')
     * @return Clan[]|Clan                    Array of Clan Objects if given more than one profile, else return one Clan Object
     */
-    public function getClanBattle(array $clan, array $keys = [], array $exclude = [],string $type = "")
-=======
-     * Return all the information about the given clan tag
-     * @method getClanBattles
-     * @param  array $clan Array with the tag of the clans
-     * @param  array $keys Array with the exact parameters to request
-     * @param  array $exclude Array with the exact parameters to exclude in the request
-     * @param  string $type Type of clan battles to filter ('all', 'war' or 'clanMate')
-     * @return Battle[]|Battle                    Array of Clan Objects if given more than one profile, else return one Clan Object
-     */
-    public function getClanBattles(array $clan, array $keys = [], array $exclude = [], string $type = "")
->>>>>>> ddcefd231e2392d19282720512226ae2238d8ab1
+    public function getClanBattle (array $clan, array $keys = [], array $exclude = [], string $type = "")
     {
-        $battles = [];
-        $querys  = [];
+        $clans  = [];
+        $querys = [];
 
         if (!empty($keys)) {
             $querys["keys"] = $keys;
@@ -525,18 +449,19 @@ class Api
             return new Battle($response);
         }
         foreach ($response as $c) {
-            $battles[] = new Battle($c);
+            $clans[] = new Battle($c);
         }
-
-        return $battles;
+        return $clans;
     }
 
     /**
      * Return all the information about the war of the given clan tag
      * @method getClanWar
-     * @param  array $clan Array with the tag of the clans
-     * @param  array $keys Array with the exact parameters to request
+     *
+     * @param  array $clan    Array with the tag of the clans
+     * @param  array $keys    Array with the exact parameters to request
      * @param  array $exclude Array with the exact parameters to exclude in the request
+     *
      * @return ClanWar[]|ClanWar                  Array of ClanWar Objects if given more than one profile, else return one ClanWar Object
      */
     public function getClanWar(array $clan, array $keys = [], array $exclude = [])
@@ -558,13 +483,11 @@ class Api
         foreach ($response as $c) {
             $clans[] = new ClanWar($c);
         }
-
         return $clans;
     }
 
 
     /**
-<<<<<<< HEAD
     * Return all the information about the logs wars of the given clan tag
     * @method getClanWarLog
     * @param  array               $clan           Array with the tag of the clans
@@ -572,15 +495,6 @@ class Api
     * @param  array               $exclude        Array with the exact parameters to exclude in the request
     * @return ClanWar[]                           Array of ClanWar Objects if given more than one profile, else return one ClanWar Object
     */
-=======
-     * Return all the information about the logs wars of the given clan tag
-     * @method getClanWarLog
-     * @param  array $clan Array with the tag of the clans
-     * @param  array $keys Array with the exact parameters to request
-     * @param  array $exclude Array with the exact parameters to exclude in the request
-     * @return ClanWar[]|ClanWar                   Array of ClanWar Objects if given more than one profile, else return one ClanWar Object
-     */
->>>>>>> ddcefd231e2392d19282720512226ae2238d8ab1
     public function getClanWarLog(array $clan, array $keys = [], array $exclude = [])
     {
         $clans  = [];
@@ -600,37 +514,25 @@ class Api
         foreach ($response as $c) {
             $clans[] = new ClanWar($c);
         }
-
         return $clans;
     }
 
 
     /**
      * Search clans by their attributes
-<<<<<<< HEAD
      * @method getClanSearch
      * @param  string           $name                 (Optional)Clan name text search.
      * @param  int              $score                (Optional) Minimum clan score.
      * @param  int              $minMembers           (Optional) Minimum number of members. 0-50
      * @param  int              $maxMembers           (Optional) Maximum number of members. 0-50
      * @return Clan[]                                 Returns an array of Clan objects that match the search parameters
-=======
-     * @method clanSearch
-     * @param  string $name (Optional)Clan name text search.
-     * @param  int $score (Optional) Minimum clan score.
-     * @param  int $minMembers (Optional) Minimum number of members. 0-50
-     * @param  int $maxMembers (Optional) Maximum number of members. 0-50
-     * @return bool|ClanSearch[] $clanSearch           Returns an array of Clan objects that match the search parameters
-     * @throws CRSDKException
->>>>>>> ddcefd231e2392d19282720512226ae2238d8ab1
      */
     public function getClanSearch(string $name = "", int $score = 0, int $minMembers = 0, int $maxMembers = 50)
     {
         $clanSearch = [];
         if (empty(func_get_args())) {
             throw new CRSDKException("This method (" . __METHOD__ . ") must at least one parameter", 1);
-
-//            return false;
+            return false;
         }
         $reflection = new \ReflectionMethod(__CLASS__, last(explode("::", __METHOD__)));
         $query      = [];
@@ -641,45 +543,33 @@ class Api
                     case 'string':
                         if (func_get_args()[$key] === "" || is_null(func_get_args()[$key])) {
                             throw new CRSDKException("The parameter '" . $parameter->getName() . "' of the method (" . __METHOD__ . ") can't be empty or null", 1);
-
-//                            return false;
+                            return false;
                         }
                         break;
                 }
                 $query[$parameter->getName()] = func_get_args()[$key];
             }
         }
-
         $response = $this->post("/clan/search", [], $query);
-
         foreach ($response as $cs) {
             $clanSearch[] = new Clan($cs);
         }
-
         return $clanSearch;
     }
 
     /**
      * Return all information about the top players
-<<<<<<< HEAD
      * @method getTopPlayer
      * @param  string||null  $location  Two-letter code of the location
      * @return array              Array with key of respectives top type ("players" or "clans") and with their values an array with "lastUpdate" of the top list and the respective array with the respective objects type ("players" = array CR\Objects\Player)
-=======
-     * @method getTopPlayers
-     * @param string|null $location
-     * @return array Array with key of respectives top type ("players" or "clans") and with their values an array with "lastUpdate" of the top list and the respective array with the respective objects type ("players" = array CR\Objects\Player)
-     * @internal param $ string||null  $location  Two-letter code of the location
->>>>>>> ddcefd231e2392d19282720512226ae2238d8ab1
      */
-    public function getTopPlayer(string $location = null)
+    public function getTopPlayer (string $location = null)
     {
         $tops     = [];
         $response = $this->post("/top/player/:cc", [$location]);
         foreach ($response as $p) {
             $tops[] = new Player($p);
         }
-
         return $tops;
     }
 
@@ -704,26 +594,9 @@ class Api
     public function __call($method, $arguments)
     {
         $action = substr($method, 0, 3);
-<<<<<<< HEAD
         $endpoint_array = explode("_", snake_case(substr($method, 3)));
         list($class,$endpoint) = $this->searchEndpoint($endpoint_array) ?: [UnknownObject::class,implode("/", $endpoint_array)];
         $response = $this->post($endpoint,...$arguments);
         return new $class($response);
-=======
-
-        if ($action === 'get') {
-            $class_name = studly_case(substr($method, 3));
-            $class      = 'CR\Objects\\' . $class_name;
-            $response   = $this->post($class_name, $arguments[0] ?: []);
-
-            if (class_exists($class)) {
-                return new $class($response);
-            }
-
-            return new UnknownObject($response);
-        }
-
-        return null;
->>>>>>> ddcefd231e2392d19282720512226ae2238d8ab1
     }
 }

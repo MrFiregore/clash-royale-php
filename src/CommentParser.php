@@ -18,8 +18,39 @@
 
     class CommentParser
     {
+        /**
+         * @var string $_object The class name
+         */
         protected $_object;
+
+        /**
+         * @var \ReflectionClass $_reflection
+         */
         protected $_reflection;
+
+        /**
+         * @var bool $_abstarct Define if the class is abstract or not.
+         */
+        protected $_abstarct;
+
+        /**
+         * The description of the class
+         *
+         * @type String
+         */
+        public $desc;
+
+        /**
+         * @var array $_tags An array with the tags (method,package,deprecated,...) matched in the top comment of the
+         *      class
+         */
+        protected     $_tags = [];
+        public static $types = [
+            'method' => ['return', 'type', 'name', 'desc', 'implement'],
+            'param'  => ['type', 'var', 'desc'],
+            'return' => ['type', 'desc'],
+        ];
+
         function __construct (string $object)
         {
             $this->_object = $object;
@@ -32,8 +63,8 @@
          * @throws \ReflectionException
          */
         protected function _getReflection(){
-            if (!class_exists($this->_object)){
-                throw new CRSDKException("The given class not exists",0);
+            if (!class_exists($this->_object)) {
+                throw new CRSDKException("The given class '" . $this->_object . "' not exists", 0);
             }
             if (!$this->_reflection){
                 $this->_reflection = new \ReflectionClass($this->_object);
@@ -53,26 +84,39 @@
                 collect(preg_split('/\r?\n\r?/', substr($reflection->getDocComment(), 3, -2)))
                     ->map(
                         function ($val, $index) use ($reflection) {
-                            $val = ltrim(rtrim($val), "* \t\n\r\0\x0B");
-                            if (isset($val[1]) && $val[0] == '@' && ctype_alpha($val[1])) {
-                                preg_match('/^@[a-z0-9_]+/', $val, $matches);
-                                $tag   = substr($matches[0], 1);
-                                $body  = ltrim(substr($val, strlen($tag) + 2));
-                                $parts = preg_split('/\s+/', $body, 3);
-                                $parts = array_pad($parts, 3, null);
-                                if ($reflection->hasMethod($parts[1]) || $tag !== "method") {
-                                    return null;
-                                }
-                                preg_match('#(get?|set?)(\w+)#', $parts[1], $matches);
+                            $body = ltrim(rtrim($val), "* \t\n\r\0\x0B");
+                            if (isset($body[1]) && !self::isTagged($body)) {
+                                $this->desc = $body;
+                            } elseif (isset($body[1])) {
+                                $tag  = substr(self::strTag($body), 1);
+                                $body = ltrim(substr($body, strlen($tag) + 2));
+                                d($body, $tag);
+                                if (isset(self::$types[$tag])) {
 
-                                $val = [
-                                    'return' => $parts[0],
-                                    'type'   => strtolower($matches[1]),
-                                    'name'   => snake_case($matches[2]),
-                                    'desc'   => $parts[2],
-                                ];
+                                    $parts = preg_split('/\s+/', $body, 3);
+                                    $parts = array_pad($parts, 3, null);
+
+                                    $implemented_method = $tag == "method" && $reflection->hasMethod($parts[1]);
+                                    preg_match('#(get|set|has|is)?(\w+)#', $parts[1], $matches);
+                                    d($implemented_method, $parts, $matches);
+
+                                    $val = [
+                                        'return' => $parts[0],
+                                        'type'   => strtolower($matches[1]),
+                                        'name'   => snake_case($matches[2]),
+                                        'desc'   => $parts[2],
+                                    ];
+
+                                }
+
+
                                 return $val;
+
                             }
+
+                            if (isset($body[1]) && $body[0] == '@' && ctype_alpha($body[1])) {
+                            }
+                            return null;
                         }
                     )
                     ->reject(
@@ -82,6 +126,31 @@
                     );
             d($comment);
 
+        }
+
+        /**
+         * Whether or not a string begins with a @tag
+         *
+         * @param  String $str
+         *
+         * @return bool
+         */
+        public static function isTagged ($str)
+        {
+            return isset($str[1]) && $str[0] == '@' && ctype_alpha($str[1]);
+        }
+
+        /**
+         * The tag at the beginning of a string
+         *
+         * @param  String $str
+         *
+         * @return String|null
+         */
+        public static function strTag ($str)
+        {
+            if (preg_match('/^@[a-z0-9_]+/', $str, $matches)) return $matches[0];
+            return null;
         }
 
     }
