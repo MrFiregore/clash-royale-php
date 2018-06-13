@@ -64,7 +64,6 @@
                                     return null;
                                 }
                                 preg_match('#(get?|set?)(\w+)#', $parts[1], $matches);
-//                                d($parts,$tag,$matches);
 
                                 $val = [
                                     'return' => $parts[0],
@@ -72,14 +71,12 @@
                                     'name'   => snake_case($matches[2]),
                                     'desc'   => $parts[2],
                                 ];
-//                                d($val);
                                 return $val;
                             }
                         }
                     )
                     ->reject(
                         function ($name) {
-//                            d($name);
                             return is_null($name);
                         }
                     );
