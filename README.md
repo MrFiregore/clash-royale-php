@@ -12,9 +12,9 @@ THE UNOFFICIAL PHP  Clash Royale Wrapper
 7. [UPCOMING FEATURES](#upcoming-features)
 8. [METHODS](#methods)
    1. [ALL METHODS](#all-methods)
-   2. [getPlayer()](#getplayer--)
-   3. [getClan()](#getclan--)
-   4. [getTop()](#gettop--)
+   2. [getPlayer()](#getplayer)
+   3. [getClan()](#getclan)
+   4. [getTop()](#gettop)
    5. [clanSearch](#clansearch)
 
 
