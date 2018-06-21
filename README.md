@@ -1,8 +1,51 @@
 # clash-royale-php [![Packagist](https://img.shields.io/packagist/v/firegore2/clash-royale-php.svg)](https://packagist.org/packages/firegore2/clash-royale-php) [![GitHub release](https://img.shields.io/github/release/firegore2/clash-royale-php.svg)](https://github.com/firegore2/clash-royale-php/releases/latest) [![Total Downloads](https://poser.pugx.org/firegore2/clash-royale-php/downloads)](https://packagist.org/packages/firegore2/clash-royale-php)
 THE UNOFFICIAL PHP  Clash Royale Wrapper
+
+# INDEX
+
+1. [INFO](#info)
+2. [DOCUMENTATION](#documentation)
+3. [CONTRIBUTING](#contributing)
+4. [REQUIREMENTS](#requirements)
+5. [INSTALLATION](#installation)
+6. [TOKEN](#token)
+7. [UPCOMING FEATURES](#upcoming-features)
+8. [METHODS](#methods)
+   1. [ALL METHODS](#all-methods)
+   2. [getPlayer()](#getplayer--)
+   3. [getClan()](#getclan--)
+   4. [getTop()](#gettop--)
+   5. [clanSearch](#clansearch)
+
+<style>
+ol { counter-reset: item } li { display: block } li:before { content: counters(item, ".") " "; counter-increment: item }
+</style>
+<ol> <li><a href="#info">INFO</a></li> <li><a href="#documentation">DOCUMENTATION</a></li> <li><a href="#contributing">CONTRIBUTING</a></li> <li><a href="#requirements">REQUIREMENTS</a></li> <li><a href="#installation">INSTALLATION</a></li> <li><a href="#token">TOKEN</a></li> <li><a href="#upcoming-features">UPCOMING FEATURES</a></li> <li><a href="#methods">METHODS</a> 
+<ol> 
+<li><a href="#all-methods">ALL METHODS</a></li>
+ <li><a href="#getplayer--">getPlayer()</a></li> 
+<li><a href="#getclan--">getClan()</a></li> 
+<li><a href="#gettop--">getTop()</a></li> 
+<li><a href="#clansearch" >clanSearch</a></li> 
+</ol> 
+</li> 
+</ol>
+
+
+
 # INFO
 
 This work with the back-end of this page [Clash Royale API](https://royaleapi.com/)
+
+# DOCUMENTATION
+
+All the document can be found in this web [Royale API Docs](https://docs.royaleapi.com/#/).
+
+We will make other specific docs in the wiki section for this wrapper and how it works ( _comming soon_ )
+
+# CONTRIBUTING
+
+You can contribute to this project opening a new issue with your ideas or you can contact with me by [Telegram](https://t.me/firegore)
 
 # REQUIREMENTS
 
@@ -11,9 +54,10 @@ This work with the back-end of this page [Clash Royale API](https://royaleapi.co
 > Composer
 
 # INSTALLATION
+
 In the root of your project (the same path wich contain the composer file) enter
 ```
- composer update
+ composer install
 ```
 to install the library or use 
 ```
@@ -29,6 +73,16 @@ This are the steps to obtain it:
 2. Go to the #developer-key channel.
 3. Type ```?crapikey get```
 4. The bot will send you a DM (direct message) with your key.
+
+# UPCOMING FEATURES
+
+> Multi threading
+
+> Auto generated documents
+
+> Auto generated database (SQL or SQLlite)
+
+> Cron
 
 # METHODS
 > See [examples](https://github.com/firegore2/clash-royale-php/tree/master/examples) folder for more information
