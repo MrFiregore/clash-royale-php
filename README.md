@@ -17,19 +17,6 @@ THE UNOFFICIAL PHP  Clash Royale Wrapper
    4. [getTop()](#gettop--)
    5. [clanSearch](#clansearch)
 
-<style>
-ol { counter-reset: item } li { display: block } li:before { content: counters(item, ".") " "; counter-increment: item }
-</style>
-<ol> <li><a href="#info">INFO</a></li> <li><a href="#documentation">DOCUMENTATION</a></li> <li><a href="#contributing">CONTRIBUTING</a></li> <li><a href="#requirements">REQUIREMENTS</a></li> <li><a href="#installation">INSTALLATION</a></li> <li><a href="#token">TOKEN</a></li> <li><a href="#upcoming-features">UPCOMING FEATURES</a></li> <li><a href="#methods">METHODS</a> 
-<ol> 
-<li><a href="#all-methods">ALL METHODS</a></li>
- <li><a href="#getplayer--">getPlayer()</a></li> 
-<li><a href="#getclan--">getClan()</a></li> 
-<li><a href="#gettop--">getTop()</a></li> 
-<li><a href="#clansearch" >clanSearch</a></li> 
-</ol> 
-</li> 
-</ol>
 
 
 
