@@ -145,35 +145,37 @@ li:before {
 <pre>
 				<code class="php">
                     &lt;?php
-                    @method getPlayer([ player0,player1,player2,player3,...],[ Optional keys0,keys1,keys2,keys3,...],[ Optional exclude0,exclude1,exclude2,exclude3,...])
-                    @method getPlayerBattle([ player0,player1,player2,player3,...],[ Optional keys0,keys1,keys2,keys3,...],[ Optional exclude0,exclude1,exclude2,exclude3,...])
-                    @method getPlayerChest([ player0,player1,player2,player3,...],[ Optional keys0,keys1,keys2,keys3,...],[ Optional exclude0,exclude1,exclude2,exclude3,...])
-                    @method getClanSearch( Optional name default = '' , Optional score default = 0 , Optional minMembers default = 0 , Optional maxMembers default = 50 )
-                    @method getClanTracking([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
-                    @method getClan([ clan0,clan1,clan2,clan3,...],[ Optional keys0,keys1,keys2,keys3,...],[ Optional exclude0,exclude1,exclude2,exclude3,...])
-                    @method getClanBattle([ clan0,clan1,clan2,clan3,...],[ Optional keys0,keys1,keys2,keys3,...],[ Optional exclude0,exclude1,exclude2,exclude3,...], Optional type default = '' )
-                    @method getClanWar([ clan0,clan1,clan2,clan3,...],[ Optional keys0,keys1,keys2,keys3,...],[ Optional exclude0,exclude1,exclude2,exclude3,...])
-                    @method getClanWarlog([ clan0,clan1,clan2,clan3,...],[ Optional keys0,keys1,keys2,keys3,...],[ Optional exclude0,exclude1,exclude2,exclude3,...])
-                    @method getClanHistory([','','',...],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
-                    @method getClanHistoryWeekly([','','',...],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
-                    @method getClanTracking([','','',...],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
-                    @method getClanTrack([','','',...],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
-                    @method getTournamentOpen([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
-                    @method getTournamentKnown([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
-                    @method getTournamentSearch([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
-                    @method getTournament([','','',...],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
-                    @method getTopClan(['CountryCode'],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
-                    @method getTopPlayer( Optional location default = '' )
-                    @method getPopularClan([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
-                    @method getPopularPlayer([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
-                    @method getPopularTournament([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
-                    @method getPopularDeck([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
-                    @method getConstant()
-                    @method getAuthStats()
-                    @method getVersion([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
-                    @method getHealth()
-                    @method getStatus([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
-                    @method getEndpoints()
+                        /**
+                        *   @method getPlayer([ player0,player1,player2,player3,...],[ Optional keys0,keys1,keys2,keys3,...],[ Optional exclude0,exclude1,exclude2,exclude3,...])
+                        *   @method getPlayerBattle([ player0,player1,player2,player3,...],[ Optional keys0,keys1,keys2,keys3,...],[ Optional exclude0,exclude1,exclude2,exclude3,...])
+                        *   @method getPlayerChest([ player0,player1,player2,player3,...],[ Optional keys0,keys1,keys2,keys3,...],[ Optional exclude0,exclude1,exclude2,exclude3,...])
+                        *   @method getClanSearch( Optional name default = '' , Optional score default = 0 , Optional minMembers default = 0 , Optional maxMembers default = 50 )
+                        *   @method getClanTracking([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
+                        *   @method getClan([ clan0,clan1,clan2,clan3,...],[ Optional keys0,keys1,keys2,keys3,...],[ Optional exclude0,exclude1,exclude2,exclude3,...])
+                        *   @method getClanBattle([ clan0,clan1,clan2,clan3,...],[ Optional keys0,keys1,keys2,keys3,...],[ Optional exclude0,exclude1,exclude2,exclude3,...], Optional type default = '' )
+                        *   @method getClanWar([ clan0,clan1,clan2,clan3,...],[ Optional keys0,keys1,keys2,keys3,...],[ Optional exclude0,exclude1,exclude2,exclude3,...])
+                        *   @method getClanWarlog([ clan0,clan1,clan2,clan3,...],[ Optional keys0,keys1,keys2,keys3,...],[ Optional exclude0,exclude1,exclude2,exclude3,...])
+                        *   @method getClanHistory([','','',...],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
+                        *   @method getClanHistoryWeekly([','','',...],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
+                        *   @method getClanTracking([','','',...],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
+                        *   @method getClanTrack([','','',...],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
+                        *   @method getTournamentOpen([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
+                        *   @method getTournamentKnown([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
+                        *   @method getTournamentSearch([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
+                        *   @method getTournament([','','',...],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
+                        *   @method getTopClan(['CountryCode'],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
+                        *   @method getTopPlayer( Optional location default = '' )
+                        *   @method getPopularClan([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
+                        *   @method getPopularPlayer([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
+                        *   @method getPopularTournament([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
+                        *   @method getPopularDeck([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
+                        *   @method getConstant()
+                        *   @method getAuthStats()
+                        *   @method getVersion([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
+                        *   @method getHealth()
+                        *   @method getStatus([],['includeKey1','includeKey2','includeKey3',...],['excludeKey1','excludeKey2','excludeKey3',...])
+                        *   @method getEndpoints()
+                        */
                 </code>
 			</pre>
 <h2 id="getplayer">getPlayer()</h2>
@@ -360,12 +362,17 @@ try {
 }
                 </code>
 			</pre>
+<link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
         integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
         crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"
         integrity="sha384-u/bQvRA/1bobcXlcEYpsEdFVK/vJs3+T+nXLsBYJthmdBuavHvAW6UsmqO2Gd/F9"
         crossorigin="anonymous"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 
 </body>
 </html>
