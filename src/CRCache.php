@@ -53,7 +53,7 @@ class CRCache
   {
     if (is_null(self::$path)) {
       $pos = strpos(__DIR__,"vendor") ?: strpos(__DIR__,"src");
-      self::$path = substr(__DIR__,0,$pos)."cache".DIRECTORY_SEPARATOR."CR";
+      self::$path = substr(__DIR__,0,$pos)."var/cache".DIRECTORY_SEPARATOR."CR";
     }
     return self::$path;
   }
