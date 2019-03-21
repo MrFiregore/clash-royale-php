@@ -1,4 +1,4 @@
-# clash-royale-php [![Packagist](https://img.shields.io/packagist/v/firegore2/clash-royale-php.svg)](https://packagist.org/packages/firegore2/clash-royale-php) [![GitHub release](https://img.shields.io/github/release/firegore2/clash-royale-php.svg)](https://github.com/firegore2/clash-royale-php/releases/latest) [![Total Downloads](https://poser.pugx.org/firegore2/clash-royale-php/downloads)](https://packagist.org/packages/firegore2/clash-royale-php)
+# clash-royale-php [![Packagist](https://img.shields.io/packagist/v/firegore2/clash-royale-php.svg)](https://packagist.org/packages/firegore2/clash-royale-php) [![GitHub release](https://img.shields.io/github/release/firegore2/clash-royale-php.svg)](https://github.com/firegore2/clash-royale-php/releases/latest) [![Total Downloads](https://poser.pugx.org/firegore2/clash-royale-php/downloads)](https://packagist.org/packages/firegore2/clash-royale-php) [![phpdocumentor](https://docstand.rocro.com/badges/github.com/firegore2/clash-royale-php/documentation/phpdocumentor?token=7Ve_G3bA_MG4eCJv8kAFnDFefYSbwyPrpCokLmiFt_M&branch=master)](https://docstand.rocro.com/docs/github.com/firegore2/clash-royale-php/branch/master/phpdocumentor/)
 THE UNOFFICIAL PHP  Clash Royale Wrapper
 # INFO
 
@@ -31,6 +31,7 @@ This are the steps to obtain it:
 4. The bot will send you a DM (direct message) with your key.
 
 # METHODS
+> [API Document](https://docstand.rocro.com/docs/github.com/firegore2/clash-royale-php/branch/master/phpdocumentor/)
 > See [examples](https://github.com/firegore2/clash-royale-php/tree/master/examples) folder for more information
 ## getPlayer()
 
