@@ -1,17 +1,17 @@
 # clash-royale-php [![Packagist](https://img.shields.io/packagist/v/firegore2/clash-royale-php.svg)](https://packagist.org/packages/firegore2/clash-royale-php) [![GitHub release](https://img.shields.io/github/release/firegore2/clash-royale-php.svg)](https://github.com/firegore2/clash-royale-php/releases/latest) [![Total Downloads](https://poser.pugx.org/firegore2/clash-royale-php/downloads)](https://packagist.org/packages/firegore2/clash-royale-php) [![phpdocumentor](https://docstand.rocro.com/badges/github.com/firegore2/clash-royale-php/documentation/phpdocumentor?token=7Ve_G3bA_MG4eCJv8kAFnDFefYSbwyPrpCokLmiFt_M&branch=master)](https://docstand.rocro.com/docs/github.com/firegore2/clash-royale-php/branch/master/phpdocumentor/)
-THE UNOFFICIAL PHP  Clash Royale Wrapper
-# INFO
+THE UNOFFICIAL PHP Clash Royale Wrapper
+## INFO
 
 This work with the back-end of this page [Clash Royale API](https://royaleapi.com/)
 
-# REQUIREMENTS
+## REQUIREMENTS
 
 > PHP 5.5 or greater
 
 > Composer
 
-# INSTALLATION
-In the root of your project (the same path wich contain the composer file) enter
+## INSTALLATION
+In the root of your project (the same path which contains the composer file) enter
 ```
  composer update
 ```
@@ -19,21 +19,22 @@ to install the library or use
 ```
 composer require firegore2/clash-royale-php
 ```
-to instal in your own project.
+to install in your own project.
 
-# TOKEN
+## TOKEN
 You need a developer token to use the API.
 
-This are the steps to obtain it:
+These are the steps to obtain it:
 1. Go to the [discord server](http://discord.me/RoyaleApi) of the API
 2. Go to the #developer-key channel.
-3. Type ```?crapikey get```
-4. The bot will send you a DM (direct message) with your key.
+3. Type `?crapikey get`
+4. The bot will send you a DM (direct message) along with your key.
 
-# METHODS
+## METHODS
 > [API Document](https://docstand.rocro.com/docs/github.com/firegore2/clash-royale-php/branch/master/phpdocumentor/)
 > See [examples](https://github.com/firegore2/clash-royale-php/tree/master/examples) folder for more information
-## getPlayer()
+
+### getPlayer()
 
 ```
 <?php
@@ -59,7 +60,7 @@ catch(Exception $e){
 
 ```
 
-## getClan()
+### getClan()
 
 ```
 <?php
@@ -82,7 +83,7 @@ catch(Exception $e){
 }
 
 ```
-## getTop()
+### getTop()
 ```
 <?php
 use CR\Api;
@@ -108,7 +109,7 @@ catch(Exception $e){
 
 ```
 
-## clanSearch
+### clanSearch
 ```
 <?php
 ini_set('max_execution_time', 3000);
