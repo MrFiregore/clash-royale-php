@@ -252,17 +252,17 @@ class Api
     /**
     * [getHealth description]
     * @method getHealth
-    * @return Helath       [description]
+    * @return Health       [description]
     */
     public function getHealth()
     {
         $response = $this->post("/health");
-        return new Helath($response);
+        return new Health($response);
     }
     /**
     * [getConstant description]
     * @method getConstant
-    * @return Helath       [description]
+    * @return Health       [description]
     */
     public function getConstant()
     {
