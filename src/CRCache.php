@@ -66,7 +66,7 @@ class CRCache
   static public function setPath(string $path)
   {
     self::$path = $path;
-    return $self;
+    return self;
   }
 
   /**
