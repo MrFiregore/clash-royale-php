@@ -84,7 +84,7 @@ local.properties
 .worksheet
 
 .ftpconfig
-.idea/
+.idea/*
 .project
 cache/
 composer.lock
