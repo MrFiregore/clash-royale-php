@@ -13,6 +13,7 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 namespace CR\Objects\StatusObjects;
+
 use CR\Objects\BaseObject;
 
 /**
@@ -26,7 +27,7 @@ class Git extends BaseObject
     /**
      * {@inheritdoc}
      */
-    public function primaryKey ()
+    public function primaryKey()
     {
         return "";
     }
@@ -34,7 +35,7 @@ class Git extends BaseObject
     /**
      * {@inheritdoc}
      */
-    public function relations ()
+    public function relations()
     {
         return [
         ];

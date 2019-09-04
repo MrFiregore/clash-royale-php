@@ -12,32 +12,33 @@
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    namespace CR\Objects\StatusObjects;
-    use CR\Objects\BaseObject;
+namespace CR\Objects\StatusObjects;
+
+use CR\Objects\BaseObject;
+
+/**
+ * Node Object
+ *
+ * @method string           getVersion()
+ * @method string           getMemoryUsage()
+ * @method int              getUptime()
+ */
+class Node extends BaseObject
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function primaryKey()
+    {
+        return "";
+    }
 
     /**
-     * Node Object
-     *
-     * @method string           getVersion()
-     * @method string           getMemoryUsage()
-     * @method int              getUptime()
+     * {@inheritdoc}
      */
-    class Node extends BaseObject
+    public function relations()
     {
-        /**
-         * {@inheritdoc}
-         */
-        public function primaryKey ()
-        {
-            return "";
-        }
-
-        /**
-         * {@inheritdoc}
-         */
-        public function relations ()
-        {
-            return [
-            ];
-        }
+        return [
+        ];
     }
+}

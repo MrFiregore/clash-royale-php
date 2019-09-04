@@ -13,31 +13,32 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
     namespace CR\Objects\StatusObjects;
-    use CR\Objects\BaseObject;
+
+use CR\Objects\BaseObject;
+
+/**
+ * System Object
+ *
+ * @method array            getLoadavg()
+ * @method string           getFreeMemory()
+ * @method string           getHostname()
+ */
+class System extends BaseObject
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function primaryKey()
+    {
+        return "";
+    }
 
     /**
-     * System Object
-     *
-     * @method array            getLoadavg()
-     * @method string           getFreeMemory()
-     * @method string           getHostname()
+     * {@inheritdoc}
      */
-    class System extends BaseObject
+    public function relations()
     {
-        /**
-         * {@inheritdoc}
-         */
-        public function primaryKey ()
-        {
-            return "";
-        }
-
-        /**
-         * {@inheritdoc}
-         */
-        public function relations ()
-        {
-            return [
-            ];
-        }
+        return [
+        ];
     }
+}
