@@ -14,21 +14,19 @@
 
 namespace CR\Objects;
 
-
 /**
 *  AuthStats object
 */
 
 class AuthStats extends BaseObject
 {
-
-  /**
-  * {@inheritdoc}
-  */
-  public function primaryKey()
-  {
-      return "";
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function primaryKey()
+    {
+        return "";
+    }
 
     /**
      * {@inheritdoc}
