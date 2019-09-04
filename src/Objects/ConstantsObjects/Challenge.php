@@ -12,51 +12,51 @@
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    namespace CR\Objects\ConstantsObjects;
-    use CR\Objects\BaseObject;
+namespace CR\Objects\ConstantsObjects;
+use CR\Objects\BaseObject;
+
+
+/**
+ *  Challenge object
+ * @method     getName()
+ * @method     getGameMode()
+ * @method     getEnabled()
+ * @method     getJoinCost()
+ * @method     getJoinCostResource()
+ * @method     getMaxWins()
+ * @method     getMaxLoss()
+ * @method     getRewardCards()
+ * @method     getRewardGold()
+ * @method     getRewardSpell()
+ * @method     getRewardSpellMaxCount()
+ * @method     getNameEn()
+ * @method     getKey()
+ * @method     getId()
+ *
+ */
+
+
+class Challenge extends BaseObject
+{
 
 
     /**
-     *  Challenge object
-     * @method     getName()
-     * @method     getGameMode()
-     * @method     getEnabled()
-     * @method     getJoinCost()
-     * @method     getJoinCostResource()
-     * @method     getMaxWins()
-     * @method     getMaxLoss()
-     * @method     getRewardCards()
-     * @method     getRewardGold()
-     * @method     getRewardSpell()
-     * @method     getRewardSpellMaxCount()
-     * @method     getNameEn()
-     * @method     getKey()
-     * @method     getId()
-     *
+     * {@inheritdoc}
      */
-
-
-    class Challenge extends BaseObject
+    public function primaryKey()
     {
-
-
-        /**
-         * {@inheritdoc}
-         */
-        public function primaryKey()
-        {
-            return "id";
-        }
-
-
-        /**
-         * {@inheritdoc}
-         */
-        public function relations()
-        {
-            return [
-            ];
-        }
-
-
+        return "id";
     }
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function relations()
+    {
+        return [
+        ];
+    }
+
+
+}
