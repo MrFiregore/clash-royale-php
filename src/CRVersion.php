@@ -103,7 +103,7 @@ class CRVersion
                     $new_version = $packagist->get($max_version);
                     unset($packagist);
                     $alert =
-                        "New version ** ${max_version} ** available of ** ".$new_version['name'].' **  - '.$new_version['description']."\n";
+                        "New version ** {$max_version} ** available of ** ".$new_version['name'].' **  - '.$new_version['description']."\n";
 
                     if ($github = self::checkGithub($max_version)) {
                         $github = json_decode($github, true);

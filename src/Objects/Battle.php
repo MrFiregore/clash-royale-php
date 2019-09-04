@@ -22,11 +22,11 @@ class Battle extends BaseObject
     protected static $list = null;
 
     /**
-    * {@inheritdoc}
-    */
+     * {@inheritdoc}
+     */
     public function primaryKey()
     {
-        return "utcTime";
+        return 'utcTime';
     }
 
     /**
@@ -35,9 +35,9 @@ class Battle extends BaseObject
     public function relations()
     {
         return [
-          'team' => Player::class,
-          'opponent' => Player::class,
-          'arena' => Arena::class,
+            'team' => Player::class,
+            'opponent' => Player::class,
+            'arena' => Arena::class,
         ];
     }
 }

@@ -544,7 +544,7 @@ class Api
         foreach ($reflection->getParameters() as $key => $parameter) {
             if (isset(func_get_args()[$key])) {
                 switch ($parameter->getType()->getName()) {
-            case 'string' :
+            case 'string':
               if ('' === func_get_args()[$key] || is_null(func_get_args()[$key])) {
                   throw new CRSDKException("The parameter '".$parameter->getName()."' of the method (".__METHOD__.") can't be empty or null", 1);
 
