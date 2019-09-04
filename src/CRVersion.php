@@ -12,120 +12,123 @@
      ~                                                                                                                                                                                                                                                          ~
      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    namespace CR;
+namespace CR;
 
-    use CR\CRCache;
-    use GuzzleHttp\Client;
-    use GuzzleHttp\RequestOptions;
-    use CR\HttpClients\GuzzleHttpClient;
+use CR\CRCache;
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+use CR\HttpClients\GuzzleHttpClient;
+
+/**
+ *
+ */
+class CRVersion
+{
+    const API_VERSION = "1.3.1";
+    /**
+     * @var GuzzleHttpClient HTTP Client
+     */
+    protected static $httpClientHandler;
 
 
     /**
+     * Returns the HTTP client handler.
      *
+     * @return GuzzleHttpClient
      */
-    class CRVersion
+    protected static function getHttpClientHandler()
     {
-        const API_VERSION = "1.3.1";
-        /**
-         * @var GuzzleHttpClient HTTP Client
-         */
-        protected static $httpClientHandler;
+        if (is_null(self::$httpClientHandler)) {
+            $client = new Client();
 
+            self::$httpClientHandler = new GuzzleHttpClient($client);
+        }
+        return self::$httpClientHandler;
+    }
 
-        /**
-         * Returns the HTTP client handler.
-         *
-         * @return GuzzleHttpClient
-         */
-        protected static function getHttpClientHandler ()
-        {
-            if (is_null(self::$httpClientHandler)) {
-                $client = new Client();
+    /**
+     * [checkGithub description]
+     *
+     * @param  string $version [description]
+     *
+     * @return [type]          [description]
+     */
+    public static function checkGithub(string $version)
+    {
+        $rawResponse =
+            self::getHttpClientHandler()
+                ->send(
+                    "https://api.github.com/repos/firegore2/clash-royale-php/releases/tags/" . $version,
+                    "GET",
+                    [RequestOptions::HEADERS => ["Accept: application/vnd.github.v3+json"]],
+                    30,
+                    false,
+                    60
+                );
+        return $rawResponse->getStatusCode() == 200 ?
+            $rawResponse->getBody()
+                        ->getContents() : false;
+    }
 
-                self::$httpClientHandler = new GuzzleHttpClient($client);
-            }
-            return self::$httpClientHandler;
+    /**
+     * [checkPackagist description]
+     *
+     * @return [type] [description]
+     */
+    public static function checkPackagist()
+    {
+        $rawResponse =
+            self::getHttpClientHandler()
+                ->send(
+                    "https://packagist.org/p/firegore2/clash-royale-php.json",
+                    "GET",
+                    [],
+                    30,
+                    false,
+                    60
+                );
+        return $rawResponse->getStatusCode() == 200 ?
+            $rawResponse->getBody()
+                        ->getContents() : false;
+    }
+
+    /**
+     * [checkVersion description]
+     *
+     * @return [type] [description]
+     */
+    public static function checkVersion()
+    {
+        if (!CRCache::exists("APIVERSION" . self::API_VERSION) || version_compare(self::API_VERSION, CRCache::get("APIVERSION" . self::API_VERSION), ">")) {
+            CRUtils::delTree(CRCache::getPath());
+            CRCache::write("APIVERSION" . self::API_VERSION, self::API_VERSION);
         }
 
-        /**
-         * [checkGithub description]
-         *
-         * @param  string $version [description]
-         *
-         * @return [type]          [description]
-         */
-        public static function checkGithub (string $version)
-        {
-
-            $rawResponse =
-                self::getHttpClientHandler()
-                    ->send(
-                        "https://api.github.com/repos/firegore2/clash-royale-php/releases/tags/" . $version, "GET", [RequestOptions::HEADERS => ["Accept: application/vnd.github.v3+json"]], 30, false, 60
-                    );
-            return $rawResponse->getStatusCode() == 200 ?
-                $rawResponse->getBody()
-                            ->getContents() : false;
-        }
-
-        /**
-         * [checkPackagist description]
-         *
-         * @return [type] [description]
-         */
-        public static function checkPackagist ()
-        {
-
-            $rawResponse =
-                self::getHttpClientHandler()
-                    ->send(
-                        "https://packagist.org/p/firegore2/clash-royale-php.json", "GET", [], 30, false, 60
-                    );
-            return $rawResponse->getStatusCode() == 200 ?
-                $rawResponse->getBody()
-                            ->getContents() : false;
-        }
-
-        /**
-         * [checkVersion description]
-         *
-         * @return [type] [description]
-         */
-        public static function checkVersion ()
-        {
-            if (!CRCache::exists("APIVERSION" . self::API_VERSION) || version_compare(self::API_VERSION, CRCache::get("APIVERSION" . self::API_VERSION), ">")) {
-                CRUtils::delTree(CRCache::getPath());
-                CRCache::write("APIVERSION" . self::API_VERSION, self::API_VERSION);
-            }
-
-            if (!CRCache::exists("checkVersion", ["maxage" => 60])) {
-                CRCache::write("checkVersion", "1");
-                if ($packagist = self::checkPackagist()) {
-                    $packagist =
-                        collect(json_decode($packagist, true)['packages']['firegore2/clash-royale-php'])->reject(
-                                function ($item, $key) {
-                                    return strpos($key, "dev-") !== false;
-                                }
-                            );
-
-                    $max_version = $packagist->max("version");
-                    if (version_compare($max_version, self::API_VERSION, ">")) {
-                        $new_version = $packagist->get($max_version);
-                        unset($packagist);
-                        $alert =
-                            "New version ** $max_version ** available of ** " . $new_version['name'] . " **  - " . $new_version['description'] . "\n";
-
-                        if ($github = self::checkGithub($max_version)) {
-                            $github = json_decode($github, true);
-                            $alert  .= "###" . $github['name'] . "\n ---\n" . $github['body'] . " \n ---\n";
+        if (!CRCache::exists("checkVersion", ["maxage" => 60])) {
+            CRCache::write("checkVersion", "1");
+            if ($packagist = self::checkPackagist()) {
+                $packagist =
+                    collect(json_decode($packagist, true)['packages']['firegore2/clash-royale-php'])->reject(
+                        function ($item, $key) {
+                            return strpos($key, "dev-") !== false;
                         }
-                        $alert .= "Run `composer update firegore2/clash-royale-php` to update the package.\n";
-                        echo CRUtils::markdownToHTML($alert);
+                        );
+
+                $max_version = $packagist->max("version");
+                if (version_compare($max_version, self::API_VERSION, ">")) {
+                    $new_version = $packagist->get($max_version);
+                    unset($packagist);
+                    $alert =
+                        "New version ** $max_version ** available of ** " . $new_version['name'] . " **  - " . $new_version['description'] . "\n";
+
+                    if ($github = self::checkGithub($max_version)) {
+                        $github = json_decode($github, true);
+                        $alert  .= "###" . $github['name'] . "\n ---\n" . $github['body'] . " \n ---\n";
                     }
+                    $alert .= "Run `composer update firegore2/clash-royale-php` to update the package.\n";
+                    echo CRUtils::markdownToHTML($alert);
                 }
             }
-
-
         }
-
-
     }
+}
