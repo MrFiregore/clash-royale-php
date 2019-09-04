@@ -24,7 +24,7 @@
      *
      *
      * @method    string              getContinent()          Returns the continent name
-     * @method    string              getContinentCod()       Returns the continent code
+     * @method    string              getContinentCode()       Returns the continent code
      * @method    string              getCountry()            Returns the country name
      * @method    string              getCountryCode()        Returns the country code
      */
