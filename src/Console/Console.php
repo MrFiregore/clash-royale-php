@@ -14,12 +14,9 @@
 
 namespace CR\Console;
 
-
-
 /**
  * Class Console.
  */
 class Console extends BaseConsole
 {
-
 }
