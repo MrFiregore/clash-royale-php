@@ -12,31 +12,31 @@
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    namespace CR\Objects\StatusObjects;
-    use CR\Objects\BaseObject;
+namespace CR\Objects\StatusObjects;
+use CR\Objects\BaseObject;
+
+/**
+ * Git Object
+ *
+ * @method string           getBranch()
+ * @method string           getSha()
+ */
+class Git extends BaseObject
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function primaryKey ()
+    {
+        return "";
+    }
 
     /**
-     * Git Object
-     *
-     * @method string           getBranch()
-     * @method string           getSha()
+     * {@inheritdoc}
      */
-    class Git extends BaseObject
+    public function relations ()
     {
-        /**
-         * {@inheritdoc}
-         */
-        public function primaryKey ()
-        {
-            return "";
-        }
-
-        /**
-         * {@inheritdoc}
-         */
-        public function relations ()
-        {
-            return [
-            ];
-        }
+        return [
+        ];
     }
+}
