@@ -16,7 +16,7 @@ namespace CR;
 
 use CR\Exceptions\CRSDKException;
 
- /**
+/**
  * Class CRRequest.
  *
  * Builds CR Bot API Request Entity.
@@ -107,7 +107,7 @@ class CRRequest
         $this->setAsyncRequest($isAsyncRequest);
         $this->setTimeOut($timeOut);
         $this->setConnectTimeOut($connectTimeOut);
-        $this->setHeaders(["Authorization"=>"Bearer ".$this->getAuthToken(),"auth"=>$this->getAuthToken()]);
+        $this->setHeaders(["Authorization" => "Bearer " . $this->getAuthToken(), "auth" => $this->getAuthToken()]);
     }
     /**
     * Set the API auth token for this request.
