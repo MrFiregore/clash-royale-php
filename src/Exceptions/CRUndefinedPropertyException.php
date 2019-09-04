@@ -14,7 +14,6 @@
 
 namespace CR\Exceptions;
 
-
 /**
  * CRUndefinedPropertyException.
  */

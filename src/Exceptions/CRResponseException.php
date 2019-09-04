@@ -13,6 +13,7 @@
  **************************************************************************************************************************************************************************************************************************************************************/
 
 namespace CR\Exceptions;
+
 use CR\Exceptions\CROtherException;
 use CR\CRResponse;
 
@@ -37,7 +38,7 @@ class CRResponseException extends CRSDKException
     * @param  CRResponse              $response             The response that threw the exception.
     * @param  CRSDKException|null     $previousException    The more detailed exception.
     */
-    public function __construct(CRResponse $response,CRSDKException $previousException = null)
+    public function __construct(CRResponse $response, CRSDKException $previousException = null)
     {
         $this->response = $response;
         $this->responseData = $response->getDecodedBody();
@@ -63,10 +64,9 @@ class CRResponseException extends CRSDKException
         if (isset($data['error']) && $data['error'] !== false) {
             $code = $response->getHttpStatusCode();
             $message = isset($data['message']) ? $data['message'] : $response->getHttpStatusMessage();
-        }
-        else {
-          $code = $response->getHttpStatusCode();
-          $message = isset($data['message']) ? $data['message'] : $response->getHttpStatusMessage();
+        } else {
+            $code = $response->getHttpStatusCode();
+            $message = isset($data['message']) ? $data['message'] : $response->getHttpStatusMessage();
         }
 
         // Others
