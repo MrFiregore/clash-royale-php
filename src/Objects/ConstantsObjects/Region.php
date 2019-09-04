@@ -12,114 +12,122 @@
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    namespace CR\Objects\ConstantsObjects;
-    use CR\Objects\BaseObject;
-    use Illuminate\Support\Collection;
+namespace CR\Objects\ConstantsObjects;
+use CR\Objects\BaseObject;
+use Illuminate\Support\Collection;
+
+/**
+ *  Region object
+ * @method    string              getName()               Returns the name of the location.
+ * @method    bool                getIsCountry()          Returns true if the location is a country. otherwise returns false.
+ * @method    string              getCode()               Returns the country/continent code
+ *
+ *
+ * @method    string              getContinent()          Returns the continent name
+ * @method    string              getContinentCode()       Returns the continent code
+ * @method    string              getCountry()            Returns the country name
+ * @method    string              getCountryCode()        Returns the country code
+ */
+
+class Region extends BaseObject
+{
+    /**
+     * List of countrys, continents and her codes
+     * @var [type]
+     */
+    static protected $list= null;
 
     /**
-     *  Region object
-     * @method    string              getName()               Returns the name of the location.
-     * @method    bool                getIsCountry()          Returns true if the location is a country. otherwise returns false.
-     * @method    string              getCode()               Returns the country/continent code
-     *
-     *
-     * @method    string              getContinent()          Returns the continent name
-     * @method    string              getContinentCode()       Returns the continent code
-     * @method    string              getCountry()            Returns the country name
-     * @method    string              getCountryCode()        Returns the country code
+     * {@inheritdoc}
+     */
+    public function primaryKey()
+    {
+        return "";
+    }
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function relations()
+    {
+        return [];
+    }
+
+
+    /**
+     * [getList description]
+     * @method getList
+     * @return Collection
      */
 
-    class Region extends BaseObject
+    public function getList()
     {
-        /**
-         * List of countrys, continents and her codes
-         * @var [type]
-         */
-        static protected $list= null;
-
-        /**
-         * {@inheritdoc}
-         */
-        public function primaryKey()
-        {
-            return "";
+        if (is_null(self::$list)) {
+            d((realpath(__DIR__) . DIRECTORY_SEPARATOR . "CountryCodes.json"));
+            self::$list = collect(json_decode(file_get_contents(realpath(__DIR__) . DIRECTORY_SEPARATOR . "CountryCodes.json"), true));
         }
-
-
-        /**
-         * {@inheritdoc}
-         */
-        public function relations()
-        {
-            return [];
-        }
-
-
-        /**
-         * [getList description]
-         * @method getList
-         * @return Collection
-         */
-
-        public function getList()
-        {
-            if (is_null(self::$list)) {
-                d((realpath(__DIR__).DIRECTORY_SEPARATOR."CountryCodes.json"));
-                self::$list = collect(json_decode(file_get_contents(realpath(__DIR__).DIRECTORY_SEPARATOR."CountryCodes.json"),true));
-            }
-            return self::$list;
-        }
-
-
-
-        public function getContinent()
-        {
-            $list = $this->getList();
-            if (!$this->getIsCountry()) return $this->getName();
-            $continent = $list->search(function ($item,$key)
-            {
-                return $item["country_code"]==$this->getCode();
-            });
-            return ($continent) ? $list->get($continent)["continent"] : "unknow";
-        }
-
-
-
-        public function getCountry()
-        {
-            $list = $this->getList();
-            if ($this->getIsCountry()) return $this->getName();
-            $country = $list->search(function ($item,$key)
-            {
-                return $item["country_code"]==$this->getCode();
-            });
-            return ($country) ? $list->get($country)["country"] : "unknow";
-        }
-
-
-
-        public function getContinentCode()
-        {
-            $list = $this->getList();
-            if (!$this->getIsCountry()) return $this->getCode();
-            $continent = $list->search(function ($item,$key)
-            {
-                return $item["country_code"]==$this->getCode();
-            });
-            return ($continent) ? $list->get($continent)["continent_code"] : "unknow";
-        }
-
-
-
-        public function getCountryCode()
-        {
-            $list = $this->getList();
-            if ($this->getIsCountry()) return $this->getCode();
-            $country = $list->search(function ($item,$key)
-            {
-                return $item["country_code"]==$this->getCode();
-            });
-            return ($country) ? $list->get($country)["country_code"] : "unknow";
-        }
-
+        return self::$list;
     }
+
+
+
+    public function getContinent()
+    {
+        $list = $this->getList();
+        if (!$this->getIsCountry()) {
+            return $this->getName();
+        }
+        $continent = $list->search(function ($item,$key)
+        {
+            return $item["country_code"] == $this->getCode();
+        });
+        return ($continent) ? $list->get($continent)["continent"] : "unknow";
+    }
+
+
+
+    public function getCountry()
+    {
+        $list = $this->getList();
+        if ($this->getIsCountry()) {
+            return $this->getName();
+        }
+        $country = $list->search(function ($item, $key)
+        {
+            return $item["country_code"] == $this->getCode();
+        });
+        return ($country) ? $list->get($country)["country"] : "unknow";
+    }
+
+
+
+    public function getContinentCode()
+    {
+        $list = $this->getList();
+        if (!$this->getIsCountry()) {
+            return $this->getCode();
+        }
+        $continent = $list->search(function ($item, $key)
+        {
+            return $item["country_code"] == $this->getCode();
+        });
+        return ($continent) ? $list->get($continent)["continent_code"] : "unknow";
+    }
+
+
+
+    public function getCountryCode()
+    {
+        $list = $this->getList();
+        if ($this->getIsCountry()) {
+            return $this->getCode();
+        }
+        $country = $list->search(function ($item, $key)
+        {
+            return $item["country_code"] == $this->getCode();
+        });
+        return ($country) ? $list->get($country)["country_code"] : "unknow";
+    }
+
+}
