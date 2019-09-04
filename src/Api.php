@@ -122,8 +122,8 @@ class Api
         if (is_null($auth_token)) {
             throw new CRSDKException("Auth token is required, additional information and support: http://discord.me/cr_api", 1);
         }
-        $this->setAuthToken($auth_token);
-        $this->setMaxCacheAge($max_cache_age?:120);
+        $this->setAuthToken($auth_token)
+			 ->setMaxCacheAge($max_cache_age?:120);
         CRVersion::checkVersion();
         $this->client = new CRClient($httpClientHandler);
     }
