@@ -212,7 +212,7 @@ class CRCache
         foreach ($conditions as $type => $value) {
             switch ($type) {
                 case 'maxage':
-                case 'max-age':
+                case 'max-age': {
                     // Return false if the file is older than $value
                     $age = time() - filemtime($cacheFile);
                     if ($age > $value) {
@@ -220,8 +220,9 @@ class CRCache
                     }
 
                     break;
+                }
                 case 'younger-than':
-                case 'youngerthan':
+                case 'youngerthan': {
                     // Return false if the file is older than the file $value, or the files $value
                     $check = function ($filename) use ($cacheFile) {
                         return !file_exists($filename) || filemtime($cacheFile) < filemtime($filename);
@@ -240,8 +241,10 @@ class CRCache
                     }
 
                     break;
-                default:
+                }
+                default: {
                     throw new \Exception('Cache condition '.$type.' not supported');
+                }
             }
         }
 
