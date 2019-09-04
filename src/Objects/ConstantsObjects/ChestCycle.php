@@ -12,29 +12,29 @@
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    namespace CR\Objects\ConstantsObjects;
-    use CR\Objects\BaseObject;
+namespace CR\Objects\ConstantsObjects;
+use CR\Objects\BaseObject;
+
+/**
+ * Class ChestCycle
+ *
+ * @package CR\Objects\ConstantsObjects
+ */
+class ChestCycle extends BaseObject
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function primaryKey()
+    {
+        return "";
+    }
 
     /**
-     * Class ChestCycle
-     *
-     * @package CR\Objects\ConstantsObjects
+     * {@inheritdoc}
      */
-    class ChestCycle extends BaseObject
+    public function relations()
     {
-        /**
-         * {@inheritdoc}
-         */
-        public function primaryKey()
-        {
-            return "";
-        }
-
-        /**
-         * {@inheritdoc}
-         */
-        public function relations()
-        {
-            return [];
-        }
+        return [];
     }
+}
