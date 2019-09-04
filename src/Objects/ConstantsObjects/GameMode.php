@@ -12,27 +12,27 @@
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    namespace CR\Objects\ConstantsObjects;
-    use CR\Objects\BaseObject;
+namespace CR\Objects\ConstantsObjects;
+use CR\Objects\BaseObject;
 
 
-    class GameMode extends BaseObject
+class GameMode extends BaseObject
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function primaryKey()
     {
-        /**
-         * {@inheritdoc}
-         */
-        public function primaryKey()
-        {
-            return "";
-        }
-
-
-        /**
-         * {@inheritdoc}
-         */
-        public function relations()
-        {
-            return [];
-        }
-
+        return "";
     }
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function relations()
+    {
+        return [];
+    }
+
+}

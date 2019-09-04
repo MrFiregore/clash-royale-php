@@ -12,47 +12,47 @@
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    namespace CR\Objects\ConstantsObjects;
-    use CR\Objects\BaseObject;
+namespace CR\Objects\ConstantsObjects;
+use CR\Objects\BaseObject;
+
+/**
+ * Class Rarity
+ *
+ * @method     getName()
+ * @method     getLevelCount()
+ * @method     getRelativeLevel()
+ * @method     getMirrorRelativeLevel()
+ * @method     getCloneRelativeLevel()
+ * @method     getDonateCapacity()
+ * @method     getSortCapacity()
+ * @method     getDonateReward()
+ * @method     getDonateXp()
+ * @method     getGoldConversionValue()
+ * @method     getChanceWeight()
+ * @method     getBalanceMultiplier()
+ * @method     getUpgradeExp()
+ * @method     getUpgradeMaterialCount()
+ * @method     getUpgradeCost()
+ * @method     getPowerLevelMultiplier()
+ * @method     getRefundGems()
+ *
+ * @package CR\Objects\ConstantsObjects
+ */
+class Rarity extends BaseObject
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function primaryKey()
+    {
+        return "";
+    }
 
     /**
-     * Class Rarity
-     *
-     * @method     getName()
-     * @method     getLevelCount()
-     * @method     getRelativeLevel()
-     * @method     getMirrorRelativeLevel()
-     * @method     getCloneRelativeLevel()
-     * @method     getDonateCapacity()
-     * @method     getSortCapacity()
-     * @method     getDonateReward()
-     * @method     getDonateXp()
-     * @method     getGoldConversionValue()
-     * @method     getChanceWeight()
-     * @method     getBalanceMultiplier()
-     * @method     getUpgradeExp()
-     * @method     getUpgradeMaterialCount()
-     * @method     getUpgradeCost()
-     * @method     getPowerLevelMultiplier()
-     * @method     getRefundGems()
-     *
-     * @package CR\Objects\ConstantsObjects
+     * {@inheritdoc}
      */
-    class Rarity extends BaseObject
+    public function relations()
     {
-        /**
-         * {@inheritdoc}
-         */
-        public function primaryKey()
-        {
-            return "";
-        }
-
-        /**
-         * {@inheritdoc}
-         */
-        public function relations()
-        {
-            return [];
-        }
+        return [];
     }
+}
