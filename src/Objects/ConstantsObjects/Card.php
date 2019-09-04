@@ -123,7 +123,7 @@ class Card extends BaseObject
 
         $level = $this->has("level") ? $this->getLevel() : $this->getMaxLevel();
         $constant_stats = collect($this->getConstant()['stats']);
-        $plm = $this->getConstant()['constants']["power_level_multiplier"][$level-2];
+        $plm = $this->getConstant()['constants']["power_level_multiplier"][$level - 2];
 
         if ($constant_stats->has("dps")) {
             $stats['dps'] = $constant_stats->get("dps") * ($plm / 100);
