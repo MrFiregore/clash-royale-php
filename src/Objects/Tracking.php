@@ -15,29 +15,28 @@
 namespace CR\Objects;
 
 /**
- * Tracking Object
+ * Tracking Object.
  *
- * @method    string            getTag()                Returns clan tag
- * @method    bool              getActive()             Returns the status of the tracking
- * @method    bool              getAvailable()          Returns true if any snapshot is available
- * @method    int               getSnapshotCount()      Returns the total number of snapshots made
+ * @method string getTag()           Returns clan tag
+ * @method bool   getActive()        Returns the status of the tracking
+ * @method bool   getAvailable()     Returns true if any snapshot is available
+ * @method int    getSnapshotCount() Returns the total number of snapshots made
  */
-
 class Tracking extends BaseObject
 {
-  /**
-  * {@inheritdoc}
-  */
-  public function primaryKey()
-  {
-      return "";
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function primaryKey()
+    {
+        return '';
+    }
 
-  /**
-  * {@inheritdoc}
-  */
-  public function relations()
-  {
-    return [];
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function relations()
+    {
+        return [];
+    }
 }

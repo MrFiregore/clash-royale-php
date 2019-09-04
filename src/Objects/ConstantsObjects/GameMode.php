@@ -13,8 +13,8 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 namespace CR\Objects\ConstantsObjects;
-use CR\Objects\BaseObject;
 
+use CR\Objects\BaseObject;
 
 class GameMode extends BaseObject
 {
@@ -23,9 +23,8 @@ class GameMode extends BaseObject
      */
     public function primaryKey()
     {
-        return "";
+        return '';
     }
-
 
     /**
      * {@inheritdoc}
@@ -34,5 +33,4 @@ class GameMode extends BaseObject
     {
         return [];
     }
-
 }

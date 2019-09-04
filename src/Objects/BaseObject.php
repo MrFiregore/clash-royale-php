@@ -34,6 +34,40 @@ abstract class BaseObject extends Collection
     }
 
     /**
+     * Magic method to get properties dynamically.
+     *
+     * @method __call
+     *
+     * @param string $name      [description]
+     * @param array  $arguments [description]
+     *
+     * @return mixed
+     */
+    public function __call($name, $arguments)
+    {
+        $action = substr($name, 0, 3);
+
+        if ('get' === $action) {
+            $property = camel_case(substr($name, 3));
+            $response = $this->get($property);
+            $relations = $this->relations();
+
+            if (null != $response && isset($relations[$property])) {
+                return $this->recursiveMapRelatives($relations[$property], $response);
+            }
+
+            // Map relative property to an object
+            if (null == $response) {
+                return false;
+            }
+
+            return $response;
+        }
+
+        return false;
+    }
+
+    /**
      * Property relations.
      *
      * @return array
@@ -41,14 +75,11 @@ abstract class BaseObject extends Collection
     abstract public function relations();
 
     /**
-     *  Unique identifier
+     *  Unique identifier.
      *
      * @return string
      */
-
     abstract public function primaryKey();
-
-
 
     /**
      * Map property relatives to appropriate objects.
@@ -63,31 +94,20 @@ abstract class BaseObject extends Collection
             return false;
         }
 
-
         return $this->items = collect($this->all())
             ->map(function ($value, $key) use ($relations) {
                 if ($relations->has($key)) {
                     $className = $relations->get($key);
+
                     return (is_array($value) && array_keys($value) === range(0, count($value) - 1)) ? $value : new $className($value);
                 }
 
                 return $value;
             })
-            ->all();
+            ->all()
+        ;
     }
 
-    protected function recursiveMapRelatives($class, $data)
-    {
-        if (is_array($data) && array_keys($data) === range(0, count($data) - 1)) {
-            $array = [];
-            foreach ($data as $item) {
-                $array[] = $this->recursiveMapRelatives($class, $item);
-            }
-            return $array;
-        } else {
-            return new $class($data);
-        }
-    }
     /**
      * Returns raw response.
      *
@@ -99,45 +119,30 @@ abstract class BaseObject extends Collection
     }
 
     /**
-    * Returns raw result.
-    * @method getRawResult
-    * @param  [type]       $data [description]
-    * @return mixed             [description]
-    */
+     * Returns raw result.
+     *
+     * @method getRawResult
+     *
+     * @param [type] $data [description]
+     *
+     * @return mixed [description]
+     */
     public function getRawResult($data)
     {
         return array_get($data, 'result', $data);
     }
 
-
-    /**
-    * Magic method to get properties dynamically.
-    * @method __call
-    * @param  string $name      [description]
-    * @param  array $arguments [description]
-    * @return mixed
-    */
-    public function __call($name, $arguments)
+    protected function recursiveMapRelatives($class, $data)
     {
-        $action = substr($name, 0, 3);
-
-        if ($action === 'get') {
-            $property = camel_case(substr($name, 3));
-            $response = $this->get($property);
-            $relations = $this->relations();
-
-            if (null != $response && isset($relations[$property])) {
-                return $this->recursiveMapRelatives($relations[$property], $response);
+        if (is_array($data) && array_keys($data) === range(0, count($data) - 1)) {
+            $array = [];
+            foreach ($data as $item) {
+                $array[] = $this->recursiveMapRelatives($class, $item);
             }
 
-
-            // Map relative property to an object
-            if (null == $response) {
-                return false;
-            }
-            return $response;
+            return $array;
         }
 
-        return false;
+        return new $class($data);
     }
 }

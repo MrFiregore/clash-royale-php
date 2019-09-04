@@ -13,20 +13,20 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 namespace CR\Objects;
-use CR\Objects\ConstantsObjects\Arena;
 
+use CR\Objects\ConstantsObjects\Arena;
 
 class Battle extends BaseObject
 {
-    static protected $stats = null;
-    static protected $list  = null;
+    protected static $stats = null;
+    protected static $list = null;
 
     /**
     * {@inheritdoc}
     */
     public function primaryKey()
     {
-      return "utcTime";
+        return "utcTime";
     }
 
     /**
@@ -35,10 +35,9 @@ class Battle extends BaseObject
     public function relations()
     {
         return [
-          'team'             => Player::class,
-          'opponent'         => Player::class,
-          'arena'            => Arena::class,
+          'team' => Player::class,
+          'opponent' => Player::class,
+          'arena' => Arena::class,
         ];
     }
-
 }

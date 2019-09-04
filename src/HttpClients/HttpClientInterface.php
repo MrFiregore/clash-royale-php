@@ -1,5 +1,5 @@
 <?php
-/**************************************************************************************************************************************************************************************************************************************************************
+/*
  *                                                                                                                                                                                                                                                            *
  * Copyright (c) 2018 by Firegore (https://firegore.es) (git:firegore2).                                                                                                                                                                                      *
  * This file is part of clash-royale-php.                                                                                                                                                                                                                     *
@@ -10,11 +10,12 @@
  * You should have received a copy of the GNU General Public License along with clash-royale-php.                                                                                                                                                             *
  * If not, see <http://www.gnu.org/licenses/>.                                                                                                                                                                                                                *
  *                                                                                                                                                                                                                                                            *
- **************************************************************************************************************************************************************************************************************************************************************/
+ */
+
 namespace CR\HttpClients;
 
-use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Promise\Promise;
+use GuzzleHttp\Psr7\Response;
 
 /**
  * Interface HttpClientInterface.

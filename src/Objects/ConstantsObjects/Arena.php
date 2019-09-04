@@ -13,30 +13,29 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 namespace CR\Objects\ConstantsObjects;
+
 use CR\Objects\BaseObject;
 
-
 /**
- *  Arena object
- * @method    string              getName()                         Returns the name of the Arena.
- * @method    string              getArena()                        Returns the title of the Arena.
- * @method    int                 getArenaID()                      Returns the id of the Arena.
- * @method    int                 getTrophyLimit()                  Returns the trophyes limit to reach to the arena.
+ *  Arena object.
  *
- *
- * @method    array               getMaxDonationCount()             Returns the max donation per card type
- * @method    array               getConstant()                     Returns the Arena object constants
+ * @method string getName()             Returns the name of the Arena.
+ * @method string getArena()            Returns the title of the Arena.
+ * @method int    getArenaID()          Returns the id of the Arena.
+ * @method int    getTrophyLimit()      Returns the trophyes limit to reach to the arena.
+ * @method array  getMaxDonationCount() Returns the max donation per card type
+ * @method array  getConstant()         Returns the Arena object constants
  */
 class Arena extends BaseObject
 {
-    protected $constant = null;
+    protected $constant;
 
     /**
      * {@inheritdoc}
      */
     public function primaryKey()
     {
-        return "";
+        return '';
     }
 
     /**
@@ -46,50 +45,49 @@ class Arena extends BaseObject
     {
         return [
             // 'arenas'             => Arena::class,
-
         ];
     }
 
     /**
-     * [getConstant description]
+     * [getConstant description].
+     *
      * @method getConstant
-     * @return array      Returns an array of Arena object constants
+     *
+     * @return array Returns an array of Arena object constants
      */
     public function getConstant()
     {
         if (is_null($this->constant)) {
-            collect(CRConstant::getConstant("arenas"))->map(function ($item, $key)
-            {
-                if ($item["title"] == $this->getArena()) {
+            collect(CRConstant::getConstant('arenas'))->map(function ($item, $key) {
+                if ($item['title'] == $this->getArena()) {
                     $this->constant = $item;
                 }
             })->all();
         }
+
         return $this->constant;
     }
 
     /**
-     * [getMaxDonationCount description]
+     * [getMaxDonationCount description].
+     *
      * @method getMaxDonationCount
-     * @return array             Returns an associative array with the max donation per card type
+     *
+     * @return array Returns an associative array with the max donation per card type
      */
     public function getMaxDonationCount()
     {
         $group = collect($this->getConstant())
-            ->reject(function ($value, $key)
-            {
-                return (strpos($key, "max_donation_count_") === false);
+            ->reject(function ($value, $key) {
+                return false === strpos($key, 'max_donation_count_');
             })
-            ->map(function ($item, $key)
-            {
-                return [str_replace("max_donation_count_", "", $key) => $item];
+            ->map(function ($item, $key) {
+                return [str_replace('max_donation_count_', '', $key) => $item];
             })
-            ->mapWithKeys(function ($item)
-            {
+            ->mapWithKeys(function ($item) {
                 return [key($item) => $item[key($item)]];
             })->all();
 
         return $group;
     }
-
 }

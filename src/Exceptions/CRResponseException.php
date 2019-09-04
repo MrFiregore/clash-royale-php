@@ -1,5 +1,5 @@
 <?php
-/**************************************************************************************************************************************************************************************************************************************************************
+/*
  *                                                                                                                                                                                                                                                            *
  * Copyright (c) 2018 by Firegore (https://firegore.es) (git:firegore2).                                                                                                                                                                                      *
  * This file is part of clash-royale-php.                                                                                                                                                                                                                     *
@@ -10,11 +10,10 @@
  * You should have received a copy of the GNU General Public License along with clash-royale-php.                                                                                                                                                             *
  * If not, see <http://www.gnu.org/licenses/>.                                                                                                                                                                                                                *
  *                                                                                                                                                                                                                                                            *
- **************************************************************************************************************************************************************************************************************************************************************/
+ */
 
 namespace CR\Exceptions;
 
-use CR\Exceptions\CROtherException;
 use CR\CRResponse;
 
 /**
@@ -23,21 +22,23 @@ use CR\CRResponse;
 class CRResponseException extends CRSDKException
 {
     /**
-     * @var CRResponse The response that threw the exception.
+     * @var CRResponse the response that threw the exception
      */
     protected $response;
 
     /**
-     * @var array Decoded response.
+     * @var array decoded response
      */
     protected $responseData;
 
     /**
-    * Creates a CRResponseException.
-    * @method __construct
-    * @param  CRResponse              $response             The response that threw the exception.
-    * @param  CRSDKException|null     $previousException    The more detailed exception.
-    */
+     * Creates a CRResponseException.
+     *
+     * @method __construct
+     *
+     * @param CRResponse          $response          the response that threw the exception
+     * @param null|CRSDKException $previousException the more detailed exception
+     */
     public function __construct(CRResponse $response, CRSDKException $previousException = null)
     {
         $this->response = $response;
@@ -51,7 +52,7 @@ class CRResponseException extends CRSDKException
     /**
      * A factory for creating the appropriate exception based on the response from CR.
      *
-     * @param CRResponse $response The response that threw the exception.
+     * @param CRResponse $response the response that threw the exception
      *
      * @return CRResponseException
      */
@@ -61,7 +62,7 @@ class CRResponseException extends CRSDKException
 
         $code = null;
         $message = null;
-        if (isset($data['error']) && $data['error'] !== false) {
+        if (isset($data['error']) && false !== $data['error']) {
             $code = $response->getHttpStatusCode();
             $message = isset($data['message']) ? $data['message'] : $response->getHttpStatusMessage();
         } else {
@@ -71,23 +72,6 @@ class CRResponseException extends CRSDKException
 
         // Others
         return new static($response,new CROtherException($message, $code));
-    }
-
-    /**
-     * Checks isset and returns that or a default value.
-     *
-     * @param string $key
-     * @param mixed  $default
-     *
-     * @return mixed
-     */
-    private function get($key, $default = null)
-    {
-        if (isset($this->responseData[$key])) {
-            return $this->responseData[$key];
-        }
-
-        return $default;
     }
 
     /**
@@ -138,5 +122,22 @@ class CRResponseException extends CRSDKException
     public function getResponse()
     {
         return $this->response;
+    }
+
+    /**
+     * Checks isset and returns that or a default value.
+     *
+     * @param string $key
+     * @param mixed  $default
+     *
+     * @return mixed
+     */
+    private function get($key, $default = null)
+    {
+        if (isset($this->responseData[$key])) {
+            return $this->responseData[$key];
+        }
+
+        return $default;
     }
 }

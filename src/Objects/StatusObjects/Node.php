@@ -17,11 +17,11 @@ namespace CR\Objects\StatusObjects;
 use CR\Objects\BaseObject;
 
 /**
- * Node Object
+ * Node Object.
  *
- * @method string           getVersion()
- * @method string           getMemoryUsage()
- * @method int              getUptime()
+ * @method string getVersion()
+ * @method string getMemoryUsage()
+ * @method int    getUptime()
  */
 class Node extends BaseObject
 {
@@ -30,7 +30,7 @@ class Node extends BaseObject
      */
     public function primaryKey()
     {
-        return "";
+        return '';
     }
 
     /**

@@ -24,36 +24,36 @@ use CR\Exceptions\CRSDKException;
 class CRRequest
 {
     /**
-    * @var string|null The API auth token to use for this request.
-    */
+     * @var null|string the API auth token to use for this request
+     */
     protected $auth_token;
 
     /**
-     * @var string The HTTP method for this request.
+     * @var string the HTTP method for this request
      */
     protected $method;
 
     /**
-     * @var string The API endpoint for this request.
+     * @var string the API endpoint for this request
      */
     protected $endpoint;
 
     /**
-     * @var array The headers to send with this request.
+     * @var array the headers to send with this request
      */
     protected $headers = [];
 
     /**
-     * @var array The parameters to send with this request.
+     * @var array the parameters to send with this request
      */
     protected $params = [];
     /**
-     * @var array The query to send with this request.
+     * @var array the query to send with this request
      */
     protected $querys = [];
 
     /**
-     * @var array The files to send with this request.
+     * @var array the files to send with this request
      */
     protected $files = [];
 
@@ -80,16 +80,17 @@ class CRRequest
 
     /**
      * Creates a new Request entity.
+     *
      * @method __construct
-     * @param  string|null      $auth_token     [description]
-     * @param  string|null      $endpoint       [description]
-     * @param  array            $params         [description]
-     * @param  array            $querys          [description]
-     * @param  bool             $isAsyncRequest [description]
-     * @param  int              $timeOut        [description]
-     * @param  int              $connectTimeOut [description]
+     *
+     * @param null|string $auth_token     [description]
+     * @param null|string $endpoint       [description]
+     * @param array       $params         [description]
+     * @param array       $querys         [description]
+     * @param bool        $isAsyncRequest [description]
+     * @param int         $timeOut        [description]
+     * @param int         $connectTimeOut [description]
      */
-
     public function __construct(
         $auth_token,
         $endpoint = null,
@@ -100,22 +101,23 @@ class CRRequest
         $connectTimeOut = 10
     ) {
         $this->setAuthToken($auth_token);
-        $this->setMethod("GET");
+        $this->setMethod('GET');
         $this->setEndpoint($endpoint);
         $this->setParams($params);
         $this->setQuerys($querys);
         $this->setAsyncRequest($isAsyncRequest);
         $this->setTimeOut($timeOut);
         $this->setConnectTimeOut($connectTimeOut);
-        $this->setHeaders(["Authorization" => "Bearer " . $this->getAuthToken(), "auth" => $this->getAuthToken()]);
+        $this->setHeaders(['Authorization' => 'Bearer '.$this->getAuthToken(), 'auth' => $this->getAuthToken()]);
     }
+
     /**
-    * Set the API auth token for this request.
-    *
-    * @param string $auth_token
-    *
-    * @return CRRequest
-    */
+     * Set the API auth token for this request.
+     *
+     * @param string $auth_token
+     *
+     * @return CRRequest
+     */
     public function setAuthToken($auth_token)
     {
         $this->auth_token = $auth_token;
@@ -123,15 +125,13 @@ class CRRequest
         return $this;
     }
 
-
     /**
-     * @return string|null
+     * @return null|string
      */
     public function getAuthToken()
     {
         return $this->auth_token;
     }
-
 
     /**
      * Set the HTTP method for this request.
@@ -220,6 +220,7 @@ class CRRequest
     {
         return $this->params;
     }
+
     /**
      * Set the querys for this request.
      *
@@ -301,7 +302,7 @@ class CRRequest
      */
     public function getPostParams()
     {
-        if ($this->getMethod() === 'POST') {
+        if ('POST' === $this->getMethod()) {
             return $this->getParams();
         }
 
@@ -316,7 +317,7 @@ class CRRequest
     public function getDefaultHeaders()
     {
         return [
-          'User-Agent' => 'CR PHP SDK Firegore',
+            'User-Agent' => 'CR PHP SDK Firegore',
         ];
     }
 

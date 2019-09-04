@@ -1,5 +1,5 @@
 <?php
-/**************************************************************************************************************************************************************************************************************************************************************
+/*
  *                                                                                                                                                                                                                                                            *
  * Copyright (c) 2018 by Firegore (https://firegore.es) (git:firegore2).                                                                                                                                                                                      *
  * This file is part of clash-royale-php.                                                                                                                                                                                                                     *
@@ -10,13 +10,13 @@
  * You should have received a copy of the GNU General Public License along with clash-royale-php.                                                                                                                                                             *
  * If not, see <http://www.gnu.org/licenses/>.                                                                                                                                                                                                                *
  *                                                                                                                                                                                                                                                            *
- **************************************************************************************************************************************************************************************************************************************************************/
+ */
 
 namespace CR\Console;
 
+use cebe\markdown\block\FencedCodeTrait;
 use cebe\markdown\block\ListTrait;
 use cebe\markdown\block\QuoteTrait;
-use cebe\markdown\block\FencedCodeTrait;
 use cebe\markdown\inline\CodeTrait;
 use cebe\markdown\inline\EmphStrongTrait;
 use cebe\markdown\inline\StrikeoutTrait;
@@ -37,11 +37,10 @@ class ConsoleMarkdown extends \cebe\markdown\Parser
     use StrikeoutTrait;
     use QuoteTrait;
 
-
     /**
      * @var array these are "escapeable" characters. When using one of these prefixed with a
-     * backslash, the character will be outputted without the backslash and is not interpreted
-     * as markdown.
+     *            backslash, the character will be outputted without the backslash and is not interpreted
+     *            as markdown.
      */
     protected $escapeCharacters = [
         '\\', // backslash
@@ -51,39 +50,46 @@ class ConsoleMarkdown extends \cebe\markdown\Parser
         '_', // underscore
         '~', // tilde
     ];
+
     /**
-     * Renders a blockquote
+     * Renders a blockquote.
+     *
      * @param array $block
      */
     protected function renderQuote($block)
     {
-        return Console::ansiFormat($this->renderAbsy($block['content']), [Console::BLINK]) . "\n\n";
+        return Console::ansiFormat($this->renderAbsy($block['content']), [Console::BLINK])."\n\n";
     }
+
     /**
-     * Renders a code block
+     * Renders a code block.
      *
      * @param array $block
+     *
      * @return string
      */
     protected function renderCode($block)
     {
-        return Console::ansiFormat($block['content'], [Console::NEGATIVE]) . "\n\n";
+        return Console::ansiFormat($block['content'], [Console::NEGATIVE])."\n\n";
     }
 
     /**
-     * Render a paragraph block
+     * Render a paragraph block.
      *
      * @param string $block
+     *
      * @return string
      */
     protected function renderParagraph($block)
     {
-        return rtrim($this->renderAbsy($block['content'])) . "\n\n";
+        return rtrim($this->renderAbsy($block['content']))."\n\n";
     }
 
     /**
      * Renders an inline code span `` ` ``.
+     *
      * @param array $element
+     *
      * @return string
      */
     protected function renderInlineCode($element)
@@ -93,7 +99,9 @@ class ConsoleMarkdown extends \cebe\markdown\Parser
 
     /**
      * Renders empathized elements.
+     *
      * @param array $element
+     *
      * @return string
      */
     protected function renderEmph($element)
@@ -103,46 +111,54 @@ class ConsoleMarkdown extends \cebe\markdown\Parser
 
     /**
      * Renders strong elements.
+     *
      * @param array $element
+     *
      * @return string
      */
     protected function renderStrong($element)
     {
         return Console::ansiFormat($this->renderAbsy($element[1]), [Console::BOLD]);
     }
+
     /**
-    * Renders a list
-    * @param array $block
-    * @return string
-    */
+     * Renders a list.
+     *
+     * @param array $block
+     *
+     * @return string
+     */
     protected function renderList($block)
     {
         $type = $block['list'];
 
-        $output = "";
+        $output = '';
 
         foreach ($block['items'] as $item => $itemLines) {
-            $output .= "\t ".Console::ansiFormat("•", [Console::FG_RED]) . $this->renderAbsy($itemLines). "\n";
+            $output .= "\t ".Console::ansiFormat('•', [Console::FG_RED]).$this->renderAbsy($itemLines)."\n";
         }
-        return $output . "\n";
+
+        return $output."\n";
     }
+
     /**
-     * Consume lines for a paragraph
+     * Consume lines for a paragraph.
      *
      * Allow headlines, lists and code to break paragraphs
      *
      * @param array $lines
      * @param int   $current
+     *
      * @return string
      */
     protected function consumeParagraph($lines, $current)
     {
         // consume until newline
         $content = [];
-        for ($i = $current, $count = count($lines); $i < $count; $i++) {
+        for ($i = $current, $count = count($lines); $i < $count; ++$i) {
             $line = $lines[$i];
-            if ($line === ''
-                || ltrim($line) === ''
+            if ('' === $line
+                || '' === ltrim($line)
                 || !ctype_alpha($line[0]) && (
                     $this->identifyQuote($line, $lines, $i)
                     || $this->identifyUl($line, $lines, $i)
@@ -150,7 +166,8 @@ class ConsoleMarkdown extends \cebe\markdown\Parser
                 )
             ) {
                 break;
-            } elseif ($this->identifyCode($line, $lines, $i)) {
+            }
+            if ($this->identifyCode($line, $lines, $i)) {
                 if (preg_match('~<\w+([^>]+)$~s', implode("\n", $content))) {
                     $content[] = $line;
                 } else {
@@ -164,10 +181,13 @@ class ConsoleMarkdown extends \cebe\markdown\Parser
             'paragraph',
             'content' => $this->parseInline(implode("\n", $content)),
         ];
+
         return [$block, --$i];
     }
+
     /**
-     * Consume lines for a blockquote element
+     * Consume lines for a blockquote element.
+     *
      * @param array $lines
      * @param int   $current
      */
@@ -175,13 +195,13 @@ class ConsoleMarkdown extends \cebe\markdown\Parser
     {
         // consume until newline
         $content = [];
-        for ($i = $current, $count = count($lines); $i < $count; $i++) {
+        for ($i = $current, $count = count($lines); $i < $count; ++$i) {
             $line = $lines[$i];
-            if (ltrim($line) !== '') {
-                if ($line[0] == '>' && !isset($line[1])) {
+            if ('' !== ltrim($line)) {
+                if ('>' == $line[0] && !isset($line[1])) {
                     $line = '';
-                } elseif (strncmp($line, '> ', 2) === 0) {
-                    $line = "  ".substr($line, 2);
+                } elseif (0 === strncmp($line, '> ', 2)) {
+                    $line = '  '.substr($line, 2);
                 }
                 $content[] = $line;
             } else {
@@ -194,13 +214,15 @@ class ConsoleMarkdown extends \cebe\markdown\Parser
             'content' => $this->parseBlocks($content),
             'simple' => true,
         ];
+
         return [$block, $i];
     }
 
-
     /**
      * Renders the strike through feature.
+     *
      * @param array $element
+     *
      * @return string
      */
     protected function renderStrike($element)

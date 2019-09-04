@@ -13,41 +13,36 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 namespace CR\Objects\ConstantsObjects;
+
 use CR\Objects\BaseObject;
 
-
 /**
- *  Challenge object
- * @method     getName()
- * @method     getGameMode()
- * @method     getEnabled()
- * @method     getJoinCost()
- * @method     getJoinCostResource()
- * @method     getMaxWins()
- * @method     getMaxLoss()
- * @method     getRewardCards()
- * @method     getRewardGold()
- * @method     getRewardSpell()
- * @method     getRewardSpellMaxCount()
- * @method     getNameEn()
- * @method     getKey()
- * @method     getId()
+ *  Challenge object.
  *
+ * @method getName()
+ * @method getGameMode()
+ * @method getEnabled()
+ * @method getJoinCost()
+ * @method getJoinCostResource()
+ * @method getMaxWins()
+ * @method getMaxLoss()
+ * @method getRewardCards()
+ * @method getRewardGold()
+ * @method getRewardSpell()
+ * @method getRewardSpellMaxCount()
+ * @method getNameEn()
+ * @method getKey()
+ * @method getId()
  */
-
-
 class Challenge extends BaseObject
 {
-
-
     /**
      * {@inheritdoc}
      */
     public function primaryKey()
     {
-        return "id";
+        return 'id';
     }
-
 
     /**
      * {@inheritdoc}
@@ -57,6 +52,4 @@ class Challenge extends BaseObject
         return [
         ];
     }
-
-
 }

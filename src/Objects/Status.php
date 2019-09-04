@@ -12,45 +12,45 @@
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    namespace CR\Objects;
-    use CR\Objects\StatusObjects\Git;
-    use CR\Objects\StatusObjects\Node;
-    use CR\Objects\StatusObjects\Server;
-    use CR\Objects\StatusObjects\System;
+namespace CR\Objects;
+
+use CR\Objects\StatusObjects\Git;
+use CR\Objects\StatusObjects\Node;
+use CR\Objects\StatusObjects\Server;
+use CR\Objects\StatusObjects\System;
 
 //    use CR\Objects\StatusObjects\Node;
 //    use CR\Objects\StatusObjects\Server;
 //    use CR\Objects\StatusObjects\System;
 
     /**
-     * Status Object
+     * Status Object.
      *
-     * @method Server           getServer()
-     * @method Git              getGit()
-     * @method Node             getNode()
-     * @method System           getSystem()
+     * @method Server getServer()
+     * @method Git    getGit()
+     * @method Node   getNode()
+     * @method System getSystem()
      */
     class Status extends BaseObject
     {
         /**
          * {@inheritdoc}
          */
-        public function primaryKey ()
+        public function primaryKey()
         {
-            return "";
+            return '';
         }
 
         /**
          * {@inheritdoc}
          */
-        public function relations ()
+        public function relations()
         {
             return [
-                "server" => Server::class,
-                "git" => Git::class,
-                "node" => Node::class,
-                "system" => System::class,
+                'server' => Server::class,
+                'git' => Git::class,
+                'node' => Node::class,
+                'system' => System::class,
             ];
         }
     }
-

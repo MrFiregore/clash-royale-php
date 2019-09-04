@@ -1,5 +1,5 @@
 <?php
-/**************************************************************************************************************************************************************************************************************************************************************
+/*
  *                                                                                                                                                                                                                                                            *
  * Copyright (c) 2018 by Firegore (https://firegore.es) (git:firegore2).                                                                                                                                                                                      *
  * This file is part of clash-royale-php.                                                                                                                                                                                                                     *
@@ -10,7 +10,7 @@
  * You should have received a copy of the GNU General Public License along with clash-royale-php.                                                                                                                                                             *
  * If not, see <http://www.gnu.org/licenses/>.                                                                                                                                                                                                                *
  *                                                                                                                                                                                                                                                            *
- **************************************************************************************************************************************************************************************************************************************************************/
+ */
 
 namespace CR\Console;
 
@@ -50,19 +50,21 @@ class BaseConsole
     const FRAMED = 51;
     const ENCIRCLED = 52;
     const OVERLINED = 53;
+
     /**
      * Will return a string formatted with the given ANSI style.
      *
      * @param string $string the string to be formatted
-     * @param array $format An array containing formatting values.
-     * You can pass any of the `FG_*`, `BG_*` and `TEXT_*` constants
-     * and also [[xtermFgColor]] and [[xtermBgColor]] to specify a format.
+     * @param array  $format An array containing formatting values.
+     *                       You can pass any of the `FG_*`, `BG_*` and `TEXT_*` constants
+     *                       and also [[xtermFgColor]] and [[xtermBgColor]] to specify a format.
+     *
      * @return string
      */
     public static function ansiFormat($string, $format = [])
     {
         $code = implode(';', $format);
 
-        return "\033[0m" . ($code !== '' ? "\033[" . $code . 'm' : '') . $string . "\033[0m";
+        return "\033[0m".('' !== $code ? "\033[".$code.'m' : '').$string."\033[0m";
     }
 }

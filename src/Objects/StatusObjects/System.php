@@ -12,16 +12,16 @@
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    namespace CR\Objects\StatusObjects;
+namespace CR\Objects\StatusObjects;
 
 use CR\Objects\BaseObject;
 
 /**
- * System Object
+ * System Object.
  *
- * @method array            getLoadavg()
- * @method string           getFreeMemory()
- * @method string           getHostname()
+ * @method array  getLoadavg()
+ * @method string getFreeMemory()
+ * @method string getHostname()
  */
 class System extends BaseObject
 {
@@ -30,7 +30,7 @@ class System extends BaseObject
      */
     public function primaryKey()
     {
-        return "";
+        return '';
     }
 
     /**

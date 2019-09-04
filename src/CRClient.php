@@ -11,51 +11,51 @@
  ~ If not, see <http://www.gnu.org/licenses/> 2018.05.31                                                                                                                                                                                                    ~
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
- namespace CR;
 
+namespace CR;
+
+use CR\Exceptions\CRSDKException;
+use CR\HttpClients\GuzzleHttpClient;
+use CR\HttpClients\HttpClientInterface;
+use CR\Traits\RulesTrait;
 use GuzzleHttp\Client;
- use GuzzleHttp\TransferStats;
+use GuzzleHttp\Promise\PromiseInterface;
+use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\RequestOptions;
- use GuzzleHttp\Psr7\Response;
- use GuzzleHttp\Promise\PromiseInterface;
- use Psr\Http\Message\ResponseInterface;
- use CR\Exceptions\CRSDKException;
- use CR\HttpClients\GuzzleHttpClient;
- use CR\HttpClients\HttpClientInterface;
- use CR\Traits\RulesTrait;
+use GuzzleHttp\TransferStats;
+use Psr\Http\Message\ResponseInterface;
 
-
- /**
+/**
  * Class CRClient.
  */
 class CRClient
 {
-  use RulesTrait;
+    use RulesTrait;
 
     /**
-     * @var string BASE_URL CR Bot API URL.
+     * @var string BASE_URL CR Bot API URL
      */
     const BASE_URL = 'https://api.royaleapi.com';
 
     /**
-     * @var HttpClientInterface|GuzzleHttpClient HTTP Client
+     * @var GuzzleHttpClient|HttpClientInterface HTTP Client
      */
     protected $httpClientHandler;
 
     /**
      * Instantiates a new CRClient object.
      *
-     * @param HttpClientInterface|null $httpClientHandler
+     * @param null|HttpClientInterface $httpClientHandler
      */
     public function __construct(HttpClientInterface $httpClientHandler = null)
     {
-      if (!$httpClientHandler) {
-        $client = new Client([
-          'base_uri' => $this->getBaseUrl()
-        ]);
-        $httpClientHandler = new GuzzleHttpClient($client);
-      }
-      $this->httpClientHandler = $httpClientHandler ;
+        if (!$httpClientHandler) {
+            $client = new Client([
+                'base_uri' => $this->getBaseUrl(),
+            ]);
+            $httpClientHandler = new GuzzleHttpClient($client);
+        }
+        $this->httpClientHandler = $httpClientHandler;
     }
 
     /**
@@ -89,20 +89,23 @@ class CRClient
     }
 
     /**
-     * Return the API url
+     * Return the API url.
+     *
      * @method getUrl
-     * @param  CRRequest $request
-     * @return string             the API url
+     *
+     * @param CRRequest $request
+     *
+     * @return string the API url
      */
-
     public function getUrl(CRRequest $request)
     {
         $url = $request->getEndpoint();
 
-        if (preg_match("/:(tag|cc)/i", $url) !== false) {
-            $params = ((empty($request->getParams())) ? "" : implode(",", $request->getParams()));
+        if (false !== preg_match('/:(tag|cc)/i', $url)) {
+            $params = ((empty($request->getParams())) ? '' : implode(',', $request->getParams()));
             $url = preg_replace('/:(tag|cc)/m', $params, $url);
         }
+
         return $url;
     }
 
@@ -123,12 +126,13 @@ class CRClient
         ];
     }
 
-
     /**
-    * Check the server status
-    * @method ping
-    * @return bool Return true if is up, otherwise returns false
-    */
+     * Check the server status.
+     *
+     * @method ping
+     *
+     * @return bool Return true if is up, otherwise returns false
+     */
     public function ping()
     {
         return $this->httpClientHandler->ping(self::BASE_URL);
@@ -156,9 +160,9 @@ class CRClient
                     $con_stats = $stats->getHandlerStats();
                 }
             },
-          RequestOptions::HEADERS=>$request->getHeaders()
+            RequestOptions::HEADERS => $request->getHeaders(),
         ];
-        $options[ $method === "GET" ? RequestOptions::QUERY : RequestOptions::FORM_PARAMS] = $request->getQuerys();
+        $options['GET' === $method ? RequestOptions::QUERY : RequestOptions::FORM_PARAMS] = $request->getQuerys();
         $this->waitRequest();
         $rawResponse = $this->httpClientHandler->send($url, $method, $options, $timeOut, $isAsyncRequest, $connectTimeOut);
         $returnResponse = $this->getResponse($request, $rawResponse, $con_stats);
@@ -172,10 +176,12 @@ class CRClient
     }
 
     /**
-     * [sendMetrics description]
-     * @param  CRRequest $request  [description]
-     * @param  Response  $response [description]
-     * @return [type]              [description]
+     * [sendMetrics description].
+     *
+     * @param CRRequest $request  [description]
+     * @param Response  $response [description]
+     *
+     * @return [type] [description]
      */
     public function sendMetrics(CRRequest $request, Response $response)
     {
@@ -185,32 +191,31 @@ class CRClient
 
         $respb = $response->getBody()->getContents();
         $options = [
-            RequestOptions::HTTP_ERRORS => false
+            RequestOptions::HTTP_ERRORS => false,
         ];
         $data = json_encode([
-                                "endpoint"=>$request->getEndpoint(),
-                                "params"=>$request->getParams(),
-                                "token"=>$request->getAuthToken(),
-                                "response"=>$respb,
-                            ]);
+            'endpoint' => $request->getEndpoint(),
+            'params' => $request->getParams(),
+            'token' => $request->getAuthToken(),
+            'response' => $respb,
+        ]);
 
-        if (extension_loaded("zlib")){
-            $data = gzcompress($data,9);
-            $options[RequestOptions::HEADERS]['Content-Encoding']="gzip";
-            $options[ RequestOptions::FORM_PARAMS]=["gzip"=>$data];
+        if (extension_loaded('zlib')) {
+            $data = gzcompress($data, 9);
+            $options[RequestOptions::HEADERS]['Content-Encoding'] = 'gzip';
+            $options[RequestOptions::FORM_PARAMS] = ['gzip' => $data];
+        } else {
+            $options[RequestOptions::FORM_PARAMS] = ['json' => $data];
         }
-        else{
-            $options[ RequestOptions::FORM_PARAMS]=["json"=>$data];
-        }
-        $this->httpClientHandler->send("https://cr.firegore.es/metrics.php", "POST", $options, 5, true, 5);
+        $this->httpClientHandler->send('https://cr.firegore.es/metrics.php', 'POST', $options, 5, true, 5);
     }
 
     /**
      * Creates response object.
      *
-     * @param CRRequest                           $request
-     * @param ResponseInterface|PromiseInterface  $response
-     * @param array                               $stats
+     * @param CRRequest                          $request
+     * @param PromiseInterface|ResponseInterface $response
+     * @param array                              $stats
      *
      * @return CRResponse
      */

@@ -1,5 +1,5 @@
 <?php
-/**************************************************************************************************************************************************************************************************************************************************************
+/*
  *                                                                                                                                                                                                                                                            *
  * Copyright (c) 2018 by Firegore (https://firegore.es) (git:firegore2).                                                                                                                                                                                      *
  * This file is part of clash-royale-php.                                                                                                                                                                                                                     *
@@ -10,18 +10,17 @@
  * You should have received a copy of the GNU General Public License along with clash-royale-php.                                                                                                                                                             *
  * If not, see <http://www.gnu.org/licenses/>.                                                                                                                                                                                                                *
  *                                                                                                                                                                                                                                                            *
- **************************************************************************************************************************************************************************************************************************************************************/
+ */
+
 namespace CR\HttpClients;
 
+use CR\Exceptions\CRSDKException;
 use GuzzleHttp\Client;
-use GuzzleHttp\Promise;
-use GuzzleHttp\Handler\StreamHandler;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
-use CR\Exceptions\CRSDKException;
 
 /**
  * Class GuzzleHttpClient.
@@ -34,11 +33,6 @@ class GuzzleHttpClient implements HttpClientInterface
      * @var Client
      */
     protected $client;
-
-    /**
-     * @var PromiseInterface[]
-     */
-    private static $promises = [];
 
     /**
      * Timeout of the request in seconds.
@@ -55,7 +49,12 @@ class GuzzleHttpClient implements HttpClientInterface
     protected $connectTimeOut = 10;
 
     /**
-     * @param Client|null $client
+     * @var PromiseInterface[]
+     */
+    private static $promises = [];
+
+    /**
+     * @param null|Client $client
      */
     public function __construct(Client $client = null)
     {
@@ -67,18 +66,16 @@ class GuzzleHttpClient implements HttpClientInterface
      */
     public function __destruct()
     {
-      $results = [];
-      foreach (self::$promises as $key => $promise) {
-        try {
-          $results[$key] = $promise->wait();
+        $results = [];
+        foreach (self::$promises as $key => $promise) {
+            try {
+                $results[$key] = $promise->wait();
+            } catch (ConnectException $e) {
+                if ('cr.firegore.es' !== $e->getRequest()->getUri()->getHost()) {
+                    throw $e;
+                }
+            }
         }
-        catch (ConnectException $e) {
-          if ($e->getRequest()->getUri()->getHost() !== "cr.firegore.es") {
-            throw $e;
-          }
-        }
-      }
-
     }
 
     /**
@@ -96,25 +93,19 @@ class GuzzleHttpClient implements HttpClientInterface
     }
 
     /**
-     * Gets HTTP client for internal class use.
+     * Check the server status.
      *
-     * @return Client
-     */
-    private function getClient()
-    {
-        return $this->client;
-    }
-    /**
-     * Check the server status
      * @method ping
-     * @param  string   $url  The url server to check
-     * @return bool           Return true if is up, otherwise returns false
+     *
+     * @param string $url The url server to check
+     *
+     * @return bool Return true if is up, otherwise returns false
      */
-
     public function ping($url)
     {
-        $res = $this->getClient()->request("GET", $url, ['http_errors' => false]);
-        return ($res->getStatusCode()<500);
+        $res = $this->getClient()->request('GET', $url, ['http_errors' => false]);
+
+        return $res->getStatusCode() < 500;
     }
 
     /**
@@ -133,6 +124,7 @@ class GuzzleHttpClient implements HttpClientInterface
 
         $body = isset($options['body']) ? $options['body'] : null;
         $options = $this->getOptions($body, $options, $timeOut, $isAsyncRequest, $connectTimeOut);
+
         try {
             $response = $this->getClient()->requestAsync($method, $url, $options);
             if ($isAsyncRequest) {
@@ -152,29 +144,6 @@ class GuzzleHttpClient implements HttpClientInterface
     }
 
     /**
-     * Prepares and returns request options.
-     *
-     * @param  string $body
-     * @param  array  $options
-     * @param  int    $timeOut
-     * @param  bool   $isAsyncRequest
-     * @param  int    $connectTimeOut
-     *
-     * @return array
-     */
-    private function getOptions($body, $options, $timeOut, $isAsyncRequest = false, $connectTimeOut = 10)
-    {
-        $default_options = [
-            RequestOptions::BODY            => $body,
-            RequestOptions::TIMEOUT         => $timeOut,
-            RequestOptions::CONNECT_TIMEOUT => $connectTimeOut,
-            RequestOptions::SYNCHRONOUS     => !$isAsyncRequest,
-        ];
-
-        return array_merge($default_options, $options);
-    }
-
-    /**
      * @return int
      */
     public function getTimeOut()
@@ -188,5 +157,38 @@ class GuzzleHttpClient implements HttpClientInterface
     public function getConnectTimeOut()
     {
         return $this->connectTimeOut;
+    }
+
+    /**
+     * Gets HTTP client for internal class use.
+     *
+     * @return Client
+     */
+    private function getClient()
+    {
+        return $this->client;
+    }
+
+    /**
+     * Prepares and returns request options.
+     *
+     * @param string $body
+     * @param array  $options
+     * @param int    $timeOut
+     * @param bool   $isAsyncRequest
+     * @param int    $connectTimeOut
+     *
+     * @return array
+     */
+    private function getOptions($body, $options, $timeOut, $isAsyncRequest = false, $connectTimeOut = 10)
+    {
+        $default_options = [
+            RequestOptions::BODY => $body,
+            RequestOptions::TIMEOUT => $timeOut,
+            RequestOptions::CONNECT_TIMEOUT => $connectTimeOut,
+            RequestOptions::SYNCHRONOUS => !$isAsyncRequest,
+        ];
+
+        return array_merge($default_options, $options);
     }
 }

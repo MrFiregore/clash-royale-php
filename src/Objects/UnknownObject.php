@@ -12,7 +12,6 @@
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-
 namespace CR\Objects;
 
 /**
@@ -20,21 +19,19 @@ namespace CR\Objects;
  */
 class UnknownObject extends BaseObject
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function primaryKey()
+    {
+        return '';
+    }
 
-  /**
-  * {@inheritdoc}
-  */
-  public function primaryKey()
-  {
-      return "";
-  }
-
-  /**
-  * {@inheritdoc}
-  */
-  public function relations()
-  {
-    return [];
-  }
-
+    /**
+     * {@inheritdoc}
+     */
+    public function relations()
+    {
+        return [];
+    }
 }

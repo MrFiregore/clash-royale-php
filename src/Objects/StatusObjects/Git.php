@@ -17,10 +17,10 @@ namespace CR\Objects\StatusObjects;
 use CR\Objects\BaseObject;
 
 /**
- * Git Object
+ * Git Object.
  *
- * @method string           getBranch()
- * @method string           getSha()
+ * @method string getBranch()
+ * @method string getSha()
  */
 class Git extends BaseObject
 {
@@ -29,7 +29,7 @@ class Git extends BaseObject
      */
     public function primaryKey()
     {
-        return "";
+        return '';
     }
 
     /**

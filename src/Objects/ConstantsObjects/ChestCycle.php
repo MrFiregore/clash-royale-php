@@ -13,12 +13,11 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 namespace CR\Objects\ConstantsObjects;
+
 use CR\Objects\BaseObject;
 
 /**
- * Class ChestCycle
- *
- * @package CR\Objects\ConstantsObjects
+ * Class ChestCycle.
  */
 class ChestCycle extends BaseObject
 {
@@ -27,7 +26,7 @@ class ChestCycle extends BaseObject
      */
     public function primaryKey()
     {
-        return "";
+        return '';
     }
 
     /**

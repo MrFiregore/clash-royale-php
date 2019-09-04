@@ -14,22 +14,21 @@
 
 namespace CR\Objects;
 
-
 class PlayerChest extends BaseObject
 {
-  /**
-  * {@inheritdoc}
-  */
-  public function primaryKey()
-  {
-    return "";
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function primaryKey()
+    {
+        return '';
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function relations()
-  {
-      return [];
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function relations()
+    {
+        return [];
+    }
 }

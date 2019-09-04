@@ -15,26 +15,25 @@
 namespace CR\Objects;
 
 /**
- * Endpoint Object
+ * Endpoint Object.
  *
- * @method    string               getUrl()      Returns the endpoint url
+ * @method string getUrl() Returns the endpoint url
  */
-
 class Endpoint extends BaseObject
 {
-  /**
-  * {@inheritdoc}
-  */
-  public function primaryKey()
-  {
-    return "";
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function primaryKey()
+    {
+        return '';
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function relations()
-  {
-      return [];
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function relations()
+    {
+        return [];
+    }
 }

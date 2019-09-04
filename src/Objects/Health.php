@@ -13,25 +13,27 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 namespace CR\Objects;
+
 /**
- *  Health object
- * @method    string              getVersion()                   .
- * @method    string              getHost()                      .
- * @method    string              getServerTime()                .
+ *  Health object.
+ *
+ * @method string getVersion()    .
+ * @method string getHost()       .
+ * @method string getServerTime() .
  */
 class Health extends BaseObject
 {
     /**
-    * {@inheritdoc}
-    */
+     * {@inheritdoc}
+     */
     public function primaryKey()
     {
-        return "";
+        return '';
     }
 
     /**
-    * {@inheritdoc}
-    */
+     * {@inheritdoc}
+     */
     public function relations()
     {
         return [];

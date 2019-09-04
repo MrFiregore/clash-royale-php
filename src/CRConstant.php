@@ -1,5 +1,5 @@
 <?php
-/**************************************************************************************************************************************************************************************************************************************************************
+/*
  *                                                                                                                                                                                                                                                            *
  * Copyright (c) 2018 by Firegore (https://firegore.es) (git:firegore2).                                                                                                                                                                                      *
  * This file is part of clash-royale-php.                                                                                                                                                                                                                     *
@@ -10,31 +10,28 @@
  * You should have received a copy of the GNU General Public License along with clash-royale-php.                                                                                                                                                             *
  * If not, see <http://www.gnu.org/licenses/>.                                                                                                                                                                                                                *
  *                                                                                                                                                                                                                                                            *
- **************************************************************************************************************************************************************************************************************************************************************/
+ */
 
 namespace CR;
 
 use CR\Exceptions\CRSDKException;
 
-/**
- *
- */
 class CRConstant
 {
-    const BASE_URL = "https://royaleapi.github.io/cr-api-data/json/{endpoint}.json";
+    const BASE_URL = 'https://royaleapi.github.io/cr-api-data/json/{endpoint}.json';
     protected static $max_cache_age = 3600;
 
     public static function getConstant($endpoint)
     {
         $url = str_replace('{endpoint}', $endpoint, self::BASE_URL);
-        $file_cache= "constant-".$endpoint;
-        if (CRCache::exists($file_cache, ["maxage"=>self::$max_cache_age])) {
+        $file_cache = 'constant-'.$endpoint;
+        if (CRCache::exists($file_cache, ['maxage' => self::$max_cache_age])) {
             $response = CRCache::get($file_cache);
         } else {
             if ($response = file_get_contents($url)) {
                 CRCache::write($file_cache, $response);
             } else {
-                throw new CRSDKException("Error when try request ".$url." constants", 1);
+                throw new CRSDKException('Error when try request '.$url.' constants', 1);
             }
         }
 

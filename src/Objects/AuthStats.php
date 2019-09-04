@@ -15,9 +15,8 @@
 namespace CR\Objects;
 
 /**
-*  AuthStats object
-*/
-
+ *  AuthStats object.
+ */
 class AuthStats extends BaseObject
 {
     /**
@@ -25,7 +24,7 @@ class AuthStats extends BaseObject
      */
     public function primaryKey()
     {
-        return "";
+        return '';
     }
 
     /**
@@ -35,5 +34,4 @@ class AuthStats extends BaseObject
     {
         return [];
     }
-
 }

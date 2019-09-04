@@ -12,22 +12,21 @@
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    namespace CR\Objects\StatusObjects;
+namespace CR\Objects\StatusObjects;
 
 use CR\Objects\BaseObject;
 
 /**
- * Server Object
+ * Server Object.
  *
- * @method string           getStatus()
- * @method string           getName()
- * @method string           getVersion()
- * @method string           getStartedAt()
- * @method int              getUptime()
- * @method string           getUptimeHuman()
- * @method string           getEnv()
- * @method array            getRequests()
-
+ * @method string getStatus()
+ * @method string getName()
+ * @method string getVersion()
+ * @method string getStartedAt()
+ * @method int    getUptime()
+ * @method string getUptimeHuman()
+ * @method string getEnv()
+ * @method array  getRequests()
  */
 class Server extends BaseObject
 {
@@ -36,7 +35,7 @@ class Server extends BaseObject
      */
     public function primaryKey()
     {
-        return "";
+        return '';
     }
 
     /**

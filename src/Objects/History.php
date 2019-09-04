@@ -12,17 +12,17 @@
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    namespace CR\Objects;
+namespace CR\Objects;
 
-    /**
-     * History Object
-     *
-     * @method    int               getDonations()
-     * @method    int               getMemberCount()
-     * @method    int               getCrowns()
-     * @method    int               getScore()
-     * @method    Player[]          getMembers()
-     */
+/**
+ * History Object.
+ *
+ * @method int      getDonations()
+ * @method int      getMemberCount()
+ * @method int      getCrowns()
+ * @method int      getScore()
+ * @method Player[] getMembers()
+ */
     class History extends BaseObject
     {
         /**
@@ -30,7 +30,7 @@
          */
         public function primaryKey()
         {
-            return "";
+            return '';
         }
 
         /**

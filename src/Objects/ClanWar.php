@@ -15,34 +15,32 @@
 namespace CR\Objects;
 
 /**
- * ClanWar object
- * @method    Player[]            getParticipants()                       Returns the level of the clan chest
- * @method    Clan[]              getStandings()                          Returns the level of the clan chest
- * @method    string              getState()                              (Optional) Returns the status of the clan chest ("warDay","collectionDay")
- * @method    int                 getSeasonNumber()                       (Optional)Returns the level of the clan chest
+ * ClanWar object.
+ *
+ * @method Player[] getParticipants()                                                                                                  Returns the level of the clan chest
+ * @method Clan[]   getStandings()                                                                                                     Returns the level of the clan chest
+ * @method string   getState()                              (Optional) Returns the status of the clan chest ("warDay","collectionDay")
+ * @method int      getSeasonNumber()                                                                                                  (Optional)Returns the level of the clan chest
  */
-
 class ClanWar extends BaseObject
 {
     /**
-    * {@inheritdoc}
-    */
+     * {@inheritdoc}
+     */
     public function primaryKey()
     {
-        return "";
+        return '';
     }
 
-
     /**
-    * {@inheritdoc}
-    */
+     * {@inheritdoc}
+     */
     public function relations()
     {
         return [
-          'clan'             => Clan::class,
-          'participants'     => Player::class,
-          'standings'        => Clan::class,
+            'clan' => Clan::class,
+            'participants' => Player::class,
+            'standings' => Clan::class,
         ];
     }
-
 }

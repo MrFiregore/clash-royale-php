@@ -13,16 +13,13 @@
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 namespace CR;
-use GuzzleHttp\Promise\PromiseInterface;
-use Psr\Http\Message\ResponseInterface;
+
 use CR\Exceptions\CRResponseException;
 use CR\Exceptions\CRSDKException;
-use GuzzleHttp\Psr7\Response;
 use GuzzleHttp;
-
-
-
-
+use GuzzleHttp\Promise\PromiseInterface;
+use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class CRResponse.
@@ -31,82 +28,80 @@ use GuzzleHttp;
  */
 class CRResponse
 {
-  /** @var array Map of standard HTTP status code/reason phrases */
-  private static $phrases = [
-    400 => 'Bad Request -- Your request sucks.',
-    401 => 'Unauthorized -- No authentication was provided, or key invalid.',
-    404 => 'Not Found -- The specified player / clan cannot be found. Could be invalid tags',
-    500 => 'Internal Server Error -- We had a problem with our server. Try again later.',
-    503 => "Service Unavailable -- We're temporarily offline for maintenance. Please try again later.",
-    521 => "Service Unavailable -- Web server is down",
-    ];
     /**
-     * @var null|int The HTTP status code response from API.
+     * @var null|int the HTTP status code response from API
      */
     protected $httpStatusCode;
 
     /**
-     * @var array The headers returned from API request.
+     * @var array the headers returned from API request
      */
     protected $headers;
 
     /**
-     * @var string The raw body of the response from API request.
+     * @var string the raw body of the response from API request
      */
     protected $body;
 
     /**
-     * @var array The stats of the response from API request.
+     * @var array the stats of the response from API request
      */
     protected $stats = [];
 
     /**
-     * @var array The decoded body of the API response.
+     * @var array the decoded body of the API response
      */
     protected $decodedBody = [];
 
     /**
-     * @var string API Endpoint used to make the request.
+     * @var string API Endpoint used to make the request
      */
     protected $endPoint;
 
     /**
-     * @var CRRequest The original request that returned this response.
+     * @var CRRequest the original request that returned this response
      */
     protected $request;
 
     /**
-     * @var CRSDKException The exception thrown by this request.
+     * @var CRSDKException the exception thrown by this request
      */
     protected $thrownException;
+    /** @var array Map of standard HTTP status code/reason phrases */
+    private static $phrases = [
+        400 => 'Bad Request -- Your request sucks.',
+        401 => 'Unauthorized -- No authentication was provided, or key invalid.',
+        404 => 'Not Found -- The specified player / clan cannot be found. Could be invalid tags',
+        500 => 'Internal Server Error -- We had a problem with our server. Try again later.',
+        503 => "Service Unavailable -- We're temporarily offline for maintenance. Please try again later.",
+        521 => 'Service Unavailable -- Web server is down',
+    ];
 
     /**
      * Gets the relevant data from the Http client.
      *
-     * @param CRRequest                           $request
-     * @param ResponseInterface|PromiseInterface  $response
-     * @param array                               $stats
+     * @param CRRequest                          $request
+     * @param PromiseInterface|ResponseInterface $response
+     * @param array                              $stats
      */
     public function __construct(CRRequest $request, $response, $stats = [])
     {
-      if ($response instanceof ResponseInterface) {
-        $this->httpStatusCode = $response->getStatusCode();
-        $this->body = $response->getBody();
-        $this->headers = $response->getHeaders();
-        $this->decodeBody();
-      } elseif ($response instanceof PromiseInterface) {
-        $this->httpStatusCode = null;
-      } else {
-        throw new \InvalidArgumentException(
-          'Second constructor argument "response" must be instance of ResponseInterface or PromiseInterface'
+        if ($response instanceof ResponseInterface) {
+            $this->httpStatusCode = $response->getStatusCode();
+            $this->body = $response->getBody();
+            $this->headers = $response->getHeaders();
+            $this->decodeBody();
+        } elseif ($response instanceof PromiseInterface) {
+            $this->httpStatusCode = null;
+        } else {
+            throw new \InvalidArgumentException(
+                'Second constructor argument "response" must be instance of ResponseInterface or PromiseInterface'
         );
-      }
-      $this->stats = $stats;
-      $this->request = $request;
-      $this->endPoint = (string) $request->getEndpoint();
+        }
+        $this->stats = $stats;
+        $this->request = $request;
+        $this->endPoint = (string) $request->getEndpoint();
     }
-
-
 
     /**
      * Return the original request that returned this response.
@@ -119,14 +114,15 @@ class CRResponse
     }
 
     /**
-     * Return the stats information about this request
+     * Return the stats information about this request.
+     *
      * @method getStats
-     * @return array   The stats information about this request
+     *
+     * @return array The stats information about this request
      */
-
     public function getStats()
     {
-      return $this->stats;
+        return $this->stats;
     }
 
     /**
@@ -139,20 +135,23 @@ class CRResponse
     {
         return $this->httpStatusCode;
     }
-    /**
-     * [getHttpStatusMessage description]
-     * @method getHttpStatusMessage
-     * @return string               [description]
-     */
 
+    /**
+     * [getHttpStatusMessage description].
+     *
+     * @method getHttpStatusMessage
+     *
+     * @return string [description]
+     */
     public function getHttpStatusMessage()
     {
-      $code = $this->getHttpStatusCode();
-      return (isset(self::$phrases[$code])) ?
+        $code = $this->getHttpStatusCode();
+
+        return (isset(self::$phrases[$code])) ?
                     self::$phrases[$code] :
                     (
-                      (isset(Response::$phrases[$code])) ?
-                        Response::$phrases[$code] : Response::$phrases[((int)($code / 100) * 100)]
+                        (isset(Response::$phrases[$code])) ?
+                        Response::$phrases[$code] : Response::$phrases[((int) ($code / 100) * 100)]
                     );
     }
 
@@ -169,7 +168,7 @@ class CRResponse
     /**
      * Return the API auth token that was used for this request.
      *
-     * @return string|null
+     * @return null|string
      */
     public function getAuthToken()
     {
@@ -223,7 +222,10 @@ class CRResponse
      */
     public function isError()
     {
-        return isset($this->decodedBody['error']) && ($this->decodedBody['error'] === true) || ( !is_null($this->getHttpStatusCode()) && $this->getHttpStatusCode() !== 200);
+        return isset($this->decodedBody['error'])
+            && (true === $this->decodedBody['error'])
+            || (!is_null($this->getHttpStatusCode())
+            && 200 !== $this->getHttpStatusCode());
     }
 
     /**
@@ -241,11 +243,8 @@ class CRResponse
      */
     public function makeException()
     {
-      $this->thrownException = CRResponseException::create($this);
+        $this->thrownException = CRResponseException::create($this);
     }
-
-
-
 
     /**
      * Returns the exception that was thrown for this request.
@@ -264,14 +263,17 @@ class CRResponse
     {
         $this->decodedBody = json_decode($this->body, true);
 
-        if ($this->decodedBody === null) {
+        if (null === $this->decodedBody) {
             $this->decodedBody = [];
             $this->getBody()->rewind();
             $body = $this->getBody()->getContents();
             $this->getBody()->rewind();
 
-            if (CRUtils::isHTMLPage($body))   $this->decodedBody[] = $body;
-            else    parse_str($body, $this->decodedBody);
+            if (CRUtils::isHTMLPage($body)) {
+                $this->decodedBody[] = $body;
+            } else {
+                parse_str($body, $this->decodedBody);
+            }
         }
 
         if (!is_array($this->decodedBody)) {
