@@ -12,35 +12,35 @@
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    namespace CR\Objects\ConstantsObjects;
-    use CR\Objects\BaseObject;
+namespace CR\Objects\ConstantsObjects;
+use CR\Objects\BaseObject;
+
+/**
+ * AlianceBadge object
+ *
+ *
+ * @method    string              getName()               Returns the name of the badge
+ * @method    string              getCategory()           Returns the category name of the badge
+ * @method    int                 getId()                 Returns the id of the badge
+ * @method    string              getImage()              Returns the image url of the badge
+ */
+
+class AllianceBadge extends BaseObject
+{
 
     /**
-     * AlianceBadge object
-     *
-     *
-     * @method    string              getName()               Returns the name of the badge
-     * @method    string              getCategory()           Returns the category name of the badge
-     * @method    int                 getId()                 Returns the id of the badge
-     * @method    string              getImage()              Returns the image url of the badge
+     * {@inheritdoc}
      */
-
-    class AllianceBadge extends BaseObject
+    public function primaryKey()
     {
-
-        /**
-         * {@inheritdoc}
-         */
-        public function primaryKey()
-        {
-            return "id";
-        }
-
-        /**
-         * {@inheritdoc}
-         */
-        public function relations()
-        {
-            return [];
-        }
+        return "id";
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function relations()
+    {
+        return [];
+    }
+}
