@@ -42,91 +42,94 @@ use CR\CRConstant;
 
 class Card extends BaseObject
 {
-  protected static $constants_stats= null;
-  protected static $constants_rarities= null;
-  protected $constant = null;
+    protected static $constants_stats= null;
+    protected static $constants_rarities= null;
+    protected $constant = null;
 
-  /**
-  * {@inheritdoc}
-  */
-  public function primaryKey()
-  {
-      return "id";
-  }
-
-
-  /**
-  * {@inheritdoc}
-  */
-  public function relations()
-  {
-      return [
-    ];
-  }
-
-  /**
-  * [getConstant description]
-  * @method getConstant
-  * @return array      Returns an array of Card object constants
-  */
-  public function getConstant()
-  {
-    if (is_null(self::$constants_stats)) {
-      self::$constants_stats = collect(CRConstant::getConstant("cards_stats"));
-    }
-    if (is_null(self::$constants_rarities)) {
-      self::$constants_rarities = collect(CRConstant::getConstant("rarities"));
+    /**
+    * {@inheritdoc}
+    */
+    public function primaryKey()
+    {
+        return "id";
     }
 
-    if (is_null($this->constant)) {
-      $stats = collect(self::$constants_stats->get(strtolower($this->getType())))->where("name",$this->getName())->values()->all();
-      $this->constant['stats'] = (empty($stats)) ? $stats : $stats[0];
-      $constants = self::$constants_rarities->where("name",$this->getRarity())->values()->all();
-      $this->constant['constants'] = (empty($constants)) ? $constants : $constants[0];
+
+    /**
+    * {@inheritdoc}
+    */
+    public function relations()
+    {
+        return [
+
+        ];
     }
-    return $this->constant;
-  }
 
-  public function getUpgradeCost()
-  {
-    $level = $this->has("level") ? $this->getLevel() : $this->getMaxLevel();
-    return $this->getConstant()['constants']['upgrade_cost'][--$level];
-  }
+    /**
+    * [getConstant description]
+    * @method getConstant
+    * @return array      Returns an array of Card object constants
+    */
+    public function getConstant()
+    {
+        if (is_null(self::$constants_stats)) {
+            self::$constants_stats = collect(CRConstant::getConstant("cards_stats"));
+        }
+        if (is_null(self::$constants_rarities)) {
+            self::$constants_rarities = collect(CRConstant::getConstant("rarities"));
+        }
 
-  public function getUpgradeExp()
-  {
-    $level = $this->has("level") ? $this->getLevel() : $this->getMaxLevel();
-    return $this->getConstant()['constants']['upgrade_exp'][--$level];
-  }
-
-  public function getUpgradeStats()
-  {
-    $stats = [
-      "dps"=>false,
-      "damage"=>false,
-      "death_damage"=>false,
-      "hitpoints"=>false,
-    ];
-
-    if (!isset($this->getConstant()['stats']) || empty($this->getConstant()['stats'])) return $stats;
-
-
-    $level = $this->has("level") ? $this->getLevel() : $this->getMaxLevel();
-    $constant_stats = collect($this->getConstant()['stats']);
-    $plm = $this->getConstant()['constants']["power_level_multiplier"][$level-2];
-
-    if ($constant_stats->has("dps")) {
-      $stats['dps'] = $constant_stats->get("dps")*($plm/100);
+        if (is_null($this->constant)) {
+            $stats = collect(self::$constants_stats->get(strtolower($this->getType())))->where("name", $this->getName())->values()->all();
+            $this->constant['stats'] = (empty($stats)) ? $stats : $stats[0];
+            $constants = self::$constants_rarities->where("name", $this->getRarity())->values()->all();
+            $this->constant['constants'] = (empty($constants)) ? $constants : $constants[0];
+        }
+        return $this->constant;
     }
-    if ($constant_stats->has("damage")) {
-      $stats['damage'] = $constant_stats->get("damage")*($plm/100);
+
+    public function getUpgradeCost()
+    {
+        $level = $this->has("level") ? $this->getLevel() : $this->getMaxLevel();
+        return $this->getConstant()['constants']['upgrade_cost'][--$level];
     }
-    if ($constant_stats->has("death_damage")) {
-      $stats['death_damage'] = $constant_stats->get("death_damage")*($plm/100);
+
+    public function getUpgradeExp()
+    {
+        $level = $this->has("level") ? $this->getLevel() : $this->getMaxLevel();
+        return $this->getConstant()['constants']['upgrade_exp'][--$level];
     }
-    if ($constant_stats->has("hitpoints")) {
-      $stats['hitpoints'] = $constant_stats->get("hitpoints")*($plm/100);
+
+    public function getUpgradeStats()
+    {
+        $stats = [
+            "dps" => false,
+            "damage" => false,
+            "death_damage" => false,
+            "hitpoints" => false,
+        ];
+
+        if (!isset($this->getConstant()['stats']) || empty($this->getConstant()['stats'])) {
+            return $stats;
+        }
+
+
+        $level = $this->has("level") ? $this->getLevel() : $this->getMaxLevel();
+        $constant_stats = collect($this->getConstant()['stats']);
+        $plm = $this->getConstant()['constants']["power_level_multiplier"][$level - 2];
+
+        if ($constant_stats->has("dps")) {
+            $stats['dps'] = $constant_stats->get("dps") * ($plm / 100);
+        }
+        if ($constant_stats->has("damage")) {
+            $stats['damage'] = $constant_stats->get("damage") * ($plm / 100);
+        }
+        if ($constant_stats->has("death_damage")) {
+            $stats['death_damage'] = $constant_stats->get("death_damage") * ($plm / 100);
+        }
+        if ($constant_stats->has("hitpoints")) {
+            $stats['hitpoints'] = $constant_stats->get("hitpoints") * ($plm / 100);
+        }
+        return $stats;
     }
-    return $stats;
-  }
 }
