@@ -30,22 +30,22 @@ namespace CR\Objects;
 
 class ClanSearch extends BaseObject
 {
-  /**
-  * {@inheritdoc}
-  */
-  public function primaryKey()
-  {
-      return "";
-  }
+    /**
+    * {@inheritdoc}
+    */
+    public function primaryKey()
+    {
+        return "";
+    }
 
-  /**
-  * {@inheritdoc}
-  */
-  public function relations()
-  {
-    return [
-      'badge'             => AllianceBadge::class,
-      'location'           => Location::class,
-    ];
-  }
+    /**
+    * {@inheritdoc}
+    */
+    public function relations()
+    {
+        return [
+            'badge'  => AllianceBadge::class,
+            'location' => Location::class,
+        ];
+    }
 }
