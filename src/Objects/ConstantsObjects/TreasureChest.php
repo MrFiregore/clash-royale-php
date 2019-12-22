@@ -1,4 +1,5 @@
 <?php
+    
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  ~                                                                                                                                                                                                                                                          ~
  ~ Copyright (c) 2018 by firegore (https://firegore.es) (git:firegore2)                                                                                                                                                                                     ~
@@ -11,22 +12,20 @@
  ~ If not, see <http://www.gnu.org/licenses/> 2018.06.13                                                                                                                                                                                                    ~
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
+    
     namespace CR\Objects\ConstantsObjects;
-
+    
     use CR\Objects\BaseObject;
     use CR\Objects\ConstantsObjects\TreasureChestObjects\Crown;
     use CR\Objects\ConstantsObjects\TreasureChestObjects\Cycle;
     use CR\Objects\ConstantsObjects\TreasureChestObjects\Shop;
 
     /**
-     * Class TreasureChest
+     * Class TreasureChest.
      *
-     * @method Cycle[]       getCycle()
-     * @method Crown[]          getCrown()
-     * @method Shop[]          getShop()
-     *
-     * @package CR\Objects\ConstantsObjects
+     * @method Cycle[] getCycle()
+     * @method Crown[] getCrown()
+     * @method Shop[]  getShop()
      */
     class TreasureChest extends BaseObject
     {
@@ -35,18 +34,18 @@
          */
         public function primaryKey ()
         {
-            return "key";
+            return 'key';
         }
-
+        
         /**
          * {@inheritdoc}
          */
         public function relations ()
         {
             return [
-                "cycle"=>Cycle::class,
-                "crown"=>Crown::class,
-                "shop"=>Shop::class,
+                'cycle' => Cycle::class,
+                'crown' => Crown::class,
+                'shop'  => Shop::class,
             ];
         }
     }

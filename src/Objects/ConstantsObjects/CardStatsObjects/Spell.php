@@ -1,4 +1,5 @@
 <?php
+    
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  ~                                                                                                                                                                                                                                                          ~
  ~ Copyright (c) 2018 by firegore (https://firegore.es) (git:firegore2)                                                                                                                                                                                     ~
@@ -11,58 +12,57 @@
  ~ If not, see <http://www.gnu.org/licenses/> 2018.06.13                                                                                                                                                                                                    ~
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
+    
     namespace CR\Objects\ConstantsObjects\CardStatsObjects;
-
+    
     use CR\Objects\BaseObject;
 
     /**
-     * Class Spell
-     * @method string getName()
-     * @method string getRarity()
-     * @method int getLifeDuration()
-     * @method int getLifeDurationIncreasePerLevel()
-     * @method int getLifeDurationIncreaseAfterTournamentCap()
-     * @method bool getAffectsHidden()
-     * @method int getRadius()
-     * @method int getHitSpeed()
-     * @method int getDamage()
-     * @method bool getNoEffectToCrownTowers()
-     * @method int getCrownTowerDamagePercent()
-     * @method bool getHitBiggestTargets()
-     * @method string getBuff()
-     * @method int getBuffTime()
-     * @method int getBuffTimeIncreasePerLevel()
-     * @method int getBuffTimeIncreaseAfterTournamentCap()
-     * @method bool getCapBuffTimeToAreaEffectTime()
-     * @method int getBuffNumber()
-     * @method bool getOnlyEnemies()
-     * @method bool getOnlyOwnTroops()
-     * @method bool getIgnoreBuildings()
-     * @method bool getIgnoreHero()
-     * @method null getProjectile()
-     * @method null|string  getSpawnCharacter()
-     * @method int getSpawnInterval()
-     * @method bool getSpawnRandomizeSequence()
-     * @method null|string  getSpawnDeployBaseAnim()
-     * @method int getSpawnTime()
-     * @method int getSpawnCharacterLevelIndex()
-     * @method int getSpawnInitialDelay()
-     * @method int getSpawnMaxCount()
-     * @method int getSpawnMaxRadius()
-     * @method int getSpawnMinRadius()
-     * @method bool getSpawnFromMinToMax()
-     * @method int getSpawnAngleShift()
-     * @method bool getHitsGround()
-     * @method bool getHitsAir()
-     * @method string getKey()
-     * @method int getElixir()
-     * @method string getType()
-     * @method int getArena()
-     * @method string getDescription()
-     * @method int getId()
+     * Class Spell.
      *
-     * @package CR\Objects\ConstantsObjects
+     * @method string      getName()
+     * @method string      getRarity()
+     * @method int         getLifeDuration()
+     * @method int         getLifeDurationIncreasePerLevel()
+     * @method int         getLifeDurationIncreaseAfterTournamentCap()
+     * @method bool        getAffectsHidden()
+     * @method int         getRadius()
+     * @method int         getHitSpeed()
+     * @method int         getDamage()
+     * @method bool        getNoEffectToCrownTowers()
+     * @method int         getCrownTowerDamagePercent()
+     * @method bool        getHitBiggestTargets()
+     * @method string      getBuff()
+     * @method int         getBuffTime()
+     * @method int         getBuffTimeIncreasePerLevel()
+     * @method int         getBuffTimeIncreaseAfterTournamentCap()
+     * @method bool        getCapBuffTimeToAreaEffectTime()
+     * @method int         getBuffNumber()
+     * @method bool        getOnlyEnemies()
+     * @method bool        getOnlyOwnTroops()
+     * @method bool        getIgnoreBuildings()
+     * @method bool        getIgnoreHero()
+     * @method null        getProjectile()
+     * @method null|string getSpawnCharacter()
+     * @method int         getSpawnInterval()
+     * @method bool        getSpawnRandomizeSequence()
+     * @method null|string getSpawnDeployBaseAnim()
+     * @method int         getSpawnTime()
+     * @method int         getSpawnCharacterLevelIndex()
+     * @method int         getSpawnInitialDelay()
+     * @method int         getSpawnMaxCount()
+     * @method int         getSpawnMaxRadius()
+     * @method int         getSpawnMinRadius()
+     * @method bool        getSpawnFromMinToMax()
+     * @method int         getSpawnAngleShift()
+     * @method bool        getHitsGround()
+     * @method bool        getHitsAir()
+     * @method string      getKey()
+     * @method int         getElixir()
+     * @method string      getType()
+     * @method int         getArena()
+     * @method string      getDescription()
+     * @method int         getId()
      */
     class Spell extends BaseObject
     {
@@ -71,9 +71,9 @@
          */
         public function primaryKey ()
         {
-            return "key";
+            return 'key';
         }
-
+        
         /**
          * {@inheritdoc}
          */

@@ -1,4 +1,5 @@
 <?php
+    
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  ~                                                                                                                                                                                                                                                          ~
  ~ Copyright (c) 2018 by firegore (https://firegore.es) (git:firegore2)                                                                                                                                                                                     ~
@@ -11,35 +12,33 @@
  ~ If not, see <http://www.gnu.org/licenses/> 2018.05.31                                                                                                                                                                                                    ~
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
+    
     namespace CR\Objects\ConstantsObjects;
+    
     use CR\Objects\BaseObject;
 
     /**
-     * AlianceBadge object
+     * AlianceBadge object.
      *
-     *
-     * @method    string              getName()               Returns the name of the badge
-     * @method    string              getCategory()           Returns the category name of the badge
-     * @method    int                 getId()                 Returns the id of the badge
-     * @method    string              getImage()              Returns the image url of the badge
+     * @method string getName()     Returns the name of the badge
+     * @method string getCategory() Returns the category name of the badge
+     * @method int    getId()       Returns the id of the badge
+     * @method string getImage()    Returns the image url of the badge
      */
-
     class AllianceBadge extends BaseObject
     {
-
         /**
          * {@inheritdoc}
          */
-        public function primaryKey()
+        public function primaryKey ()
         {
-            return "id";
+            return 'id';
         }
-
+        
         /**
          * {@inheritdoc}
          */
-        public function relations()
+        public function relations ()
         {
             return [];
         }

@@ -1,4 +1,5 @@
 <?php
+    
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  ~                                                                                                                                                                                                                                                          ~
  ~ Copyright (c) 2018 by firegore (https://firegore.es) (git:firegore2)                                                                                                                                                                                     ~
@@ -11,22 +12,22 @@
  ~ If not, see <http://www.gnu.org/licenses/> 2018.06.13                                                                                                                                                                                                    ~
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
+    
     namespace CR\Objects\StatusObjects;
-
+    
     use CR\Objects\BaseObject;
 
     /**
-     * Server Object
+     * Server Object.
      *
-     * @method string           getStatus()
-     * @method string           getName()
-     * @method string           getVersion()
-     * @method string           getStartedAt()
-     * @method int              getUptime()
-     * @method string           getUptimeHuman()
-     * @method string           getEnv()
-     * @method array            getRequests()
+     * @method string getStatus()
+     * @method string getName()
+     * @method string getVersion()
+     * @method string getStartedAt()
+     * @method int    getUptime()
+     * @method string getUptimeHuman()
+     * @method string getEnv()
+     * @method array  getRequests()
      */
     class Server extends BaseObject
     {
@@ -35,9 +36,9 @@
          */
         public function primaryKey ()
         {
-            return "";
+            return '';
         }
-
+        
         /**
          * {@inheritdoc}
          */

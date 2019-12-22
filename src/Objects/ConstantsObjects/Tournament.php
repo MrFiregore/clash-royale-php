@@ -1,4 +1,5 @@
 <?php
+    
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  ~                                                                                                                                                                                                                                                          ~
  ~ Copyright (c) 2018 by firegore (https://firegore.es) (git:firegore2)                                                                                                                                                                                     ~
@@ -11,21 +12,19 @@
  ~ If not, see <http://www.gnu.org/licenses/> 2018.06.13                                                                                                                                                                                                    ~
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
+    
     namespace CR\Objects\ConstantsObjects;
-
+    
     use CR\Objects\BaseObject;
 
     /**
-     * Class Tournament
+     * Class Tournament.
      *
-     * @method string       getKey()
-     * @method int          getCreateCost()
-     * @method int          getMaxPlayers()
-     * @method array        getPrizes()
-     * @method array        getCards()
-     *
-     * @package CR\Objects\ConstantsObjects
+     * @method string getKey()
+     * @method int    getCreateCost()
+     * @method int    getMaxPlayers()
+     * @method array  getPrizes()
+     * @method array  getCards()
      */
     class Tournament extends BaseObject
     {
@@ -34,9 +33,9 @@
          */
         public function primaryKey ()
         {
-            return "key";
+            return 'key';
         }
-
+        
         /**
          * {@inheritdoc}
          */

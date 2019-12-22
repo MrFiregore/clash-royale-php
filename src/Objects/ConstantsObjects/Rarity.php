@@ -1,4 +1,5 @@
 <?php
+    
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  ~                                                                                                                                                                                                                                                          ~
  ~ Copyright (c) 2018 by firegore (https://firegore.es) (git:firegore2)                                                                                                                                                                                     ~
@@ -11,33 +12,31 @@
  ~ If not, see <http://www.gnu.org/licenses/> 2018.06.13                                                                                                                                                                                                    ~
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
+    
     namespace CR\Objects\ConstantsObjects;
-
+    
     use CR\Objects\BaseObject;
 
     /**
-     * Class Rarity
+     * Class Rarity.
      *
-     * @method string   getName()
-     * @method int      getLevelCount()
-     * @method int      getRelativeLevel()
-     * @method int      getMirrorRelativeLevel()
-     * @method int      getCloneRelativeLevel()
-     * @method int      getDonateCapacity()
-     * @method int      getSortCapacity()
-     * @method int      getDonateReward()
-     * @method int      getDonateXp()
-     * @method int      getGoldConversionValue()
-     * @method int      getChanceWeight()
-     * @method int      getBalanceMultiplier()
-     * @method array    getUpgradeExp()
-     * @method array    getUpgradeMaterialCount()
-     * @method array    getUpgradeCost()
-     * @method array    getPowerLevelMultiplier()
-     * @method int      getRefundGems()
-     *
-     * @package CR\Objects\ConstantsObjects
+     * @method string getName()
+     * @method int    getLevelCount()
+     * @method int    getRelativeLevel()
+     * @method int    getMirrorRelativeLevel()
+     * @method int    getCloneRelativeLevel()
+     * @method int    getDonateCapacity()
+     * @method int    getSortCapacity()
+     * @method int    getDonateReward()
+     * @method int    getDonateXp()
+     * @method int    getGoldConversionValue()
+     * @method int    getChanceWeight()
+     * @method int    getBalanceMultiplier()
+     * @method array  getUpgradeExp()
+     * @method array  getUpgradeMaterialCount()
+     * @method array  getUpgradeCost()
+     * @method array  getPowerLevelMultiplier()
+     * @method int    getRefundGems()
      */
     class Rarity extends BaseObject
     {
@@ -46,9 +45,9 @@
          */
         public function primaryKey ()
         {
-            return "";
+            return '';
         }
-
+        
         /**
          * {@inheritdoc}
          */

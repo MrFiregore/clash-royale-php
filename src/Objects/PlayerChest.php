@@ -1,4 +1,5 @@
 <?php
+    
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  ~                                                                                                                                                                                                                                                          ~
  ~ Copyright (c) 2018 by firegore (https://firegore.es) (git:firegore2)                                                                                                                                                                                     ~
@@ -11,20 +12,18 @@
  ~ If not, see <http://www.gnu.org/licenses/> 2018.06.13                                                                                                                                                                                                    ~
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
+    
     namespace CR\Objects;
-
+    
     /**
-     * Class PlayerChest
+     * Class PlayerChest.
      *
-     * @method  array    getUpcoming()
-     * @method  int      getSuperMagical()
-     * @method  int      getMagical()
-     * @method  int      getLegendary()
-     * @method  int      getEpic()
-     * @method  int      getGiant()
-     *
-     * @package CR\Objects
+     * @method array getUpcoming()
+     * @method int   getSuperMagical()
+     * @method int   getMagical()
+     * @method int   getLegendary()
+     * @method int   getEpic()
+     * @method int   getGiant()
      */
     class PlayerChest extends BaseObject
     {
@@ -33,9 +32,9 @@
          */
         public function primaryKey ()
         {
-            return "";
+            return '';
         }
-
+        
         /**
          * {@inheritdoc}
          */

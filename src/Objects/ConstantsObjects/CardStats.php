@@ -1,4 +1,5 @@
 <?php
+    
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  ~                                                                                                                                                                                                                                                          ~
  ~ Copyright (c) 2018 by firegore (https://firegore.es) (git:firegore2)                                                                                                                                                                                     ~
@@ -11,22 +12,20 @@
  ~ If not, see <http://www.gnu.org/licenses/> 2018.06.13                                                                                                                                                                                                    ~
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
+    
     namespace CR\Objects\ConstantsObjects;
-
+    
     use CR\Objects\BaseObject;
     use CR\Objects\ConstantsObjects\CardStatsObjects\Building;
     use CR\Objects\ConstantsObjects\CardStatsObjects\Spell;
     use CR\Objects\ConstantsObjects\CardStatsObjects\Trop;
 
     /**
-     * Class CardStats
+     * Class CardStats.
      *
-     * @method Trop[]           getTrop()
-     * @method Building[]       getBuilding()
-     * @method Spell[]          getSpell()
-     *
-     * @package CR\Objects\ConstantsObjects
+     * @method Trop[]     getTrop()
+     * @method Building[] getBuilding()
+     * @method Spell[]    getSpell()
      */
     class CardStats extends BaseObject
     {
@@ -35,18 +34,18 @@
          */
         public function primaryKey ()
         {
-            return "";
+            return '';
         }
-
+        
         /**
          * {@inheritdoc}
          */
         public function relations ()
         {
             return [
-                "trop"=>Trop::class,
-                "building"=>Building::class,
-                "spell"=>Spell::class,
+                'trop'     => Trop::class,
+                'building' => Building::class,
+                'spell'    => Spell::class,
             ];
         }
     }

@@ -1,4 +1,5 @@
 <?php
+    
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  ~                                                                                                                                                                                                                                                          ~
  ~ Copyright (c) 2018 by firegore (https://firegore.es) (git:firegore2)                                                                                                                                                                                     ~
@@ -11,25 +12,25 @@
  ~ If not, see <http://www.gnu.org/licenses/> 2018.06.13                                                                                                                                                                                                    ~
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
+    
     namespace CR\Objects;
-
+    
     use CR\Objects\StatusObjects\Git;
     use CR\Objects\StatusObjects\Node;
     use CR\Objects\StatusObjects\Server;
     use CR\Objects\StatusObjects\System;
 
-//    use CR\Objects\StatusObjects\Node;
-//    use CR\Objects\StatusObjects\Server;
-//    use CR\Objects\StatusObjects\System;
-
+    //    use CR\Objects\StatusObjects\Node;
+    //    use CR\Objects\StatusObjects\Server;
+    //    use CR\Objects\StatusObjects\System;
+    
     /**
-     * Status Object
+     * Status Object.
      *
-     * @method Server           getServer()
-     * @method Git              getGit()
-     * @method Node             getNode()
-     * @method System           getSystem()
+     * @method Server getServer()
+     * @method Git    getGit()
+     * @method Node   getNode()
+     * @method System getSystem()
      */
     class Status extends BaseObject
     {
@@ -38,20 +39,19 @@
          */
         public function primaryKey ()
         {
-            return "";
+            return '';
         }
-
+        
         /**
          * {@inheritdoc}
          */
         public function relations ()
         {
             return [
-                "server" => Server::class,
-                "git"    => Git::class,
-                "node"   => Node::class,
-                "system" => System::class,
+                'server' => Server::class,
+                'git'    => Git::class,
+                'node'   => Node::class,
+                'system' => System::class,
             ];
         }
     }
-

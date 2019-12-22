@@ -1,4 +1,5 @@
 <?php
+    
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  ~                                                                                                                                                                                                                                                          ~
  ~ Copyright (c) 2018 by firegore (https://firegore.es) (git:firegore2)                                                                                                                                                                                     ~
@@ -11,27 +12,28 @@
  ~ If not, see <http://www.gnu.org/licenses/> 2018.06.13                                                                                                                                                                                                    ~
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
+    
     namespace CR\Objects;
-
+    
     /**
-     * Tournament Object
-     * @method string           getTag()
-     * @method string           getType() "passwordProtected", "open"
-     * @method string           getStatus() "inPreparation", "inProgress", "ended"
-     * @method string|null      getCreatorTag() (Optional)
-     * @method Player|null      getCreator() (Optional)
-     * @method string           getName()
-     * @method string|null      getDescription() (Optional)
-     * @method int|null         getCapacity() (Optional)
-     * @method int              getPlayerCount()
-     * @method int              getMaxCapacity()
-     * @method int              getPreparationDuration()
-     * @method int              getDuration()
-     * @method int              getCreateTime()
-     * @method int|null         getStartTime()
-     * @method int|null         getEndTime()
-     * @method Player[]|null    getMembers() (Optional)
+     * Tournament Object.
+     *
+     * @method string        getTag()
+     * @method string        getType()                   "passwordProtected", "open"
+     * @method string        getStatus()                 "inPreparation", "inProgress", "ended"
+     * @method null|string   getCreatorTag() (Optional)
+     * @method null|Player   getCreator() (Optional)
+     * @method string        getName()
+     * @method null|string   getDescription() (Optional)
+     * @method null|int      getCapacity() (Optional)
+     * @method int           getPlayerCount()
+     * @method int           getMaxCapacity()
+     * @method int           getPreparationDuration()
+     * @method int           getDuration()
+     * @method int           getCreateTime()
+     * @method null|int      getStartTime()
+     * @method null|int      getEndTime()
+     * @method null|Player[] getMembers() (Optional)
      */
     class Tournament extends BaseObject
     {
@@ -40,18 +42,17 @@
          */
         public function primaryKey ()
         {
-            return "";
+            return '';
         }
-
+        
         /**
          * {@inheritdoc}
          */
         public function relations ()
         {
             return [
-                "creator" => Player::class,
-                "members" => Player::class,
+                'creator' => Player::class,
+                'members' => Player::class,
             ];
         }
     }
-

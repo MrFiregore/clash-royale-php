@@ -1,4 +1,5 @@
 <?php
+    
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  ~                                                                                                                                                                                                                                                          ~
  ~ Copyright (c) 2018 by firegore (https://firegore.es) (git:firegore2)                                                                                                                                                                                     ~
@@ -11,62 +12,66 @@
  ~ If not, see <http://www.gnu.org/licenses/> 2018.06.13                                                                                                                                                                                                    ~
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
+    
     namespace CR\Objects;
+    
     use CR\Objects\ConstantsObjects\AllianceBadge;
     use CR\Objects\ConstantsObjects\Arena;
+    use CR\Objects\ConstantsObjects\Card;
+    use CR\Objects\ConstantsObjects\CardStats;
     use CR\Objects\ConstantsObjects\Challenge;
     use CR\Objects\ConstantsObjects\ChestCycle;
     use CR\Objects\ConstantsObjects\GameMode;
-    use CR\Objects\ConstantsObjects\Card;
     use CR\Objects\ConstantsObjects\Rarity;
     use CR\Objects\ConstantsObjects\Region;
     use CR\Objects\ConstantsObjects\Tournament;
     use CR\Objects\ConstantsObjects\TreasureChest;
 
     /**
-     * Constants Object
+     * Constants Object.
+     *
      * @method AllianceBadge[] getAllianceBadges()
-     * @method Arena[] getArenas()
-     * @method Card[] getCards()
-     * @method CardStats   getCardsStats()
-     * @method Challenge[] getChallenges()
-     * @method ChestCycle getChestOrder()
-     * @deprecated   getClanChest()
-     * @method GameMode[] getGameModes()
-     * @method Rarity[] getRarities()
-     * @method Region[] getRegions()
+     * @method Arena[]         getArenas()
+     * @method Card[]          getCards()
+     * @method CardStats       getCardsStats()
+     * @method Challenge[]     getChallenges()
+     * @method ChestCycle      getChestOrder()
+     *
+     * @method   null  getClanChest(){ @deprecated }
+     *
+     * @method GameMode[]    getGameModes()
+     * @method Rarity[]      getRarities()
+     * @method Region[]      getRegions()
      * @method Tournament[]  getTournaments()
      * @method TreasureChest getTreasureChests()
      */
-
     class Constants extends BaseObject
     {
         /**
          * {@inheritdoc}
          */
-        public function primaryKey()
+        public function primaryKey ()
         {
-            return "";
+            return '';
         }
-
+        
         /**
          * {@inheritdoc}
          */
-        public function relations()
+        public function relations ()
         {
             return [
-                'alliance_badges'   => AllianceBadge::class,
-                'arenas'            => Arena::class,
-                'cards'             => Card::class,
-//                'cards_stats'       => Deck::class,
-                "challenges"        =>  Challenge::class,
-                'chest_order'       =>  ChestCycle::class,
-                'game_modes'        =>  GameMode::class,
-                'rarities'          =>  Rarity::class,
-                'regions'           =>  Region::class,
-                'tournaments'       =>  Tournament::class,
-                'treasure_chests'   =>  TreasureChest::class,
+                'alliance_badges' => AllianceBadge::class,
+                'arenas'          => Arena::class,
+                'cards'           => Card::class,
+                //                'cards_stats'       => Deck::class,
+                'challenges'      => Challenge::class,
+                'chest_order'     => ChestCycle::class,
+                'game_modes'      => GameMode::class,
+                'rarities'        => Rarity::class,
+                'regions'         => Region::class,
+                'tournaments'     => Tournament::class,
+                'treasure_chests' => TreasureChest::class,
             ];
         }
     }

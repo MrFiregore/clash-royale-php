@@ -14,38 +14,22 @@
     
     namespace CR\Objects;
     
-    use CR\Objects\ConstantsObjects\Arena;
-    use CR\Objects\ConstantsObjects\Card;
-    use CR\Objects\ConstantsObjects\ChestCycle;
-    use CR\Objects\ConstantsObjects\GameMode;
-
     /**
-     * Player Object.
+     * Tracking Object.
      *
-     * @method string      getTag()                          Returns the tag of the player
-     * @method string      getName()                         Returns the name of the player
-     * @method int         getTrophies()                     Returns the number of trophies of the player
-     * @method int         getRank()                         Returns the rank in the clan if the Player object is obtained by a Clan object, otherwise return the position of the
-     *         player in the global rank
-     * @method string      getRole()              (Optional) Returns the clan role name of the player if the Player object is obtained by a Clan object
-     * @method string      getDeckLink()          (Optional) Returns the deck url of the player
-     * @method Arena       getArena()                        Returns the Arena Object of the player
-     * @method Clan        getClan()              (Optional) Returns the Clan Object of the player
-     * @method PlayerStats getStats()                        Returns the PlayerStats Object of the player
-     * @method GameMode    getGames()                        Returns the PlayerGame Object of the player
-     * @method ChestCycle  getChestCycle()                   Returns the PlayerChest Object of the player
-     * @method Card[]      getCurrentDeck()       (Optional) Returns an array of Card objects that contains the current deck
-     * @method Card[]      getCards()             (Optional) Returns an array of Card objects that contains all information about the player cards
-     * @method Battle[]    getBattles()           (Optional) Returns an array of Battle objects that contains all information about the last 24 battles of the player
+     * @method string getTag()           Returns clan tag
+     * @method bool   getActive()        Returns the status of the tracking
+     * @method bool   getAvailable()     Returns true if any snapshot is available
+     * @method int    getSnapshotCount() Returns the total number of snapshots made
      */
-    class Player extends BaseObject
+    class ClanTracking extends BaseObject
     {
         /**
          * {@inheritdoc}
          */
         public function primaryKey ()
         {
-            return 'tag';
+            return '';
         }
         
         /**
@@ -53,16 +37,6 @@
          */
         public function relations ()
         {
-            return [
-                'arena'       => Arena::class,
-                'clan'        => Clan::class,
-                'cards'       => Card::class,
-                'currentDeck' => Deck::class,
-                'deck'        => Deck::class,
-                'stats'       => PlayerStats::class,
-                'games'       => GameMode::class,
-                'battles'     => Battle::class,
-                'chestCycle'  => ChestCycle::class,
-            ];
+            return [];
         }
     }

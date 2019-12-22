@@ -1,4 +1,5 @@
 <?php
+    
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  ~                                                                                                                                                                                                                                                          ~
  ~ Copyright (c) 2018 by firegore (https://firegore.es) (git:firegore2)                                                                                                                                                                                     ~
@@ -11,9 +12,9 @@
  ~ If not, see <http://www.gnu.org/licenses/> 2018.06.13                                                                                                                                                                                                    ~
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
+    
     namespace CR;
-
+    
     use CR\Exceptions\CRSDKException;
 
     class CommentParser
@@ -24,61 +25,128 @@
             'return' => ['type', 'desc'],
         ];
         /**
-         * The description of the class
+         * The description of the class.
          *
-         * @type String
+         * @var string
          */
         public $desc;
         /**
-         * @var string $_object The class name
+         * @var string The class name
          */
         protected $_object;
         /**
-         * @var \ReflectionClass $_reflection
+         * @var \ReflectionClass
          */
         protected $_reflection;
         /**
-         * @var bool $_abstarct Define if the class is abstract or not.
+         * @var bool define if the class is abstract or not
          */
         protected $_abstarct;
         /**
-         * @var array $_tags An array with the tags (method,package,deprecated,...) matched in the top comment of the
-         *      class
+         * @var array An array with the tags (method,package,deprecated,...) matched in the top comment of the
+         *            class
          */
         protected $_tags = [];
-
-        function __construct (string $object)
+        
+        public function __construct (string $object)
         {
             $this->_object = $object;
             $this->_parse();
         }
-
+        
+        public function __call ($name, $args)
+        {
+            $action = substr($name, 0, 3);
+            
+            if ('get' === $action) {
+                $prop           = substr($name, 3);
+                $property_camel = camel_case($prop);
+                $property_snake = snake_case($prop);
+                $tag            =
+                    $this->has($property_camel)
+                        ? $property_camel
+                        :
+                        ($this->has($property_snake) ? $property_snake : null);
+                if (!$tag) {
+                    return [];
+                }
+                
+                return $this->_tags[$tag];
+            }
+            
+            return [];
+        }
+        
+        /**
+         * Whether or not a string begins with a @tag.
+         *
+         * @param string $str
+         *
+         * @return bool
+         */
+        public static function isTagged ($str)
+        {
+            return isset($str[1]) && '@' == $str[0] && ctype_alpha($str[1]);
+        }
+        
+        /**
+         * The tag at the beginning of a string.
+         *
+         * @param string $str
+         *
+         * @return null|string
+         */
+        public static function strTag ($str)
+        {
+            if (preg_match('/^@[a-z0-9_]+/', $str, $matches)) {
+                return $matches[0];
+            }
+            
+            return null;
+        }
+        
+        public function has ($var)
+        {
+            return isset($this->_tags[$var]);
+        }
+        
+        public function isAbstract ()
+        {
+            return $this->_getReflection()
+                        ->isAbstract();
+        }
+        
         protected function _parse ()
         {
             collect(
                 preg_split(
-                    '/\r?\n\r?/', substr(
-                                    $this->_getReflection()
-                                         ->getDocComment(), 3, -2
-                                )
+                    '/\r?\n\r?/',
+                    substr(
+                        $this->_getReflection()
+                             ->getDocComment(),
+                        3,
+                        -2
+                    )
                 )
             )->each(
                 function ($val, $index) {
                     $body = ltrim(rtrim($val), "* \t\n\r\0\x0B");
                     if (isset($body[1]) && !self::isTagged($body) && !$this->desc) {
                         $this->desc = $body;
-                    } elseif (isset($body[1])) {
+                    }
+                    elseif (isset($body[1])) {
                         $tag  = substr(self::strTag($body), 1);
                         $body = ltrim(substr($body, strlen($tag) + 2));
                         if (isset(self::$types[$tag])) {
-
                             $count = count(self::$types[$tag]);
-                            if ($tag == "method") $count -= 2;
-
+                            if ('method' == $tag) {
+                                $count -= 2;
+                            }
+                            
                             $parts = preg_split('/\s+/', $body, $count);
                             $parts = array_pad($parts, $count, null);
-
-                            if ($tag == "method") {
+                            
+                            if ('method' == $tag) {
                                 $implemented_method =
                                     $this->_getReflection()
                                          ->hasMethod(substr($parts[1], 0, -2));
@@ -92,7 +160,8 @@
                                 ];
                             }
                             $this->_addTag($tag, $parts);
-                        } else {
+                        }
+                        else {
                             // The tagged block is only text
                             $this->_addTag($tag, $body);
                         }
@@ -100,10 +169,11 @@
                 }
             );
         }
-
+        
         /**
          * @return \ReflectionClass
          * @throws \CR\Exceptions\CRSDKException
+         *
          * @throws \ReflectionException
          */
         protected function _getReflection ()
@@ -114,76 +184,22 @@
             if (!$this->_reflection) {
                 $this->_reflection = new \ReflectionClass($this->_object);
             }
+            
             return $this->_reflection;
         }
-
+        
         /**
-         * Whether or not a string begins with a @tag
+         * Add a tag to the collection.
          *
-         * @param  String $str
-         *
-         * @return bool
-         */
-        public static function isTagged ($str)
-        {
-            return isset($str[1]) && $str[0] == '@' && ctype_alpha($str[1]);
-        }
-
-        /**
-         * The tag at the beginning of a string
-         *
-         * @param  String $str
-         *
-         * @return String|null
-         */
-        public static function strTag ($str)
-        {
-            if (preg_match('/^@[a-z0-9_]+/', $str, $matches)) return $matches[0];
-            return null;
-        }
-
-        /**
-         * Add a tag to the collection
-         *
-         * @param string $tag
-         * @param mixed  $parts
+         * @param mixed $parts
          */
         protected function _addTag (string $tag, $parts)
         {
             if (is_array($parts)) {
                 $this->_tags[$tag][] = array_combine(self::$types[$tag], $parts);
-            } else {
+            }
+            else {
                 $this->_tags[$tag][] = $parts;
             }
         }
-
-        public function isAbstract ()
-        {
-            return $this->_getReflection()
-                        ->isAbstract();
-        }
-
-        public function has ($var)
-        {
-            return isset($this->_tags[$var]);
-        }
-
-        public function __call ($name, $args)
-        {
-            $action = substr($name, 0, 3);
-
-            if ($action === 'get') {
-                $prop           = substr($name, 3);
-                $property_camel = camel_case($prop);
-                $property_snake = snake_case($prop);
-                $tag            =
-                    $this->has($property_camel) ? $property_camel :
-                        ($this->has($property_snake) ? $property_snake : null);
-                if (!$tag) return []; else return $this->_tags[$tag];
-            }
-
-            return [];
-
-        }
-
     }

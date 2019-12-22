@@ -1,4 +1,5 @@
 <?php
+    
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  ~                                                                                                                                                                                                                                                          ~
  ~ Copyright (c) 2018 by firegore (https://firegore.es) (git:firegore2)                                                                                                                                                                                     ~
@@ -11,51 +12,49 @@
  ~ If not, see <http://www.gnu.org/licenses/> 2018.06.13                                                                                                                                                                                                    ~
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
+    
     namespace CR\Objects\ConstantsObjects\TreasureChestObjects;
-
+    
     use CR\Objects\BaseObject;
 
     /**
-     * Class Crown
+     * Class Crown.
      *
      * @method string getName()
-     * @method bull getBaseChest()
-     * @method array getArena()
-     * @method boolean getInShop()
-     * @method boolean getInArenaInfo()
-     * @method boolean getTournamentChest()
-     * @method boolean getSurvivalChest()
-     * @method integer getShopPriceWithoutSpeedUp()
-     * @method integer getTimeTakenDays()
-     * @method integer getTimeTakenHours()
-     * @method integer getTimeTakenMinutes()
-     * @method integer getTimeTakenSeconds()
-     * @method integer getRandomSpells()
-     * @method integer getDifferentSpells()
-     * @method integer getChestCountInChestCycle()
-     * @method integer getRareChance()
-     * @method integer getEpicChance()
-     * @method integer getLegendaryChance()
-     * @method integer getSkinChance()
-     * @method bull getGuaranteedSpells()
-     * @method integer getMinGoldPerCard()
-     * @method integer getMaxGoldPerCard()
-     * @method bull getSpellSet()
-     * @method integer getExp()
-     * @method integer getSortValue()
-     * @method boolean getSpecialOffer()
-     * @method boolean getDraftChest()
-     * @method boolean getBoostedChest()
-     * @method integer getLegendaryOverrideChance()
+     * @method bull   getBaseChest()
+     * @method array  getArena()
+     * @method bool   getInShop()
+     * @method bool   getInArenaInfo()
+     * @method bool   getTournamentChest()
+     * @method bool   getSurvivalChest()
+     * @method int    getShopPriceWithoutSpeedUp()
+     * @method int    getTimeTakenDays()
+     * @method int    getTimeTakenHours()
+     * @method int    getTimeTakenMinutes()
+     * @method int    getTimeTakenSeconds()
+     * @method int    getRandomSpells()
+     * @method int    getDifferentSpells()
+     * @method int    getChestCountInChestCycle()
+     * @method int    getRareChance()
+     * @method int    getEpicChance()
+     * @method int    getLegendaryChance()
+     * @method int    getSkinChance()
+     * @method bull   getGuaranteedSpells()
+     * @method int    getMinGoldPerCard()
+     * @method int    getMaxGoldPerCard()
+     * @method bull   getSpellSet()
+     * @method int    getExp()
+     * @method int    getSortValue()
+     * @method bool   getSpecialOffer()
+     * @method bool   getDraftChest()
+     * @method bool   getBoostedChest()
+     * @method int    getLegendaryOverrideChance()
      * @method string getDescription()
      * @method string getNotification()
-     * @method integer getCardCount()
-     * @method integer getMinGold()
-     * @method integer getMaxGold()
-     * @method array getArenas()
-     *
-     * @package CR\Objects\ConstantsObjects
+     * @method int    getCardCount()
+     * @method int    getMinGold()
+     * @method int    getMaxGold()
+     * @method array  getArenas()
      */
     class Crown extends BaseObject
     {
@@ -64,9 +63,9 @@
          */
         public function primaryKey ()
         {
-            return "key";
+            return 'key';
         }
-
+        
         /**
          * {@inheritdoc}
          */
