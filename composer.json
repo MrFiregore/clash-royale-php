@@ -18,7 +18,7 @@
     "illuminate/support": "~5.0",
     "league/event": "^2.1",
     "vlucas/phpdotenv": "^2.4",
-    "kint-php/kint": "^2.0",
+    "kint-php/kint": "3.0 | ^2.0",
     "cebe/markdown": "~1.2.0"
   },
   "autoload":{

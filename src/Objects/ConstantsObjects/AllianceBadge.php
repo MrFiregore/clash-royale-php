@@ -8,12 +8,11 @@
  ~ clash-royale-php is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                                                                  ~
  ~ See the GNU Affero General Public License for more details.                                                                                                                                                                                              ~
  ~ You should have received a copy of the GNU General Public License along with clash-royale-php.                                                                                                                                                           ~
- ~ If not, see <http://www.gnu.org/licenses/> 2018.06.13                                                                                                                                                                                                    ~
+ ~ If not, see <http://www.gnu.org/licenses/> 2018.05.31                                                                                                                                                                                                    ~
  ~                                                                                                                                                                                                                                                          ~
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
     namespace CR\Objects\ConstantsObjects;
-
     use CR\Objects\BaseObject;
 
     /**
@@ -25,13 +24,14 @@
      * @method    int                 getId()                 Returns the id of the badge
      * @method    string              getImage()              Returns the image url of the badge
      */
+
     class AllianceBadge extends BaseObject
     {
 
         /**
          * {@inheritdoc}
          */
-        public function primaryKey ()
+        public function primaryKey()
         {
             return "id";
         }
@@ -39,7 +39,7 @@
         /**
          * {@inheritdoc}
          */
-        public function relations ()
+        public function relations()
         {
             return [];
         }
